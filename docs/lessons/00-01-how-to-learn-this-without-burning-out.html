@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to learn this without burning out &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">00 &nbsp;Getting set up</a> &nbsp;&middot;&nbsp; Lesson 00-01</p>
+    <h1>How to learn this without burning out</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        40 min core &middot; 90 min with extensions      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ca30c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>
+        Completed 2026-08-15
+      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">Log your first session and commit the repo to git.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Most people who set out to learn AI engineering quit in month two. Not because it&rsquo;s
+too hard — because they can&rsquo;t tell whether they&rsquo;re making progress. They watch a
+tutorial, feel like they understood it, and three weeks later can&rsquo;t write a line of
+it from memory. That gap between <em>feeling</em> competent and <em>being</em> competent is the
+thing that kills momentum.</p>
+<p>This lesson is the shortest one you&rsquo;ll do, and it&rsquo;s the one that decides whether the
+other seventy-nine happen. You&rsquo;re going to set up a loop where progress is visible
+and undeniable, because it&rsquo;s measured in things that exist rather than hours spent.</p>
+<p>By the end you&rsquo;ll have logged a session, seen your streak start, and put this whole
+repo under version control — which, conveniently, is also your first real use of git.</p>
+<h2>The mental model</h2>
+<p>Reading a lesson doesn&rsquo;t teach you anything durable. Building something with it does.
+So this system treats reading as the <em>setup</em> and the build task as the <em>lesson</em> — a
+lesson isn&rsquo;t finished when you reach the bottom of the page, it&rsquo;s finished when
+something runs.</p>
+<p>That single rule is what makes the rest work. Because every lesson ends in an
+artifact, the log of your sessions is automatically a log of things you made. Six
+months in, you don&rsquo;t have eighty pages of notes — you have eighty small programs.</p>
+<figure class="figure">
+<svg viewBox="0 0 720 240" role="img" aria-label="The study loop: reading feeds a build task, which produces an artifact; logging it advances both a streak and a portfolio, and the streak is what brings you back tomorrow.">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="13" fill="currentColor">
+
+
+    <rect x="20"  y="110" width="140" height="56" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="90"  y="132" text-anchor="middle" font-weight="600">Read</text>
+    <text x="90"  y="151" text-anchor="middle" font-size="11.5" opacity="0.65">~20 minutes</text>
+
+    <rect x="200" y="110" width="140" height="56" rx="9" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="270" y="132" text-anchor="middle" font-weight="600">Build</text>
+    <text x="270" y="151" text-anchor="middle" font-size="11.5" opacity="0.65">~20 minutes</text>
+
+    <rect x="380" y="110" width="140" height="56" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="450" y="132" text-anchor="middle" font-weight="600">Log it</text>
+    <text x="450" y="151" text-anchor="middle" font-size="11.5" opacity="0.65">~1 minute</text>
+
+
+    <rect x="560" y="54"  width="140" height="48" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="630" y="83"  text-anchor="middle" font-weight="600">Streak</text>
+
+    <rect x="560" y="174" width="140" height="48" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="630" y="203" text-anchor="middle" font-weight="600">Portfolio</text>
+
+
+    <line x1="164" y1="138" x2="194" y2="138" stroke="currentColor" stroke-width="1.6" marker-end="url(#ar)"/>
+    <line x1="344" y1="138" x2="374" y2="138" stroke="var(--accent)" stroke-width="2" marker-end="url(#ar-a)"/>
+    <text x="359" y="103" text-anchor="middle" font-size="11" fill="var(--accent)" font-weight="600">an artifact</text>
+
+    <path d="M524 132 C 545 132, 545 78, 554 78" fill="none" stroke="currentColor" stroke-width="1.6" marker-end="url(#ar)"/>
+    <path d="M524 144 C 545 144, 545 198, 554 198" fill="none" stroke="currentColor" stroke-width="1.6" marker-end="url(#ar)"/>
+
+
+    <path d="M630 50 C 630 8, 90 8, 90 106" fill="none" stroke="currentColor" stroke-width="1.6"
+          stroke-dasharray="5 4" opacity="0.6" marker-end="url(#ar)"/>
+    <text x="360" y="24" text-anchor="middle" font-size="11.5" opacity="0.7">brings you back tomorrow</text>
+
+  </g>
+</svg>
+<figcaption>The build step is the only one that creates something. Everything to its right is
+a consequence of it — which is why a lesson you only read doesn't count as done.</figcaption>
+</figure>
+
+<p>Three things follow from this diagram, and they&rsquo;re worth stating plainly:</p>
+<p><strong>A short session that ships beats a long one that doesn&rsquo;t.</strong> Twenty minutes ending in
+a working script moves you further than two hours of reading. If you only have twenty
+minutes, do the build task and skim the rest.</p>
+<p><strong>Missing a day is fine. Missing three is the problem.</strong> The streak counter gives you a
+one-day grace period on purpose — it survives a busy Tuesday. What it won&rsquo;t survive is
+a weekend of avoidance, and that&rsquo;s deliberate: two clear days is the point where people
+quietly stop.</p>
+<p><strong>Confusion is the signal you&rsquo;re in the right place.</strong> If a lesson feels obvious you&rsquo;re
+probably not learning much. The build task is where you find out what you actually
+understood.</p>
+<h2>In practice</h2>
+<p>Everything in this system runs from the repo root as a single command. There are only
+three you need, and you&rsquo;ll use them in this order.</p>
+<p>Ask Claude to write the next lesson for you:</p>
+<div class="codehilite"><pre><span></span><code>write lesson 00-02
+</code></pre></div>
+
+<p>That reads the roadmap, researches the topic, and produces the page. When you&rsquo;ve
+finished a lesson and its build task, log it:</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>tools/progress_log.py<span class="w"> </span>--lesson-id<span class="w"> </span><span class="m">00</span>-01<span class="w"> </span>--status<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--minutes<span class="w"> </span><span class="m">40</span><span class="w"> </span>--artifact<span class="w"> </span>./README.md<span class="w"> </span>--note<span class="w"> </span><span class="s2">&quot;set up the loop&quot;</span>
+</code></pre></div>
+
+<p>Then rebuild the site so the dashboard reflects it:</p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>tools/site_build.py<span class="w"> </span>--open
+</code></pre></div>
+
+<p>That&rsquo;s the whole interface. The flags are worth knowing:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--lesson-id</code></td>
+<td>Which lesson. Must match an id in the roadmap.</td>
+</tr>
+<tr>
+<td><code>--status</code></td>
+<td><code>complete</code> when the build task runs; <code>started</code> if you got partway.</td>
+</tr>
+<tr>
+<td><code>--minutes</code></td>
+<td>Actual time spent. Drives the heatmap intensity, nothing else.</td>
+</tr>
+<tr>
+<td><code>--artifact</code></td>
+<td>Path or URL of what you built. <strong>No artifact, no portfolio entry.</strong></td>
+</tr>
+<tr>
+<td><code>--note</code></td>
+<td>One line to your future self. What clicked, what didn&rsquo;t.</td>
+</tr>
+<tr>
+<td><code>--date</code></td>
+<td>Backfill a session you forgot to log. Defaults to today.</td>
+</tr>
+</tbody>
+</table></div>
+<p>A session with no <code>--artifact</code> still counts toward your streak — sometimes a lesson
+is genuinely just reading. But it won&rsquo;t appear on the portfolio page, and that
+asymmetry is intentional.</p>
+<h2>Build it</h2>
+<p>Two small things, both of which you&rsquo;ll use every day from here on.</p>
+<p><strong>1. Put this repo under version control.</strong> From the repo root:</p>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>init
+git<span class="w"> </span>add<span class="w"> </span>.
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Set up AI engineer learning system&quot;</span>
+</code></pre></div>
+
+<p>If <code>git</code> isn&rsquo;t recognised, install it from <a href="https://git-scm.com/downloads">git-scm.com</a>,
+close your terminal, and open a new one.</p>
+<p><strong>2. Log this session.</strong></p>
+<div class="codehilite"><pre><span></span><code>python<span class="w"> </span>tools/progress_log.py<span class="w"> </span>--lesson-id<span class="w"> </span><span class="m">00</span>-01<span class="w"> </span>--status<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--minutes<span class="w"> </span><span class="m">40</span><span class="w"> </span>--artifact<span class="w"> </span>./README.md<span class="w"> </span>--note<span class="w"> </span><span class="s2">&quot;first session&quot;</span>
+python<span class="w"> </span>tools/site_build.py<span class="w"> </span>--open
+</code></pre></div>
+
+<p>Done when:</p>
+<ul>
+<li><code>git log</code> shows one commit</li>
+<li>The dashboard reads <strong>1 day</strong> streak</li>
+<li>The roadmap page shows lesson 00-01 with a green dot and a <strong>Done</strong> tag</li>
+<li>The portfolio page has exactly one entry on it</li>
+</ul>
+<h2>Going deeper</h2>
+<ul>
+<li>Write a short <code>README.md</code> at the repo root saying what you&rsquo;re doing and why. In six
+  months it&rsquo;s the first thing anyone reads when you share this.</li>
+<li>Create a free GitHub account, make an empty repository, and push this one to it.
+  Public is better — visible consistency is worth more than a polished private repo.</li>
+<li>Open <code>content/progress.json</code> and read it. It&rsquo;s just a list of sessions; every number
+  on the dashboard is computed from it. Understanding that file means you&rsquo;ll never
+  wonder whether the dashboard is lying to you.</li>
+<li>Decide your actual schedule and write it down — which days, what time, where. &ldquo;When I
+  get a chance&rdquo; is how this dies.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>When is a lesson finished?</summary>
+<p>When the build task runs — not when you reach the bottom of the page. Reading is the
+setup; the artifact is the evidence.</p>
+</details>
+<details>
+<summary>You studied Monday and Tuesday, skipped Wednesday, and it's now Thursday morning. What's your streak?</summary>
+<p>Two. The current streak survives one clear day, so Monday–Tuesday still counts on
+Thursday morning. If you don&rsquo;t log anything Thursday either, it resets to zero.</p>
+</details>
+<details>
+<summary>Why does logging a session without an artifact still count toward the streak, but not the portfolio?</summary>
+<p>Because they measure different things. The streak measures showing up, which is a
+habit. The portfolio measures what you can prove you built, which is a skill. Keeping
+them separate means you can have an honest reading day without inflating your
+evidence.</p>
+</details>
+<details>
+<summary>You have twenty minutes today instead of the usual hour. What do you do?</summary>
+<p>The build task, and skim the rest. A short session that produces something beats a
+long one that produces nothing — and it keeps the streak alive.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6731745/"><span class="t">Revisiting deliberate practice — what the evidence actually shows</span><span class="d">pmc.ncbi.nlm.nih.gov</span></a></li>
+      <li><a href="https://citl.indiana.edu/teaching-resources/evidence-based/spaced-practice.html"><span class="t">Spaced practice, and why cramming loses</span><span class="d">citl.indiana.edu</span></a></li>
+      <li><a href="https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control"><span class="t">Pro Git — About version control</span><span class="d">git-scm.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 00-01 --status complete \
+    --minutes 40 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span></span>
+    <span><a href="00-02-your-machine-your-terminal-your-editor.html">00-02 Your machine, your terminal, your editor &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>1 of 3 lessons &middot; 1.1 hours logged</span>
+    <span>Rebuilt 15 Aug 2026, 17:38</span>
+  </footer>
+
+</div>
+</body>
+</html>

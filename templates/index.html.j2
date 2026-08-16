@@ -1,0 +1,100 @@
+{% extends "base.html.j2" %}
+{% block title %}Today &middot; {{ site_title }}{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+  <div>
+    <p class="eyebrow">Current streak</p>
+    <p class="hero__figure">{{ stats.streak }}<span class="unit">{{ "day" if stats.streak == 1 else "days" }}</span></p>
+    <p class="hero__sub">{{ streak_line }}</p>
+
+    {% if next_lesson %}
+      {% if next_lesson.written %}
+    <a class="cta" href="lessons/{{ next_lesson.slug }}.html">
+      <span class="cta__label">Next up</span>
+      <span class="cta__title">{{ next_lesson.id }} &nbsp;{{ next_lesson.title }}</span>
+      <span class="cta__meta">{{ next_lesson.core_minutes }} min core{% if next_lesson.deep_minutes %} &middot; up to {{ next_lesson.deep_minutes }} min with extensions{% endif %}</span>
+    </a>
+      {% else %}
+    <div class="cta cta--flat">
+      <span class="cta__label">Next up &mdash; not written yet</span>
+      <span class="cta__title">{{ next_lesson.id }} &nbsp;{{ next_lesson.title }}</span>
+      <span class="cta__meta">Ask Claude: &ldquo;write lesson {{ next_lesson.id }}&rdquo;</span>
+    </div>
+      {% endif %}
+    {% else %}
+    <div class="cta cta--flat">
+      <span class="cta__label">Roadmap complete</span>
+      <span class="cta__title">Every lesson is done.</span>
+      <span class="cta__meta">Time to refresh the roadmap or start a capstone.</span>
+    </div>
+    {% endif %}
+  </div>
+
+  <div class="hero__ring">{{ ring_svg }}</div>
+</section>
+
+<div class="grid">
+  <div class="card stat">
+    <span class="stat__label">Lessons complete</span>
+    <span class="stat__value">{{ stats.done }}<span style="font-size:18px;color:var(--muted);font-weight:500"> / {{ stats.total }}</span></span>
+    <span class="stat__note">{{ stats.remaining }} to go</span>
+  </div>
+  <div class="card stat">
+    <span class="stat__label">Hours logged</span>
+    <span class="stat__value">{{ stats.hours }}</span>
+    <span class="stat__note">across {{ stats.sessions }} {{ "session" if stats.sessions == 1 else "sessions" }}</span>
+  </div>
+  <div class="card stat">
+    <span class="stat__label">Things built</span>
+    <span class="stat__value">{{ stats.artifacts }}</span>
+    <span class="stat__note"><a href="portfolio.html">See the portfolio</a></span>
+  </div>
+  <div class="card stat">
+    <span class="stat__label">Longest streak</span>
+    <span class="stat__value">{{ stats.best_streak }}</span>
+    <span class="stat__note">{{ "day" if stats.best_streak == 1 else "days" }} in a row</span>
+  </div>
+</div>
+
+<section class="card" style="margin-bottom:16px">
+  <p class="eyebrow" style="margin-bottom:14px">Last 12 weeks</p>
+  {{ heatmap_svg }}
+  <div class="heat-legend">
+    <span>Less</span>
+    <span class="swatch" style="background:var(--heat-0)"></span>
+    <span class="swatch" style="background:var(--heat-1)"></span>
+    <span class="swatch" style="background:var(--heat-2)"></span>
+    <span class="swatch" style="background:var(--heat-3)"></span>
+    <span class="swatch" style="background:var(--heat-4)"></span>
+    <span>More</span>
+    <span style="margin-left:auto">Each square is one day. Colour is minutes studied.</span>
+  </div>
+</section>
+
+<section>
+  <div class="module__head" style="padding-top:12px">
+    <h2>Recently built</h2>
+    <span class="module__count"><a href="portfolio.html">All {{ stats.artifacts }} &rarr;</a></span>
+  </div>
+  {% if recent_builds %}
+  {% for b in recent_builds %}
+  <div class="entry">
+    <div class="entry__date">{{ b.date }}</div>
+    <div>
+      <h3>{% if b.written %}<a href="lessons/{{ b.slug }}.html">{{ b.title }}</a>{% else %}{{ b.title }}{% endif %}</h3>
+      {% if b.build %}<p class="entry__build">{{ b.build }}</p>{% endif %}
+      {% if b.artifact %}<a class="entry__art" href="{{ b.artifact_href }}">{{ b.artifact }}</a>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+  {% else %}
+  <div class="empty">
+    <p><strong>Nothing built yet.</strong></p>
+    <p>Every lesson ends in a build task. Finish one and log it &mdash; this is the list that becomes your proof of work.</p>
+  </div>
+  {% endif %}
+</section>
+
+{% endblock %}

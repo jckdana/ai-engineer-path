@@ -1,0 +1,48 @@
+{
+  "title": "AI Engineer Path",
+  "goal": "Go from beginner to someone who can build, evaluate and ship LLM-powered systems.",
+  "modules": [
+    {
+      "id": "00",
+      "title": "Getting set up",
+      "outcome": "A working dev environment and a habit that survives week three.",
+      "lessons": [
+        {
+          "id": "00-01",
+          "title": "How to learn this without burning out",
+          "summary": "The study loop, why build tasks matter, how to use this site.",
+          "core_minutes": 40,
+          "deep_minutes": 90,
+          "build": "Log your first session and commit the repo to git.",
+          "slug": "00-01-how-to-learn-this-without-burning-out"
+        },
+        {
+          "id": "00-02",
+          "title": "Your machine, your terminal, your editor",
+          "summary": "Python, VS Code, the terminal, and virtual environments.",
+          "core_minutes": 55,
+          "deep_minutes": 120,
+          "build": "A venv you created yourself with three packages installed and a frozen requirements.txt.",
+          "slug": "00-02-your-machine-your-terminal-your-editor"
+        }
+      ]
+    },
+    {
+      "id": "01",
+      "title": "Talking to a model",
+      "outcome": "You can call an LLM from Python and control what comes back.",
+      "lessons": [
+        {
+          "id": "01-01",
+          "title": "What an LLM actually does",
+          "summary": "Tokens, context windows, sampling, and why models make things up.",
+          "core_minutes": 50,
+          "deep_minutes": 150,
+          "build": "A one-page write-up predicting three things a model will get wrong, tested against a real model.",
+          "slug": "01-01-what-an-llm-actually-does"
+        }
+      ]
+    }
+  ],
+  "installed_on": "2026-08-15"
+}

@@ -1,0 +1,65 @@
+{% extends "base.html.j2" %}
+{% block title %}{{ lesson.title }} &middot; {{ site_title }}{% endblock %}
+
+{% block content %}
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="{{ rel }}roadmap.html" style="color:inherit;text-decoration:none">{{ module.id }} &nbsp;{{ module.title }}</a> &nbsp;&middot;&nbsp; Lesson {{ lesson.id }}</p>
+    <h1>{{ lesson.title }}</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        {{ lesson.core_minutes }} min core{% if lesson.deep_minutes %} &middot; {{ lesson.deep_minutes }} min with extensions{% endif %}
+      </span>
+      {% if state == 'done' %}
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ '#0ca30c' }}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>
+        Completed {{ completed_on }}
+      </span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if lesson.build %}
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">{{ lesson.build }}</p>
+  </div>
+  {% endif %}
+
+  <div class="prose">
+{{ body }}
+  </div>
+
+  {% if lesson.resources %}
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      {% for r in lesson.resources %}
+      <li><a href="{{ r.url }}"><span class="t">{{ r.title }}</span><span class="d">{{ r.domain }}</span></a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id {{ lesson.id }} --status complete \
+    --minutes {{ lesson.core_minutes }} --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span>{% if prev %}<a href="{{ prev.slug }}.html">&larr; {{ prev.id }} {{ prev.title }}</a>{% endif %}</span>
+    <span>{% if next %}<a href="{{ next.slug }}.html">{{ next.id }} {{ next.title }} &rarr;</a>{% endif %}</span>
+  </nav>
+
+</article>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html.j2" %}
+{% block title %}Portfolio &middot; {{ site_title }}{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <p class="eyebrow">{{ entries|length }} {{ "build" if entries|length == 1 else "builds" }} &middot; {{ stats.hours }} hours</p>
+  <h1>Proof of work</h1>
+  <p>Everything you&rsquo;ve actually built, newest first. Reading a lesson doesn&rsquo;t appear here &mdash; only shipped artifacts do. This is the list you show people.</p>
+</div>
+
+{% if entries %}
+{% for e in entries %}
+<div class="entry">
+  <div class="entry__date">{{ e.date }}</div>
+  <div>
+    <h3>{% if e.written %}<a href="lessons/{{ e.slug }}.html">{{ e.title }}</a>{% else %}{{ e.title }}{% endif %}</h3>
+    {% if e.build %}<p class="entry__build">{{ e.build }}</p>{% endif %}
+    {% if e.note %}<p class="entry__note">&ldquo;{{ e.note }}&rdquo;</p>{% endif %}
+    {% if e.artifact %}<a class="entry__art" href="{{ e.artifact_href }}">{{ e.artifact }}</a>{% endif %}
+  </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="empty">
+  <p><strong>Empty for now.</strong></p>
+  <p>Finish a lesson&rsquo;s build task and log it with <code>tools/progress_log.py --artifact &lt;path&gt;</code>. In six months this page is your r&eacute;sum&eacute;.</p>
+</div>
+{% endif %}
+
+{% endblock %}

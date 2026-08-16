@@ -1,0 +1,48 @@
+{% extends "base.html.j2" %}
+{% block title %}Roadmap &middot; {{ site_title }}{% endblock %}
+
+{% block content %}
+
+<div class="page-head">
+  <p class="eyebrow">{{ stats.done }} of {{ stats.total }} complete &middot; {{ stats.pct }}%</p>
+  <h1>{{ roadmap.title }}</h1>
+  {% if roadmap.goal %}<p>{{ roadmap.goal }}</p>{% endif %}
+</div>
+
+{% for m in modules %}
+<section class="module">
+  <div class="module__head">
+    <span class="module__num">{{ m.id }}</span>
+    <h2>{{ m.title }}</h2>
+    <span class="module__count">{{ m.done }}/{{ m.lessons|length }}</span>
+  </div>
+  {% if m.outcome %}<p class="module__outcome">{{ m.outcome }}</p>{% endif %}
+
+  <ul class="spine">
+    {% for l in m.lessons %}
+    <li class="node node--{{ l.state }}">
+      <span class="node__dot"><i></i></span>
+      {% if l.written %}
+      <a href="lessons/{{ l.slug }}.html">
+        <span class="node__id">{{ l.id }}</span>
+        <span class="node__title">{{ l.title }}</span>
+        {% if l.state == 'done' %}<span class="tag tag--done">Done</span>
+        {% elif l.state == 'next' %}<span class="tag tag--next">Next up</span>{% endif %}
+        <span class="node__time">{{ l.core_minutes }} min</span>
+      </a>
+      {% else %}
+      <div class="node__body">
+        <span class="node__id">{{ l.id }}</span>
+        <span class="node__title">{{ l.title }}</span>
+        {% if l.state == 'next' %}<span class="tag tag--next">Next up</span>
+        {% else %}<span class="tag tag--draft">Not written</span>{% endif %}
+        <span class="node__time">{{ l.core_minutes }} min</span>
+      </div>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endfor %}
+
+{% endblock %}
