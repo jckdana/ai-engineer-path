@@ -1,21 +1,4 @@
 {
   "started_on": "2026-08-15",
-  "sessions": [
-    {
-      "date": "2026-08-14",
-      "lesson_id": "00-02",
-      "status": "started",
-      "minutes": 25,
-      "artifact": "",
-      "note": ""
-    },
-    {
-      "date": "2026-08-15",
-      "lesson_id": "00-01",
-      "status": "complete",
-      "minutes": 40,
-      "artifact": "./README.md",
-      "note": "set up the loop, git was the fiddly part"
-    }
-  ]
+  "sessions": []
 }

@@ -1,11 +1,11 @@
 {
   "title": "AI Engineer Path",
-  "goal": "Go from beginner to someone who can build, evaluate and ship LLM-powered systems.",
+  "goal": "Go from beginner at programming and AI to someone who can build, evaluate, and ship LLM-powered systems that other people rely on.",
   "modules": [
     {
       "id": "00",
       "title": "Getting set up",
-      "outcome": "A working dev environment and a habit that survives week three.",
+      "outcome": "You have a working development environment, this repo under version control, and a study habit that survives week three.",
       "lessons": [
         {
           "id": "00-01",
@@ -19,27 +19,906 @@
         {
           "id": "00-02",
           "title": "Your machine, your terminal, your editor",
-          "summary": "Python, VS Code, the terminal, and virtual environments.",
+          "summary": "Python, VS Code, the terminal, and why virtual environments exist.",
           "core_minutes": 55,
           "deep_minutes": 120,
-          "build": "A venv you created yourself with three packages installed and a frozen requirements.txt.",
+          "build": "A virtual environment you created yourself with three packages installed and a frozen requirements.txt.",
           "slug": "00-02-your-machine-your-terminal-your-editor"
+        },
+        {
+          "id": "00-03",
+          "title": "Git and GitHub, properly",
+          "summary": "Commits, branches, remotes, and what to do when it goes wrong.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A public GitHub repo with at least five commits and one branch merged.",
+          "slug": "00-03-git-and-github-properly"
+        },
+        {
+          "id": "00-04",
+          "title": "Your first Python program",
+          "summary": "Running code, printing, reading errors without panic.",
+          "core_minutes": 45,
+          "deep_minutes": 100,
+          "build": "A script that takes your name as input and prints a formatted greeting, committed to git.",
+          "slug": "00-04-your-first-python-program"
+        },
+        {
+          "id": "00-05",
+          "title": "Your first call to a real model",
+          "summary": "API keys, the Anthropic SDK, and getting a response back in Python.",
+          "core_minutes": 50,
+          "deep_minutes": 120,
+          "build": "A script that sends a question to Claude and prints the answer, with the API key loaded from .env and never committed.",
+          "slug": "00-05-your-first-call-to-a-real-model"
         }
       ]
     },
     {
       "id": "01",
-      "title": "Talking to a model",
-      "outcome": "You can call an LLM from Python and control what comes back.",
+      "title": "Python that AI work actually needs",
+      "outcome": "You can read and write the Python that shows up in every AI codebase, and debug it when it breaks.",
       "lessons": [
         {
           "id": "01-01",
-          "title": "What an LLM actually does",
-          "summary": "Tokens, context windows, sampling, and why models make things up.",
+          "title": "Variables, types, and strings",
+          "summary": "The data you will handle constantly: text, numbers, booleans.",
+          "core_minutes": 50,
+          "deep_minutes": 110,
+          "build": "A script that cleans a messy string: strips whitespace, fixes capitalisation, counts words.",
+          "slug": "01-01-variables-types-and-strings"
+        },
+        {
+          "id": "01-02",
+          "title": "Lists, loops, and conditionals",
+          "summary": "Doing something to many things, and deciding what to do.",
+          "core_minutes": 55,
+          "deep_minutes": 120,
+          "build": "A script that reads a list of questions and sends each one to a model, printing results as it goes.",
+          "slug": "01-02-lists-loops-and-conditionals"
+        },
+        {
+          "id": "01-03",
+          "title": "Functions and why they matter",
+          "summary": "Naming a piece of work so you can reuse it and test it.",
+          "core_minutes": 50,
+          "deep_minutes": 120,
+          "build": "Refactor your model-calling script so the API call is a function with parameters and a docstring.",
+          "slug": "01-03-functions-and-why-they-matter"
+        },
+        {
+          "id": "01-04",
+          "title": "Dictionaries and JSON",
+          "summary": "The shape of almost every API request and response you will ever make.",
+          "core_minutes": 55,
+          "deep_minutes": 130,
+          "build": "A script that reads a JSON file of records, filters them by a field, and writes the results to a new JSON file.",
+          "slug": "01-04-dictionaries-and-json"
+        },
+        {
+          "id": "01-05",
+          "title": "Files, paths, and the filesystem",
+          "summary": "Reading and writing files without breaking on someone else's machine.",
+          "core_minutes": 50,
+          "deep_minutes": 110,
+          "build": "A script that walks a folder, reads every .txt file, and writes a summary index.",
+          "slug": "01-05-files-paths-and-the-filesystem"
+        },
+        {
+          "id": "01-06",
+          "title": "Errors, tracebacks, and debugging",
+          "summary": "Reading a stack trace, using print and a debugger, handling exceptions on purpose.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "Take a deliberately broken script, diagnose three bugs from their tracebacks, and fix them.",
+          "slug": "01-06-errors-tracebacks-and-debugging"
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "title": "Talking to models properly",
+      "outcome": "You control what a model returns instead of hoping, and you know what each call costs.",
+      "lessons": [
+        {
+          "id": "02-01",
+          "title": "Messages, roles, and turns",
+          "summary": "How a conversation is actually represented in an API call.",
+          "core_minutes": 50,
+          "deep_minutes": 120,
+          "build": "A script that holds a three-turn conversation and prints the full message history.",
+          "slug": "02-01-messages-roles-and-turns"
+        },
+        {
+          "id": "02-02",
+          "title": "System prompts",
+          "summary": "Setting behaviour once instead of repeating yourself every turn.",
+          "core_minutes": 50,
+          "deep_minutes": 120,
+          "build": "The same question answered by three different system prompts, with the differences written up.",
+          "slug": "02-02-system-prompts"
+        },
+        {
+          "id": "02-03",
+          "title": "The parameters that matter",
+          "summary": "max_tokens, stop reasons, and the settings that actually change output.",
+          "core_minutes": 50,
+          "deep_minutes": 120,
+          "build": "A script that handles every stop_reason correctly instead of assuming success.",
+          "slug": "02-03-the-parameters-that-matter"
+        },
+        {
+          "id": "02-04",
+          "title": "Streaming",
+          "summary": "Getting tokens as they arrive so your app does not feel frozen.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "A terminal chat that streams the response token by token.",
+          "slug": "02-04-streaming"
+        },
+        {
+          "id": "02-05",
+          "title": "Tokens and what things cost",
+          "summary": "Counting tokens, reading usage, and estimating a bill before you get one.",
+          "core_minutes": 50,
+          "deep_minutes": 120,
+          "build": "A wrapper that logs tokens and estimated cost for every call to a CSV file.",
+          "slug": "02-05-tokens-and-what-things-cost"
+        },
+        {
+          "id": "02-06",
+          "title": "Multi-turn conversations and state",
+          "summary": "Keeping history, trimming it, and why the API forgets everything.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "A chat that persists conversation history to disk and resumes it on restart.",
+          "slug": "02-06-multi-turn-conversations-and-state"
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "title": "How LLMs actually work",
+      "outcome": "You can predict what a model will get wrong before it does, and explain why to someone else.",
+      "lessons": [
+        {
+          "id": "03-01",
+          "title": "Tokens: the unit of everything",
+          "summary": "What a token is, why it is not a word, and why it shapes cost and behaviour.",
+          "core_minutes": 45,
+          "deep_minutes": 110,
+          "build": "A script that tokenises the same text three ways and explains where the counts diverge.",
+          "slug": "03-01-tokens-the-unit-of-everything"
+        },
+        {
+          "id": "03-02",
+          "title": "Next-token prediction",
+          "summary": "The one mechanism underneath everything a model does.",
           "core_minutes": 50,
           "deep_minutes": 150,
-          "build": "A one-page write-up predicting three things a model will get wrong, tested against a real model.",
-          "slug": "01-01-what-an-llm-actually-does"
+          "build": "A written prediction of five things a model will fail at, tested against a real model, with results.",
+          "slug": "03-02-next-token-prediction"
+        },
+        {
+          "id": "03-03",
+          "title": "Embeddings, intuitively",
+          "summary": "Meaning as coordinates, without the linear algebra.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Embed ten sentences and rank them by similarity to a query; explain one surprising result.",
+          "slug": "03-03-embeddings-intuitively"
+        },
+        {
+          "id": "03-04",
+          "title": "Context windows and attention",
+          "summary": "What the model can see, what it forgets, and where quality degrades.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Test recall of a fact planted at the start, middle, and end of a long context; chart the results.",
+          "slug": "03-04-context-windows-and-attention"
+        },
+        {
+          "id": "03-05",
+          "title": "Why models make things up",
+          "summary": "Hallucination as a predictable property, not a bug to be scolded away.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Produce three reliable hallucinations, then reduce two of them by changing the input alone.",
+          "slug": "03-05-why-models-make-things-up"
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "title": "Context engineering",
+      "outcome": "You architect the whole information environment a model sees, which is where most of the quality actually comes from.",
+      "lessons": [
+        {
+          "id": "04-01",
+          "title": "The prompt is 5% of the problem",
+          "summary": "Why the industry moved from prompt engineering to context engineering.",
+          "core_minutes": 45,
+          "deep_minutes": 120,
+          "build": "Take a failing prompt and fix it by changing only the surrounding context, not the wording.",
+          "slug": "04-01-the-prompt-is-5-of-the-problem"
+        },
+        {
+          "id": "04-02",
+          "title": "Anatomy of a working prompt",
+          "summary": "Instructions, context, examples, and output spec — and what order they go in.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "A prompt template with named sections, tested on five inputs with results recorded.",
+          "slug": "04-02-anatomy-of-a-working-prompt"
+        },
+        {
+          "id": "04-03",
+          "title": "Structured outputs",
+          "summary": "Getting reliable JSON instead of parsing prose with regex.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "An extractor that returns schema-valid JSON for twenty messy inputs, zero parse failures.",
+          "slug": "04-03-structured-outputs"
+        },
+        {
+          "id": "04-04",
+          "title": "Few-shot examples that work",
+          "summary": "Why examples are the strongest signal in a prompt, and how they backfire.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Measure the same task with zero, one, and four examples; write up which won and why.",
+          "slug": "04-04-few-shot-examples-that-work"
+        },
+        {
+          "id": "04-05",
+          "title": "Assembling context dynamically",
+          "summary": "Building the model's input from data at runtime, and budgeting the space.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A context builder that fits variable-length data into a fixed token budget without truncating mid-record.",
+          "slug": "04-05-assembling-context-dynamically"
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "title": "Tool use and function calling",
+      "outcome": "Your model can call your code, and you can tell when it called the wrong thing.",
+      "lessons": [
+        {
+          "id": "05-01",
+          "title": "What tool use actually is",
+          "summary": "The model does not run your code — it asks you to. Why that matters.",
+          "core_minutes": 45,
+          "deep_minutes": 110,
+          "build": "Trace a full tool-use exchange and annotate every message in the round trip.",
+          "slug": "05-01-what-tool-use-actually-is"
+        },
+        {
+          "id": "05-02",
+          "title": "Defining your first tool",
+          "summary": "Schemas, descriptions, and why the description does most of the work.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "Give a model one real tool and get it called correctly on five of five test questions.",
+          "slug": "05-02-defining-your-first-tool"
+        },
+        {
+          "id": "05-03",
+          "title": "The tool loop",
+          "summary": "Executing the call, returning the result, and continuing until done.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A loop that handles multi-step tool use and terminates cleanly, with an iteration cap.",
+          "slug": "05-03-the-tool-loop"
+        },
+        {
+          "id": "05-04",
+          "title": "Multiple tools and choosing between them",
+          "summary": "Boundaries between tools, and stopping the model reaching for the wrong one.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "Three tools with overlapping purposes; measure and then fix the mis-selection rate.",
+          "slug": "05-04-multiple-tools-and-choosing-between-them"
+        },
+        {
+          "id": "05-05",
+          "title": "When tools fail",
+          "summary": "Errors, timeouts, bad arguments, and returning failure the model can recover from.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Make every tool fail deliberately and confirm the model recovers rather than looping.",
+          "slug": "05-05-when-tools-fail"
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "title": "Data and SQL for AI engineers",
+      "outcome": "You can get, clean, store, and query the data an AI feature depends on.",
+      "lessons": [
+        {
+          "id": "06-01",
+          "title": "SQL: selecting and filtering",
+          "summary": "The query language that shows up in most AI engineering job postings.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "Ten queries against a real dataset, each answering a stated question.",
+          "slug": "06-01-sql-selecting-and-filtering"
+        },
+        {
+          "id": "06-02",
+          "title": "Joins and aggregation",
+          "summary": "Combining tables and summarising them without getting the wrong number.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A report query joining three tables, with the result verified by hand against the raw data.",
+          "slug": "06-02-joins-and-aggregation"
+        },
+        {
+          "id": "06-03",
+          "title": "Running a database locally",
+          "summary": "Docker, Postgres, and connecting from Python — the foundation for everything from here on.",
+          "core_minutes": 60,
+          "deep_minutes": 150,
+          "build": "Postgres running in Docker, seeded with data, queried from a Python script.",
+          "slug": "06-03-running-a-database-locally"
+        },
+        {
+          "id": "06-04",
+          "title": "pandas for data you did not create",
+          "summary": "Loading, inspecting, and reshaping tabular data.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Load a messy CSV, produce five summary statistics, and export a cleaned version.",
+          "slug": "06-04-pandas-for-data-you-did-not-create"
+        },
+        {
+          "id": "06-05",
+          "title": "Cleaning real, messy data",
+          "summary": "Missing values, duplicates, encodings, and inconsistent formats.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "Clean a genuinely dirty public dataset and document every decision you made and why.",
+          "slug": "06-05-cleaning-real-messy-data"
+        },
+        {
+          "id": "06-06",
+          "title": "Data quality as a discipline",
+          "summary": "Validating data before it reaches your model, and catching drift.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "A validation script that rejects bad records with a specific reason for each rejection.",
+          "slug": "06-06-data-quality-as-a-discipline"
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "title": "Evaluating LLM output",
+      "outcome": "You can tell whether a change made your system better or worse, instead of guessing.",
+      "lessons": [
+        {
+          "id": "07-01",
+          "title": "Why you cannot ship without evals",
+          "summary": "Testing a system that gives a different answer every time.",
+          "core_minutes": 45,
+          "deep_minutes": 120,
+          "build": "Write down five concrete failure modes of something you have already built.",
+          "slug": "07-01-why-you-cannot-ship-without-evals"
+        },
+        {
+          "id": "07-02",
+          "title": "Your first test set",
+          "summary": "Twenty examples, expected behaviour, and a script that runs them.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A test set of twenty cases and a runner that reports pass rate for your extractor.",
+          "slug": "07-02-your-first-test-set"
+        },
+        {
+          "id": "07-03",
+          "title": "Deterministic checks first",
+          "summary": "Schema validity, required fields, format — the cheap tests that catch most bugs.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Assertions covering every structural guarantee your output claims to make.",
+          "slug": "07-03-deterministic-checks-first"
+        },
+        {
+          "id": "07-04",
+          "title": "Comparing two versions",
+          "summary": "Running A against B and reading the difference honestly.",
+          "core_minutes": 55,
+          "deep_minutes": 140,
+          "build": "Two prompt variants scored on the same test set, with a written call on which ships.",
+          "slug": "07-04-comparing-two-versions"
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "title": "Embeddings and vector search",
+      "outcome": "You can turn text into something searchable by meaning, and know when that fails.",
+      "lessons": [
+        {
+          "id": "08-01",
+          "title": "What an embedding really is",
+          "summary": "From text to vector, and what distance means.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Embed a hundred documents and visualise the clusters.",
+          "slug": "08-01-what-an-embedding-really-is"
+        },
+        {
+          "id": "08-02",
+          "title": "Choosing an embedding model",
+          "summary": "Dimensions, cost, domain fit, and why the biggest is not the best.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Compare two embedding models on your own retrieval task; report which wins and by how much.",
+          "slug": "08-02-choosing-an-embedding-model"
+        },
+        {
+          "id": "08-03",
+          "title": "Vector search with pgvector",
+          "summary": "Storing and querying vectors in the Postgres you already have running.",
+          "core_minutes": 60,
+          "deep_minutes": 160,
+          "build": "A searchable vector index over a hundred documents, queried from Python.",
+          "slug": "08-03-vector-search-with-pgvector"
+        },
+        {
+          "id": "08-04",
+          "title": "Similarity and its limits",
+          "summary": "Cosine distance, top-k, and why the nearest match is often wrong.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Find five queries where pure vector search returns a plausible but wrong result.",
+          "slug": "08-04-similarity-and-its-limits"
+        },
+        {
+          "id": "08-05",
+          "title": "When semantic search fails",
+          "summary": "Exact terms, names, numbers, and negation — the known blind spots.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Document three categories of query your vector search cannot handle, with examples.",
+          "slug": "08-05-when-semantic-search-fails"
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "title": "RAG that actually works",
+      "outcome": "You can build retrieval that survives real questions, and diagnose it when it does not.",
+      "lessons": [
+        {
+          "id": "09-01",
+          "title": "Naive RAG, and why it disappoints",
+          "summary": "Build the simple version first so you can feel exactly where it breaks.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A working naive RAG pipeline plus ten questions it answers badly.",
+          "slug": "09-01-naive-rag-and-why-it-disappoints"
+        },
+        {
+          "id": "09-02",
+          "title": "Chunking strategies",
+          "summary": "Fixed size, overlap, semantic chunking, and what splitting does to meaning.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "Three chunking strategies compared on the same corpus with retrieval scores for each.",
+          "slug": "09-02-chunking-strategies"
+        },
+        {
+          "id": "09-03",
+          "title": "Hybrid search: dense plus lexical",
+          "summary": "Why the pattern that survived in production combines both, fused with RRF.",
+          "core_minutes": 60,
+          "deep_minutes": 170,
+          "build": "Hybrid retrieval beating your pure-vector baseline on a measured test set.",
+          "slug": "09-03-hybrid-search-dense-plus-lexical"
+        },
+        {
+          "id": "09-04",
+          "title": "Reranking",
+          "summary": "Retrieve broadly, rerank precisely: the retrieve-20-rerank-5 pattern.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Add a reranker and measure the precision change on your existing test set.",
+          "slug": "09-04-reranking"
+        },
+        {
+          "id": "09-05",
+          "title": "Evaluating retrieval, not generation",
+          "summary": "Retrieval causes most RAG failures, so measure it separately.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A retrieval eval reporting hit rate and mean reciprocal rank on twenty queries.",
+          "slug": "09-05-evaluating-retrieval-not-generation"
+        },
+        {
+          "id": "09-06",
+          "title": "Diagnosing a failing RAG system",
+          "summary": "A decision procedure for finding whether retrieval, chunking, or generation is at fault.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "Diagnose five real failures and correctly attribute each to its stage.",
+          "slug": "09-06-diagnosing-a-failing-rag-system"
+        },
+        {
+          "id": "09-07",
+          "title": "Putting it together",
+          "summary": "A complete pipeline with measured quality at every stage.",
+          "core_minutes": 60,
+          "deep_minutes": 180,
+          "build": "An end-to-end RAG system with a published quality number and a README explaining its limits.",
+          "slug": "09-07-putting-it-together"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Evaluation at depth",
+      "outcome": "You can run the eval discipline that senior job descriptions ask for by name.",
+      "lessons": [
+        {
+          "id": "10-01",
+          "title": "Golden datasets from real failures",
+          "summary": "Building test sets from production mistakes rather than imagination.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A fifty-case golden dataset split into core cases and edge cases.",
+          "slug": "10-01-golden-datasets-from-real-failures"
+        },
+        {
+          "id": "10-02",
+          "title": "LLM-as-judge",
+          "summary": "Using a model to grade output, and the failure modes most teams miss.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "A judge whose scores you have calibrated against your own manual grades.",
+          "slug": "10-02-llm-as-judge"
+        },
+        {
+          "id": "10-03",
+          "title": "When the judge is wrong",
+          "summary": "Systematic optimism, position bias, and measuring agreement with humans.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Measure judge-human agreement on thirty cases and report the number honestly.",
+          "slug": "10-03-when-the-judge-is-wrong"
+        },
+        {
+          "id": "10-04",
+          "title": "Metrics that mean something",
+          "summary": "Choosing measures tied to what users actually care about.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Define three metrics for your RAG system and justify each against a user outcome.",
+          "slug": "10-04-metrics-that-mean-something"
+        },
+        {
+          "id": "10-05",
+          "title": "Evals in CI",
+          "summary": "Blocking a merge when quality regresses, the way tests block broken code.",
+          "core_minutes": 60,
+          "deep_minutes": 170,
+          "build": "A GitHub Action that runs your eval suite on every pull request and fails on regression.",
+          "slug": "10-05-evals-in-ci"
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "title": "Agents",
+      "outcome": "You can build systems that loop, decide, and use tools without going off the rails.",
+      "lessons": [
+        {
+          "id": "11-01",
+          "title": "What an agent actually is",
+          "summary": "Stripping the hype down to a loop with tools and a stopping condition.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "Write the smallest possible agent in under fifty lines and explain each one.",
+          "slug": "11-01-what-an-agent-actually-is"
+        },
+        {
+          "id": "11-02",
+          "title": "The agent loop in depth",
+          "summary": "State, termination, iteration caps, and recovering from a wrong turn.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "An agent that completes a three-step task and cannot loop forever.",
+          "slug": "11-02-the-agent-loop-in-depth"
+        },
+        {
+          "id": "11-03",
+          "title": "MCP: the standard that won",
+          "summary": "Why every major lab adopted the Model Context Protocol, and what it gives you.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Connect an existing MCP server to a client and use three of its tools.",
+          "slug": "11-03-mcp-the-standard-that-won"
+        },
+        {
+          "id": "11-04",
+          "title": "Building your own MCP server",
+          "summary": "Exposing your own tools through the standard interface.",
+          "core_minutes": 60,
+          "deep_minutes": 180,
+          "build": "An MCP server wrapping one real capability, used successfully from a client.",
+          "slug": "11-04-building-your-own-mcp-server"
+        },
+        {
+          "id": "11-05",
+          "title": "Multi-agent patterns",
+          "summary": "Delegation, specialists, and when one agent is genuinely better.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "A coordinator delegating to two specialists, with a measured comparison against a single agent.",
+          "slug": "11-05-multi-agent-patterns"
+        },
+        {
+          "id": "11-06",
+          "title": "Agent failure modes",
+          "summary": "Loops, drift, silent tool failures, and observability for agents.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Instrument your agent so every failure is visible in the trace, then break it on purpose.",
+          "slug": "11-06-agent-failure-modes"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "title": "Cost, latency, and observability",
+      "outcome": "You can run a system without a surprise bill or a silent outage.",
+      "lessons": [
+        {
+          "id": "12-01",
+          "title": "Where the money actually goes",
+          "summary": "Reading usage data and finding the expensive path.",
+          "core_minutes": 50,
+          "deep_minutes": 130,
+          "build": "A cost breakdown of your RAG system by stage, with the biggest line item identified.",
+          "slug": "12-01-where-the-money-actually-goes"
+        },
+        {
+          "id": "12-02",
+          "title": "Prompt caching",
+          "summary": "The single largest cost lever, and the ordering rules that make it work.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Restructure a prompt for caching and show the measured cache hit rate before and after.",
+          "slug": "12-02-prompt-caching"
+        },
+        {
+          "id": "12-03",
+          "title": "Model routing",
+          "summary": "Cheap models for easy work, expensive ones for hard work.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "A router sending each request to the right tier, with cost and quality both measured.",
+          "slug": "12-03-model-routing"
+        },
+        {
+          "id": "12-04",
+          "title": "Latency and what users feel",
+          "summary": "Time to first token, streaming, and where the wait actually is.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Profile your pipeline end to end and cut perceived latency measurably.",
+          "slug": "12-04-latency-and-what-users-feel"
+        },
+        {
+          "id": "12-05",
+          "title": "Tracing and structured logging",
+          "summary": "Seeing inside a running system instead of guessing from output.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "Full request tracing across your RAG pipeline, with one real bug found using it.",
+          "slug": "12-05-tracing-and-structured-logging"
+        },
+        {
+          "id": "12-06",
+          "title": "Knowing when it breaks",
+          "summary": "Alerting on quality and cost, not just on crashes.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "An alert that fires on a quality regression, demonstrated by causing one.",
+          "slug": "12-06-knowing-when-it-breaks"
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "title": "Shipping it",
+      "outcome": "Other people can use what you built, on a URL, without you present.",
+      "lessons": [
+        {
+          "id": "13-01",
+          "title": "FastAPI",
+          "summary": "Wrapping your code in an HTTP API that other things can call.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Your RAG system behind a documented FastAPI endpoint.",
+          "slug": "13-01-fastapi"
+        },
+        {
+          "id": "13-02",
+          "title": "Async and concurrency",
+          "summary": "Handling many requests without blocking on the slowest one.",
+          "core_minutes": 60,
+          "deep_minutes": 170,
+          "build": "An async endpoint handling ten concurrent requests, with measured throughput gain.",
+          "slug": "13-02-async-and-concurrency"
+        },
+        {
+          "id": "13-03",
+          "title": "Docker for your own app",
+          "summary": "Packaging so it runs the same everywhere.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "A Dockerfile that builds and runs your API from a clean clone.",
+          "slug": "13-03-docker-for-your-own-app"
+        },
+        {
+          "id": "13-04",
+          "title": "Configuration and secrets",
+          "summary": "Environment variables, config, and never committing a key.",
+          "core_minutes": 45,
+          "deep_minutes": 120,
+          "build": "Configuration fully externalised, with a documented .env.example and no secrets in git history.",
+          "slug": "13-04-configuration-and-secrets"
+        },
+        {
+          "id": "13-05",
+          "title": "Deploying to the cloud",
+          "summary": "Getting it onto a real URL someone else can hit.",
+          "core_minutes": 60,
+          "deep_minutes": 180,
+          "build": "Your API deployed and reachable from a public URL.",
+          "slug": "13-05-deploying-to-the-cloud"
+        },
+        {
+          "id": "13-06",
+          "title": "Load, failure, and recovery",
+          "summary": "Rate limits, retries, timeouts, and graceful degradation.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "Load-test your deployment and fix the first thing that breaks.",
+          "slug": "13-06-load-failure-and-recovery"
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "title": "Safety and security",
+      "outcome": "You will not leak user data or get your system talked into something by its own input.",
+      "lessons": [
+        {
+          "id": "14-01",
+          "title": "Handling personal data",
+          "summary": "PII, redaction, retention, and what you must not log.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "A redaction layer that strips PII before anything reaches a log or a model.",
+          "slug": "14-01-handling-personal-data"
+        },
+        {
+          "id": "14-02",
+          "title": "Prompt injection",
+          "summary": "Why untrusted text in the context window is an attack surface.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "Successfully inject your own RAG system, then close the hole you found.",
+          "slug": "14-02-prompt-injection"
+        },
+        {
+          "id": "14-03",
+          "title": "Guardrails",
+          "summary": "Input and output validation that fails safe.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Guardrails on both ends of your pipeline, with a test suite proving they hold.",
+          "slug": "14-03-guardrails"
+        },
+        {
+          "id": "14-04",
+          "title": "Failing responsibly",
+          "summary": "What your system says and does when it cannot answer.",
+          "core_minutes": 45,
+          "deep_minutes": 120,
+          "build": "Define and implement refusal behaviour for five situations your system should decline.",
+          "slug": "14-04-failing-responsibly"
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "title": "Capstones",
+      "outcome": "Four substantial systems that together constitute a portfolio worth showing.",
+      "lessons": [
+        {
+          "id": "15-01",
+          "title": "Capstone: document Q&A with measured quality",
+          "summary": "The single most requested project in AI engineering job postings.",
+          "core_minutes": 60,
+          "deep_minutes": 300,
+          "build": "A deployed document Q&A system with a published retrieval quality number and a written limitations section.",
+          "slug": "15-01-capstone-document-q-a-with-measured-quality"
+        },
+        {
+          "id": "15-02",
+          "title": "Capstone: an evaluated agent",
+          "summary": "An agent that does real work, with evidence it does it reliably.",
+          "core_minutes": 60,
+          "deep_minutes": 300,
+          "build": "An agent solving a real task, with an eval suite and a documented success rate.",
+          "slug": "15-02-capstone-an-evaluated-agent"
+        },
+        {
+          "id": "15-03",
+          "title": "Capstone: production API with observability",
+          "summary": "The system that proves you can operate, not just build.",
+          "core_minutes": 60,
+          "deep_minutes": 300,
+          "build": "A deployed API with tracing, cost tracking, alerting, and a public dashboard or README of its metrics.",
+          "slug": "15-03-capstone-production-api-with-observability"
+        },
+        {
+          "id": "15-04",
+          "title": "Capstone: your own problem",
+          "summary": "Something you actually want to exist, which is what interviews remember.",
+          "core_minutes": 60,
+          "deep_minutes": 300,
+          "build": "A system you scoped and built yourself, deployed, with a written account of the tradeoffs you made.",
+          "slug": "15-04-capstone-your-own-problem"
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "title": "Getting hired",
+      "outcome": "You can show what you have built and talk about it credibly to someone deciding whether to pay you.",
+      "lessons": [
+        {
+          "id": "16-01",
+          "title": "Framing projects around outcomes",
+          "summary": "Recruiters respond to metrics and deployment, not tool lists.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "Rewrite all four capstone READMEs to lead with outcome, metric, and tradeoff.",
+          "slug": "16-01-framing-projects-around-outcomes"
+        },
+        {
+          "id": "16-02",
+          "title": "Your GitHub is your resume",
+          "summary": "What a hiring manager looks for in the ten seconds they spend on it.",
+          "core_minutes": 50,
+          "deep_minutes": 140,
+          "build": "A profile README and four pinned repos, each with a live demo or runnable quickstart.",
+          "slug": "16-02-your-github-is-your-resume"
+        },
+        {
+          "id": "16-03",
+          "title": "Talking about tradeoffs",
+          "summary": "The interview answer that separates engineers from tutorial followers.",
+          "core_minutes": 55,
+          "deep_minutes": 150,
+          "build": "Write and rehearse a five-minute account of one real failure you diagnosed and fixed.",
+          "slug": "16-03-talking-about-tradeoffs"
+        },
+        {
+          "id": "16-04",
+          "title": "Consulting: scoping and pricing",
+          "summary": "If you go independent: finding the work, sizing it, and charging for it.",
+          "core_minutes": 55,
+          "deep_minutes": 160,
+          "build": "A one-page service offering with scope, deliverables, and a price, aimed at a specific kind of client.",
+          "slug": "16-04-consulting-scoping-and-pricing"
         }
       ]
     }
