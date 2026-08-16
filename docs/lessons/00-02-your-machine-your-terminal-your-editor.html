@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your machine, your terminal, your editor &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">00 &nbsp;Getting set up</a> &nbsp;&middot;&nbsp; Lesson 00-02</p>
+    <h1>Your machine, your terminal, your editor</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        55 min core &middot; 120 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A virtual environment you created yourself with three packages installed and a frozen requirements.txt.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Last lesson you typed commands without being told what they were. This lesson closes
+that gap. By the end you&rsquo;ll know what the terminal actually is, what happens when you
+type <code>python</code>, and why every real Python project keeps its packages in a folder of its
+own instead of dumping them on your machine.</p>
+<p>That last part sounds like housekeeping. It isn&rsquo;t. It&rsquo;s the single most common way a
+beginner&rsquo;s setup breaks: you install a package for one project, it quietly upgrades a
+package another project depended on, and now something that worked last week doesn&rsquo;t.
+The error message won&rsquo;t mention the upgrade. You&rsquo;ll lose an evening.</p>
+<p>Virtual environments make that impossible, and they cost you one command per project.
+You&rsquo;re going to make one today, and every project you build from here lives in one.</p>
+<h2>The mental model</h2>
+<p>A <strong>terminal</strong> is a place to type commands instead of clicking. When you type
+<code>python tools/site_build.py</code>, you&rsquo;re telling the computer to run the program called
+<code>python</code>, handing it a file to execute. That&rsquo;s it — no magic.</p>
+<p>But <em>which</em> <code>python</code>? Your machine could have several. The answer is a system setting
+called <strong>PATH</strong>: a list of folders, searched top to bottom, and the first <code>python.exe</code>
+found wins.</p>
+<p>That one fact explains everything about virtual environments. A virtual environment —
+a <strong>venv</strong> — is just a folder containing its own copy of Python and its own package
+store. &ldquo;Activating&rdquo; it does one thing: it puts that folder at the <em>front</em> of PATH. From
+then on, <code>python</code> and <code>pip</code> mean the project&rsquo;s copies, so anything you install lands in
+the project, not on the machine.</p>
+<figure class="figure">
+<svg viewBox="0 0 740 300" role="img" aria-label="Typing python is resolved through the PATH list, searched top to bottom. Activating a virtual environment inserts the project's Scripts folder at the top of PATH, so python resolves to the project's own interpreter and its own package store instead of the machine-wide one.">
+  <defs>
+    <marker id="p-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="p-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="13" fill="currentColor">
+
+
+    <rect x="16" y="125" width="132" height="54" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="82" y="147" text-anchor="middle" font-size="11.5" opacity="0.65">you type</text>
+    <text x="82" y="167" text-anchor="middle" font-family="ui-monospace, monospace" font-weight="600">python</text>
+
+    <line x1="152" y1="152" x2="192" y2="152" stroke="currentColor" stroke-width="1.6" marker-end="url(#p-ar)"/>
+    <text x="172" y="141" text-anchor="middle" font-size="11" opacity="0.7">found in</text>
+
+
+    <text x="298" y="86" text-anchor="middle" font-size="11.5" opacity="0.7">PATH — searched top to bottom</text>
+    <rect x="198" y="96" width="200" height="112" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+
+    <rect x="210" y="108" width="176" height="42" rx="6" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="298" y="125" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">.venv\Scripts</text>
+    <text x="298" y="141" text-anchor="middle" font-size="10.5" fill="var(--accent)">put here by activate</text>
+
+    <rect x="210" y="156" width="176" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="1.3" opacity="0.5"/>
+    <text x="298" y="173" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5">C:\Python314</text>
+    <text x="298" y="189" text-anchor="middle" font-size="10.5" opacity="0.6">always there</text>
+
+
+    <path d="M390 129 C 418 129, 418 74, 438 74" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#p-ar-a)"/>
+    <text x="424" y="99" text-anchor="middle" font-size="11" fill="var(--accent)" font-weight="600">wins</text>
+
+    <path d="M390 177 C 418 177, 418 236, 438 236" fill="none" stroke="currentColor" stroke-width="1.6"
+          stroke-dasharray="5 4" opacity="0.55" marker-end="url(#p-ar)"/>
+    <text x="432" y="209" text-anchor="middle" font-size="11" opacity="0.7">only if no venv</text>
+
+
+    <rect x="444" y="46" width="280" height="56" rx="9" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="584" y="68" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">.venv\Lib\site-packages</text>
+    <text x="584" y="87" text-anchor="middle" font-size="11" opacity="0.7">this project's packages only</text>
+
+    <rect x="444" y="208" width="280" height="56" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="584" y="230" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5">C:\Python314\Lib\site-packages</text>
+    <text x="584" y="249" text-anchor="middle" font-size="11" opacity="0.7">shared by every project — where clashes happen</text>
+
+  </g>
+</svg>
+<figcaption>Activation doesn't install a new Python. It changes one list, so the same word you type
+resolves somewhere else — and everything you install follows it there.</figcaption>
+</figure>
+
+<p>Two consequences worth holding onto:</p>
+<p><strong>A venv is disposable.</strong> It&rsquo;s a folder. Delete it and rebuild it from
+<code>requirements.txt</code> in thirty seconds. That&rsquo;s why <code>.venv/</code> is in this repo&rsquo;s
+<code>.gitignore</code> — you never share the folder, you share the list of what&rsquo;s in it.</p>
+<p><strong>Nothing is active until you activate it.</strong> Open a new terminal and you&rsquo;re back on the
+machine-wide Python. This trips up everyone once. The tell is a <code>ModuleNotFoundError</code>
+for a package you know you installed.</p>
+<h2>In practice</h2>
+<p>Open the terminal in VS Code with **Ctrl + <code>** (the key above Tab). Confirm you're in
+the right folder — the prompt should end in</code>Claude Knowledge`.</p>
+<p>First, check what you have. <code>--version</code> asks a program to identify itself:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="p">-</span><span class="n">-version</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Python 3.14.3
+</code></pre></div>
+
+<p>If instead you get &ldquo;not recognized,&rdquo; Python isn&rsquo;t installed or isn&rsquo;t on PATH — install
+it from <a href="https://www.python.org/downloads/">python.org/downloads</a>, and <strong>tick &ldquo;Add
+python.exe to PATH&rdquo;</strong> on the first screen of the installer.</p>
+<p>Now find out where that Python actually lives:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>C:\Python314\python.exe
+</code></pre></div>
+
+<p><code>-c</code> means &ldquo;run this bit of code directly instead of a file.&rdquo; That path is the bottom
+box in the diagram — the machine-wide Python. Everything you&rsquo;ve installed so far went
+next to it. Now you&rsquo;ll stop doing that.</p>
+<p>Create a virtual environment. <code>-m venv</code> means &ldquo;run the built-in module named venv,&rdquo; and
+<code>.venv</code> is the folder to create:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">venv</span> <span class="p">.</span><span class="n">venv</span>
+</code></pre></div>
+
+<p>It prints nothing, which is normal — Unix-style tools stay silent on success. A <code>.venv</code>
+folder now exists. Activate it:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+
+<p>Your prompt changes to start with <code>(.venv)</code>. <strong>That prefix is the whole feedback
+mechanism</strong> — it&rsquo;s how you know which Python you&rsquo;re talking to. Check that the change
+took effect:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>E:\Claude Knowledge\.venv\Scripts\python.exe
+</code></pre></div>
+
+<p>Same command, different answer. Nothing about Python changed — PATH did.</p>
+<h3>The trap, on purpose</h3>
+<p>Now run the site builder:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>ModuleNotFoundError: No module named &#39;jinja2&#39;
+</code></pre></div>
+
+<p><strong>You didn&rsquo;t break anything.</strong> Jinja2 is installed on the machine-wide Python; your new
+venv is empty by design. This is isolation working exactly as advertised, and it&rsquo;s
+worth seeing once so you recognise it later. Fix it by installing this project&rsquo;s
+dependencies <em>into the venv</em>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">-r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div>
+
+<p><code>-r</code> means &ldquo;read the list from this file.&rdquo; Now <code>python tools/site_build.py</code> works again.</p>
+<p>When you&rsquo;re finished with a venv, <code>deactivate</code> restores the old PATH. You rarely need
+to — closing the terminal does the same thing.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>python -m venv .venv</code></td>
+<td>Create the environment. Once per project.</td>
+</tr>
+<tr>
+<td><code>.\.venv\Scripts\Activate.ps1</code></td>
+<td>Point PATH at it. Every new terminal.</td>
+</tr>
+<tr>
+<td><code>python -m pip install &lt;name&gt;</code></td>
+<td>Install one package into the active environment.</td>
+</tr>
+<tr>
+<td><code>python -m pip install -r requirements.txt</code></td>
+<td>Install everything on the list.</td>
+</tr>
+<tr>
+<td><code>python -m pip freeze</code></td>
+<td>Print exactly what&rsquo;s installed, with versions.</td>
+</tr>
+<tr>
+<td><code>python -m pip list</code></td>
+<td>Same idea, friendlier format.</td>
+</tr>
+<tr>
+<td><code>deactivate</code></td>
+<td>Undo activation.</td>
+</tr>
+</tbody>
+</table></div>
+<p>Use <code>python -m pip</code> rather than bare <code>pip</code>. Both usually work, but the long form is
+unambiguous: it installs into <em>the Python you just checked</em>, which is the only thing
+you can be sure about.</p>
+<h3>One VS Code setting</h3>
+<p>Press <strong>Ctrl + Shift + P</strong>, type <code>Python: Select Interpreter</code>, and pick the one whose
+path contains <code>.venv</code>. This tells VS Code to use your venv when you press the Run
+button, and it will auto-activate in new terminals so you stop having to remember.</p>
+<h2>Build it</h2>
+<p><strong>1. Create and activate a venv in this repo</strong>, following the steps above. Install the
+project&rsquo;s dependencies into it.</p>
+<p><strong>2. Add three packages you&rsquo;ll use later</strong>, so you&rsquo;ve installed something by name rather
+than from a list:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">rich</span> <span class="n">httpx</span> <span class="n">pytest</span>
+</code></pre></div>
+
+<p><code>rich</code> prints colour and tables in the terminal, <code>httpx</code> fetches things over the
+internet, <code>pytest</code> runs tests. You&rsquo;ll meet all three properly later.</p>
+<p><strong>3. Prove <code>rich</code> works</strong>, and that it came from the venv:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;from rich import print; print(&#39;[bold green]venv works[/bold green]&#39;)&quot;</span>
+</code></pre></div>
+
+<p><strong>4. Freeze the environment</strong> to a separate file, so you can compare it against the
+project&rsquo;s own list:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">freeze</span> <span class="p">&gt;</span> <span class="p">.</span><span class="n">tmp</span><span class="p">/</span><span class="n">frozen</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div>
+
+<p>The <code>&gt;</code> sends the output into a file instead of the screen. Open <code>.tmp/frozen.txt</code> and
+compare it with <code>requirements.txt</code>. Both list packages — but <code>requirements.txt</code> says
+<code>jinja2&gt;=3.1</code> (&ldquo;at least this version&rdquo;) while the frozen file pins an exact one like
+<code>jinja2==3.1.6</code>. Loose ranges are what a human writes; exact pins are what a machine
+records. You want both, for different reasons.</p>
+<p><strong>5. Select the interpreter in VS Code</strong> (Ctrl + Shift + P → <code>Python: Select Interpreter</code>).</p>
+<p>Done when:</p>
+<ul>
+<li>Your terminal prompt starts with <code>(.venv)</code></li>
+<li><code>python -c "import sys; print(sys.executable)"</code> prints a path inside <code>E:\Claude Knowledge\.venv</code></li>
+<li>The <code>rich</code> line prints in green</li>
+<li><code>.tmp/frozen.txt</code> exists and contains <code>rich</code>, <code>httpx</code> and <code>pytest</code></li>
+<li><code>python tools/site_build.py</code> runs without error while the venv is active</li>
+</ul>
+<p>Then log it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./.</span><span class="n">tmp</span><span class="p">/</span><span class="n">frozen</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;made my first venv&quot;</span>
+<span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<h3>If activation is blocked</h3>
+<p>If <code>Activate.ps1</code> fails with &ldquo;running scripts is disabled on this system,&rdquo; Windows is
+refusing to run script files. Allow locally-created ones for your account only:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">Set-ExecutionPolicy</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-ExecutionPolicy</span> <span class="n">RemoteSigned</span>
+</code></pre></div>
+
+<p><code>RemoteSigned</code> means &ldquo;scripts I made are fine; downloaded ones need a signature.&rdquo; It&rsquo;s
+the setting Microsoft recommends for development machines. Then activate again.</p>
+<h2>Going deeper</h2>
+<ul>
+<li>Delete the <code>.venv</code> folder entirely, then rebuild it from scratch: create, activate,
+  <code>install -r requirements.txt</code>. Doing this once removes the fear of breaking it, which
+  is worth more than the ten minutes it takes.</li>
+<li>Run <code>python -m pip list</code> before and after installing one package, and diff the two
+  lists. Some packages pull in others — those are <strong>transitive dependencies</strong>, and
+  they&rsquo;re why <code>pip freeze</code> output is longer than what you asked for.</li>
+<li>Look inside <code>.venv\Lib\site-packages</code>. Every package is just a folder of Python files
+  you could open and read. Open one. There&rsquo;s no black box under here.</li>
+<li>Read the <code>pip freeze</code> section of the <a href="https://pip.pypa.io/en/stable/user_guide/">pip user guide</a>
+  on repeatable installs, and form a view on when pinning exact versions helps and when
+  it gets in the way.</li>
+<li>Find out what <code>python -m</code> actually means (the <a href="https://docs.python.org/3/tutorial/venv.html">venv docs</a>
+  use it constantly). Understanding <code>-m</code> explains why <code>python -m pip</code> is safer than <code>pip</code>.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>You open a fresh terminal, run your script, and get `ModuleNotFoundError` for a package you definitely installed yesterday. What's the first thing to check?</summary>
+<p>Whether the venv is active — look for <code>(.venv)</code> at the start of the prompt. A new
+terminal starts unactivated, so <code>python</code> resolves to the machine-wide install, which
+doesn&rsquo;t have your package. Activate and try again.</p>
+</details>
+<details>
+<summary>Why is `.venv/` in `.gitignore` when the whole point of git is to save your work?</summary>
+<p>Because the venv is derived, not authored. It&rsquo;s thousands of files, it&rsquo;s specific to
+your OS, and it can be rebuilt exactly from <code>requirements.txt</code> in under a minute. You
+commit the <em>recipe</em>, not the meal. Committing it would also make every diff unreadable.</p>
+</details>
+<details>
+<summary>`requirements.txt` says `jinja2&gt;=3.1`. `pip freeze` says `jinja2==3.1.6`. Which is wrong?</summary>
+<p>Neither — they answer different questions. <code>&gt;=3.1</code> is your <em>intent</em>: any version from
+3.1 up should work. <code>==3.1.6</code> is a <em>fact</em>: this is what was installed when you froze
+it. You write the first by hand; the second is a recording, useful when you need an
+environment to come back identical.</p>
+</details>
+<details>
+<summary>You're helping a friend and they have no venv at all — everything installed machine-wide, and it currently works. What actually goes wrong later, and when?</summary>
+<p>Nothing, until their second project needs a different version of a package the first
+one uses. Installing it upgrades or downgrades the shared copy, and the <em>first</em> project
+breaks — with an error that says nothing about the install. The cost isn&rsquo;t the breakage,
+it&rsquo;s that the cause is invisible and arrives weeks after the decision.</p>
+</details>
+<details>
+<summary>What does activation actually change on your computer?</summary>
+<p>One list: PATH. It inserts the venv&rsquo;s <code>Scripts</code> folder at the front, so <code>python</code> and
+<code>pip</code> resolve there first. No new Python is installed and nothing is copied — the same
+word you type simply finds a different program.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/tutorial/venv.html"><span class="t">Python docs — Virtual Environments and Packages</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://code.visualstudio.com/docs/python/environments"><span class="t">VS Code — Python environments</span><span class="d">code.visualstudio.com</span></a></li>
+      <li><a href="https://pip.pypa.io/en/stable/user_guide/"><span class="t">pip user guide — requirements files and pip freeze</span><span class="d">pip.pypa.io</span></a></li>
+      <li><a href="https://code.visualstudio.com/docs/python/python-tutorial"><span class="t">VS Code — Getting started with Python (beginner walkthrough)</span><span class="d">code.visualstudio.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 00-02 --status complete \
+    --minutes 55 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="00-01-how-to-learn-this-without-burning-out.html">&larr; 00-01 How to learn this without burning out</a></span>
+    <span><a href="00-03-git-and-github-properly.html">00-03 Git and GitHub, properly &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>1 of 100 lessons &middot; 2.0 hours logged</span>
+    <span>Rebuilt 15 Aug 2026, 18:10</span>
+  </footer>
+
+</div>
+</body>
+</html>

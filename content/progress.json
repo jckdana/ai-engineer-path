@@ -1,4 +1,13 @@
 {
   "started_on": "2026-08-15",
-  "sessions": []
+  "sessions": [
+    {
+      "date": "2026-08-15",
+      "lesson_id": "00-01",
+      "status": "complete",
+      "minutes": 120,
+      "artifact": "./README.md",
+      "note": "first session"
+    }
+  ]
 }
