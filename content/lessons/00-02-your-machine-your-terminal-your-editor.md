@@ -245,11 +245,11 @@ python -c "from rich import print; print('[bold green]venv works[/bold green]')"
 project's own list:
 
 ```powershell
-python -m pip freeze > .tmp/frozen.txt
+python -m pip freeze > requirements-frozen.txt
 ```
 
-The `>` sends the output into a file instead of the screen. Open `.tmp/frozen.txt` and
-compare it with `requirements.txt`. Both list packages — but `requirements.txt` says
+The `>` sends the output into a file instead of the screen. Open
+`requirements-frozen.txt` and compare it with `requirements.txt`. Both list packages — but `requirements.txt` says
 `jinja2>=3.1` ("at least this version") while the frozen file pins an exact one like
 `jinja2==3.1.6`. Loose ranges are what a human writes; exact pins are what a machine
 records. You want both, for different reasons.
@@ -261,13 +261,13 @@ Done when:
 - Your terminal prompt starts with `(.venv)`
 - `python -c "import sys; print(sys.executable)"` prints a path inside `E:\Claude Knowledge\.venv`
 - The `rich` line prints in green
-- `.tmp/frozen.txt` exists and contains `rich`, `httpx` and `pytest`
+- `requirements-frozen.txt` exists and contains `rich`, `httpx` and `pytest`
 - `python tools/site_build.py` runs without error while the venv is active
 
 Then log it:
 
 ```powershell
-python tools/progress_log.py --lesson-id 00-02 --status complete --minutes 55 --artifact ./.tmp/frozen.txt --note "made my first venv"
+python tools/progress_log.py --lesson-id 00-02 --status complete --minutes 55 --artifact ./requirements-frozen.txt --note "made my first venv"
 python tools/site_build.py --open
 ```
 

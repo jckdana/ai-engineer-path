@@ -256,11 +256,11 @@ internet, <code>pytest</code> runs tests. You&rsquo;ll meet all three properly l
 
 <p><strong>4. Freeze the environment</strong> to a separate file, so you can compare it against the
 project&rsquo;s own list:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">freeze</span> <span class="p">&gt;</span> <span class="p">.</span><span class="n">tmp</span><span class="p">/</span><span class="n">frozen</span><span class="p">.</span><span class="n">txt</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-m</span> <span class="n">pip</span> <span class="n">freeze</span> <span class="p">&gt;</span> <span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span>
 </code></pre></div>
 
-<p>The <code>&gt;</code> sends the output into a file instead of the screen. Open <code>.tmp/frozen.txt</code> and
-compare it with <code>requirements.txt</code>. Both list packages — but <code>requirements.txt</code> says
+<p>The <code>&gt;</code> sends the output into a file instead of the screen. Open
+<code>requirements-frozen.txt</code> and compare it with <code>requirements.txt</code>. Both list packages — but <code>requirements.txt</code> says
 <code>jinja2&gt;=3.1</code> (&ldquo;at least this version&rdquo;) while the frozen file pins an exact one like
 <code>jinja2==3.1.6</code>. Loose ranges are what a human writes; exact pins are what a machine
 records. You want both, for different reasons.</p>
@@ -270,11 +270,11 @@ records. You want both, for different reasons.</p>
 <li>Your terminal prompt starts with <code>(.venv)</code></li>
 <li><code>python -c "import sys; print(sys.executable)"</code> prints a path inside <code>E:\Claude Knowledge\.venv</code></li>
 <li>The <code>rich</code> line prints in green</li>
-<li><code>.tmp/frozen.txt</code> exists and contains <code>rich</code>, <code>httpx</code> and <code>pytest</code></li>
+<li><code>requirements-frozen.txt</code> exists and contains <code>rich</code>, <code>httpx</code> and <code>pytest</code></li>
 <li><code>python tools/site_build.py</code> runs without error while the venv is active</li>
 </ul>
 <p>Then log it:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./.</span><span class="n">tmp</span><span class="p">/</span><span class="n">frozen</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;made my first venv&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;made my first venv&quot;</span>
 <span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
 </code></pre></div>
 
@@ -366,7 +366,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>1 of 100 lessons &middot; 2.0 hours logged</span>
-    <span>Rebuilt 15 Aug 2026, 18:10</span>
+    <span>Rebuilt 15 Aug 2026, 18:11</span>
   </footer>
 
 </div>
