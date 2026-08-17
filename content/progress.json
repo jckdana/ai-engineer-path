@@ -8,6 +8,22 @@
       "minutes": 120,
       "artifact": "./README.md",
       "note": "first session"
+    },
+    {
+      "date": "2026-08-15",
+      "lesson_id": "00-02",
+      "status": "complete",
+      "minutes": 55,
+      "artifact": "./requirements-frozen.txt",
+      "note": "made my first venv"
+    },
+    {
+      "date": "2026-08-15",
+      "lesson_id": "00-02",
+      "status": "complete",
+      "minutes": 65,
+      "artifact": "./requirements-frozen.txt",
+      "note": "made my first venv"
     }
   ]
 }

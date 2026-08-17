@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Git and GitHub, properly &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">00 &nbsp;Getting set up</a> &nbsp;&middot;&nbsp; Lesson 00-03</p>
+    <h1>Git and GitHub, properly</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        55 min core &middot; 150 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A public GitHub repo with at least five commits and one branch merged.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>In lesson 00-01 you typed <code>git init</code>, <code>git add .</code>, <code>git commit</code> and were told what they
+did in one line each. Since then you&rsquo;ve been running <code>git add -A</code> and <code>git push</code> on
+faith. This lesson is where that stops being a ritual and starts being a tool you
+reach for deliberately.</p>
+<p>Two things change once git clicks. First, you stop being afraid of your own code —
+you can try a risky rewrite knowing that a working version is saved and one command
+away. Beginners without git edit cautiously and keep folders called <code>project_v2_final</code>;
+that caution costs more than any bug. Second, your work becomes visible. Every lesson
+you ship lands in a public repo with a date on it, and that repo is the thing you show
+someone when they ask what you can do.</p>
+<p>By the end you&rsquo;ll be able to inspect exactly what&rsquo;s about to be saved, commit a
+coherent change on purpose, work on a branch and merge it back, and — most usefully —
+recover when you do the wrong thing.</p>
+<h2>The mental model</h2>
+<p>Git is not a folder of backups. It&rsquo;s a chain of <strong>snapshots</strong>. A <strong>commit</strong> is one
+snapshot of your whole project, plus a message and a pointer to the commit that came
+before it. Follow those pointers backwards and you have your history.</p>
+<p>The part that confuses everyone at first is that a change passes through <em>three</em>
+places on your machine before it reaches GitHub, and the middle one — the <strong>staging
+area</strong> — is invisible in your file explorer.</p>
+<figure class="figure">
+<svg viewBox="0 0 740 250" role="img" aria-label="A change moves through four places: the working tree of edited files, the staging area holding what the next commit will contain, the local repository of committed history, and the remote copy on GitHub. git add, git commit and git push move a change forward one step each; git restore, git reset and git pull move information back the other way. git status reports on the first two places.">
+  <defs>
+    <marker id="g-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="g-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+
+    <path d="M6 84 L6 76 L338 76 L338 84" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.45"/>
+    <text x="172" y="66" text-anchor="middle" font-size="11" opacity="0.7">
+      <tspan font-family="ui-monospace, monospace">git status</tspan> reports on these two
+    </text>
+
+
+    <rect x="6" y="100" width="134" height="74" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="73" y="124" text-anchor="middle" font-weight="600">working tree</text>
+    <text x="73" y="143" text-anchor="middle" font-size="10.5" opacity="0.65">your files, as you</text>
+    <text x="73" y="157" text-anchor="middle" font-size="10.5" opacity="0.65">just edited them</text>
+
+
+    <rect x="204" y="100" width="134" height="74" rx="9" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="271" y="124" text-anchor="middle" font-weight="600">staging area</text>
+    <text x="271" y="143" text-anchor="middle" font-size="10.5" fill="var(--accent)">what the next</text>
+    <text x="271" y="157" text-anchor="middle" font-size="10.5" fill="var(--accent)">commit will contain</text>
+
+
+    <rect x="402" y="100" width="134" height="74" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="469" y="124" text-anchor="middle" font-weight="600">local repository</text>
+    <text x="469" y="143" text-anchor="middle" font-size="10.5" opacity="0.65">your history —</text>
+    <text x="469" y="157" text-anchor="middle" font-size="10.5" opacity="0.65">works with no internet</text>
+
+
+    <rect x="600" y="100" width="134" height="74" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="667" y="124" text-anchor="middle" font-weight="600">remote</text>
+    <text x="667" y="143" text-anchor="middle" font-size="10.5" opacity="0.65">the copy on GitHub —</text>
+    <text x="667" y="157" text-anchor="middle" font-size="10.5" opacity="0.65">backup and evidence</text>
+
+
+    <line x1="146" y1="137" x2="198" y2="137" stroke="var(--accent)" stroke-width="2" marker-end="url(#g-ar-a)"/>
+    <text x="172" y="127" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" font-weight="600" fill="var(--accent)">git add</text>
+
+    <line x1="344" y1="137" x2="396" y2="137" stroke="currentColor" stroke-width="1.8" marker-end="url(#g-ar)"/>
+    <text x="370" y="127" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5">git commit</text>
+
+    <line x1="542" y1="137" x2="594" y2="137" stroke="currentColor" stroke-width="1.8" marker-end="url(#g-ar)"/>
+    <text x="568" y="127" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5">git push</text>
+
+
+    <line x1="198" y1="205" x2="146" y2="205" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.55" marker-end="url(#g-ar)"/>
+    <text x="172" y="222" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" opacity="0.7">git restore</text>
+
+    <line x1="396" y1="205" x2="344" y2="205" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.55" marker-end="url(#g-ar)"/>
+    <text x="370" y="222" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" opacity="0.7">git reset</text>
+
+    <line x1="594" y1="205" x2="542" y2="205" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.55" marker-end="url(#g-ar)"/>
+    <text x="568" y="222" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" opacity="0.7">git pull</text>
+
+  </g>
+</svg>
+<figcaption>Every git command you'll use in the first month is a move between two of these boxes.
+When a command confuses you, ask which box it reads from and which it writes to.</figcaption>
+</figure>
+
+<p>Three things follow from that picture.</p>
+<p><strong>Nothing is saved until you commit.</strong> Editing a file changes box one only. <code>git add</code>
+copies the current contents into box two; <code>git commit</code> turns box two into a permanent
+snapshot in box three. Add a file, edit it again, and commit — the commit contains the
+version you <em>added</em>, not the version on screen. That surprises people once.</p>
+<p><strong>The staging area exists so a commit can be one idea.</strong> You&rsquo;ll often finish a session
+having fixed a bug <em>and</em> renamed a variable <em>and</em> added a note. Staging lets you commit
+those separately, so your history reads as a sequence of decisions rather than a
+sequence of days. This is why <code>git add -A</code> — &ldquo;stage everything&rdquo; — is a convenience, not
+the normal case.</p>
+<p><strong>A branch is a sticky note, not a copy of your files.</strong> A branch is a name pointing at
+one commit; committing moves the note forward. Creating a branch writes about forty
+bytes, which is why branching is cheap and normal. <code>main</code> is just the note you started
+with, and <strong>HEAD</strong> is git&rsquo;s word for &ldquo;the note you&rsquo;re currently standing on.&rdquo;</p>
+<h2>In practice</h2>
+<p>Open a terminal in this folder. Everything here runs against your real repo.</p>
+<h3>Look before you touch</h3>
+<p><code>git status</code> is the command you run more than every other command combined. It answers
+&ldquo;what&rsquo;s in box one, what&rsquo;s in box two, and where am I?&rdquo;</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">status</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>On branch main
+Your branch is up to date with &#39;origin/main&#39;.
+
+Changes not staged for commit:
+  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
+  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)
+        modified:   content/progress.json
+        modified:   docs/index.html
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+        requirements-frozen.txt
+
+no changes added to commit (use &quot;git add&quot; to track/commit files)
+</code></pre></div>
+
+<p>Read the three parts. <strong>Changes not staged</strong> are edits git already knows about, sitting
+in box one. <strong>Untracked</strong> means git has never seen this file at all — new files are
+never included automatically, which is deliberate. And nothing is staged yet, so a
+commit right now would contain nothing.</p>
+<p>To see <em>what</em> changed, not just which files:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="nb">diff</span>
+</code></pre></div>
+
+<p>Lines starting <code>-</code> were removed, <code>+</code> were added. Press <code>q</code> to exit the pager.</p>
+<h3>Stage deliberately, then commit</h3>
+<p>Stage one file by name rather than everything:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">git</span> <span class="n">status</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Changes to be committed:
+  (use &quot;git restore --staged &lt;file&gt;...&quot; to unstage)
+        new file:   requirements-frozen.txt
+
+Changes not staged for commit:
+        modified:   content/progress.json
+</code></pre></div>
+
+<p>The same file list, now split across two sections — that split <em>is</em> the staging area,
+made visible. Commit what&rsquo;s staged:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add frozen requirements from lesson 00-02&quot;</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>[main 4f2a1c9] Add frozen requirements from lesson 00-02
+ 1 file changed, 24 insertions(+)
+</code></pre></div>
+
+<p><code>4f2a1c9</code> is the start of the commit&rsquo;s ID, a hash of its contents. <code>-m</code> supplies the
+message inline; without it git opens an editor, which is a common way for beginners to
+get stuck in a program they can&rsquo;t exit.</p>
+<p><strong>Write messages in the imperative, describing the change:</strong> &ldquo;Add frozen requirements&rdquo;,
+not &ldquo;changes&rdquo; or &ldquo;stuff&rdquo;. The test is whether it completes the sentence <em>&ldquo;applying this
+commit will…&rdquo;</em>. You are writing to yourself in three months, and you will not remember.</p>
+<p>Now stage and commit the rest, and read your history back:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">-A</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Log lesson 00-02 session and rebuild site&quot;</span>
+<span class="n">git</span> <span class="n">log</span> <span class="p">-</span><span class="n">-oneline</span> <span class="p">-</span><span class="n">5</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>4f2a1c9 Log lesson 00-02 session and rebuild site
+9d3b7e1 Add frozen requirements from lesson 00-02
+3010796 Freeze to requirements-frozen.txt, not .tmp
+af4d1ec Write lesson 00-02: your machine, your terminal, your editor
+057eab8 Add the product track and pull selling work forward
+</code></pre></div>
+
+<p>That&rsquo;s the chain from the mental model, newest first.</p>
+<h3>Branch, then merge</h3>
+<p>Make a branch and move onto it in one command:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Switched to a new branch &#39;lesson/00-03&#39;
+</code></pre></div>
+
+<p><code>-c</code> means create. (You&rsquo;ll see <code>git checkout -b</code> in older tutorials — same effect;
+<code>switch</code> is the newer command that does only this one job, so prefer it.) Your files
+didn&rsquo;t change, because the branch points at the same commit you were already on.</p>
+<p>Make a small change — create a file <code>notes/00-03-git-notes.md</code> with a line or two in
+it — then commit it on this branch:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">notes</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03-git-notes</span><span class="p">.</span><span class="nb">md</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Start git notes&quot;</span>
+</code></pre></div>
+
+<p>Go back to <code>main</code> and look at your folder:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+</code></pre></div>
+
+<p><code>notes/</code> has vanished from the file explorer. It isn&rsquo;t lost — <code>main</code>&rsquo;s sticky note is
+still on the older commit, and git rewrote your working tree to match it. This is the
+moment branches become real. Now bring the work in:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Updating 4f2a1c9..b7c0e42
+Fast-forward
+ notes/00-03-git-notes.md | 3 +++
+ 1 file changed, 3 insertions(+)
+</code></pre></div>
+
+<p><strong>Fast-forward</strong> means <code>main</code> hadn&rsquo;t moved since you branched, so git just slid the
+sticky note forward — no merging was actually necessary. The file is back. Tidy up and
+publish:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03</span>
+<span class="n">git</span> <span class="n">push</span>
+</code></pre></div>
+
+<p>Deleting the branch deletes the <em>name</em>, never the commits — they&rsquo;re on <code>main</code> now.</p>
+<p>If <code>git push</code> asks you to sign in, that&rsquo;s normal: password authentication was removed
+from GitHub years ago. Git for Windows ships with Credential Manager, which opens a
+browser window for you to authorise once and then remembers.</p>
+<h3>When it goes wrong</h3>
+<p>Everything below is routine, not an emergency. Run <code>git status</code> first every time — it
+usually tells you the fix.</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bad message on the last commit (not pushed)</td>
+<td><code>git commit --amend -m "better message"</code></td>
+</tr>
+<tr>
+<td>Staged a file you didn&rsquo;t mean to</td>
+<td><code>git restore --staged &lt;file&gt;</code></td>
+</tr>
+<tr>
+<td>Want to throw away edits to one file</td>
+<td><code>git restore &lt;file&gt;</code> — <strong>destructive</strong>, the edits are gone</td>
+</tr>
+<tr>
+<td>Last commit was a mistake, keep the work</td>
+<td><code>git reset --soft HEAD~1</code> — undoes the commit, leaves files staged</td>
+</tr>
+<tr>
+<td><code>push</code> rejected: &ldquo;remote contains work you do not have&rdquo;</td>
+<td><code>git pull</code>, then push again</td>
+</tr>
+<tr>
+<td>Genuinely lost</td>
+<td><code>git reflog</code> — lists every commit HEAD has pointed at, including &ldquo;deleted&rdquo; ones</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>git reflog</code> is the safety net worth knowing on day one: once something is committed,
+it is very hard to actually lose, even when a command appears to have eaten it.</p>
+<p>Two habits that prevent most of the trouble: commit small and often, and <strong>never commit
+secrets</strong>. This repo&rsquo;s <code>.gitignore</code> already excludes <code>.env</code>, <code>.venv/</code> and
+<code>credentials.json</code>, which is why your API keys will live in <code>.env</code> from lesson 00-05
+onward. A key pushed to a public repo is compromised within minutes — scanners watch
+for them — and deleting it in a later commit does not help, because the old commit is
+still in the history.</p>
+<h2>Build it</h2>
+<p>A public repo with at least five commits and one merged branch. You already have the
+repo, so this is about the commits and the branch.</p>
+<p><strong>1. Commit what&rsquo;s currently uncommitted</strong>, as <em>two</em> separate commits, staging by name.
+Run <code>git status</code> first and decide which files belong together. Two real messages.</p>
+<p><strong>2. Create a branch</strong> and switch to it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03</span>
+</code></pre></div>
+
+<p><strong>3. Make two commits on the branch.</strong> Create <code>notes/00-03-git-notes.md</code> and write, in
+your own words, what the staging area is for and what a branch actually is. Commit it.
+Then add one more line — a git command you want to remember — and commit that
+separately.</p>
+<p><strong>4. Merge it back into <code>main</code></strong> and delete the branch:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03</span>
+</code></pre></div>
+
+<p><strong>5. Push, and check it on GitHub.</strong> Open your repo in a browser and confirm your
+commit messages are there, on the commits page.</p>
+<p>Done when:</p>
+<ul>
+<li><code>git log --oneline</code> shows at least five commits with messages you&rsquo;d understand in
+  three months</li>
+<li><code>git log --graph --oneline -10</code> shows your branch&rsquo;s commits on <code>main</code></li>
+<li><code>git status</code> prints <code>nothing to commit, working tree clean</code></li>
+<li><code>git branch</code> lists only <code>main</code></li>
+<li>The commits are visible at <code>https://github.com/jckdana/ai-engineer-path/commits/main</code></li>
+<li><code>notes/00-03-git-notes.md</code> exists and is in your own words</li>
+</ul>
+<p>Then log it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">03</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">notes</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">03-git-notes</span><span class="p">.</span><span class="nb">md </span><span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;branched and merged for the first time&quot;</span>
+<span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<h2>Going deeper</h2>
+<ul>
+<li>Cause a <strong>merge conflict</strong> on purpose: branch, edit line one of a file, switch back to
+  <code>main</code>, edit the same line differently, commit both, merge. Git writes <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>,
+  <code>=======</code> and <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> markers into the file — your version above, theirs below.
+  Delete the markers, leave the text you want, <code>git add</code> the file, <code>git commit</code>.
+  Conflicts are frightening exactly once.</li>
+<li>Work through the first two levels of <a href="https://learngitbranching.js.org/">Learn Git Branching</a>.
+  Seeing the commit graph move as you type is worth an hour of reading.</li>
+<li>Run <code>git log --graph --oneline --all</code> and compare it to what the visualiser draws.</li>
+<li>Open a <strong>pull request</strong> against your own repo: push a branch instead of merging
+  locally, then use GitHub&rsquo;s interface to merge it. This is how every team you&rsquo;ll ever
+  join actually works.</li>
+<li>Read <a href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository">Recording changes to the repository</a>
+  in full, then find out what <code>git add -p</code> does — it stages <em>parts</em> of a file, and it&rsquo;s
+  the fastest way to understand why staging is separate from committing.</li>
+<li>Look up what a <strong>detached HEAD</strong> is, since you&rsquo;ll hit it eventually by running
+  <code>git switch &lt;commit-hash&gt;</code>. Knowing the name makes the warning message readable.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>You've fixed a bug in `app.py` and, separately, rewritten a paragraph of `README.md`. You want two commits. What do you type?</summary>
+<p><code>git add app.py</code>, then <code>git commit -m "Fix ..."</code>, then <code>git add README.md</code>, then
+<code>git commit -m "Rewrite ..."</code>. Staging by name is the whole point of the staging area:
+<code>git add -A</code> would sweep both into one commit and you&rsquo;d lose the ability to describe —
+or later undo — either change on its own.</p>
+</details>
+<details>
+<summary>You commit, then notice a typo in the message ten seconds later. You haven't pushed. What now, and would the answer change if you had pushed?</summary>
+<p><code>git commit --amend -m "the corrected message"</code> replaces the last commit. It works
+cleanly because nobody else has seen it.</p>
+<p>If you&rsquo;d already pushed, amending creates a <em>different</em> commit with a different hash,
+so your local history and GitHub&rsquo;s would disagree and the push would be rejected. On a
+solo repo you can force it; on a shared one you leave the typo. That asymmetry —
+rewriting unpublished history is free, rewriting published history is rude — is the
+rule behind most git etiquette.</p>
+</details>
+<details>
+<summary>You switch to another branch and half your project's files disappear from the file explorer. What happened?</summary>
+<p>Nothing bad. A branch points at a commit, and switching rewrites your working tree to
+match that commit. Files created on the other branch don&rsquo;t exist in this snapshot, so
+git removed them from disk. Switch back and they return. The commits were never
+touched — only box one in the diagram changed.</p>
+</details>
+<details>
+<summary>`git push` fails with "Updates were rejected because the remote contains work that you do not have locally." What caused it, and what's the fix?</summary>
+<p>Something added commits to GitHub that your local repo doesn&rsquo;t know about — usually you
+edited a file in GitHub&rsquo;s web interface, or pushed from another machine. Git refuses to
+overwrite history it can&rsquo;t reconcile.</p>
+<p><code>git pull</code> fetches those commits and combines them with yours, then <code>git push</code> works.
+Not <code>push --force</code>, which would delete the remote&rsquo;s commits.</p>
+</details>
+<details>
+<summary>You accidentally commit and push a `.env` file containing an API key. You immediately delete the file and push again. Are you safe?</summary>
+<p>No. The key is still in the earlier commit, which is still in the history, and anyone
+can read it — automated scanners find public keys within minutes. The only real fix is
+to <strong>rotate the key</strong>: revoke it at the provider and issue a new one. Purging it from
+history is possible but secondary, because you must assume it was already copied.</p>
+<p>Which is why <code>.gitignore</code> matters more than it looks: it&rsquo;s the mechanism that stops
+this happening at all.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository"><span class="t">Pro Git — Recording changes to the repository</span><span class="d">git-scm.com</span></a></li>
+      <li><a href="https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging"><span class="t">Pro Git — Basic branching and merging</span><span class="d">git-scm.com</span></a></li>
+      <li><a href="https://docs.github.com/en/get-started/git-basics/about-remote-repositories"><span class="t">GitHub docs — About remote repositories</span><span class="d">docs.github.com</span></a></li>
+      <li><a href="https://dangitgit.com/"><span class="t">Dangit, Git!?! — plain-English fixes for common mistakes</span><span class="d">dangitgit.com</span></a></li>
+      <li><a href="https://learngitbranching.js.org/"><span class="t">Learn Git Branching — interactive branching visualiser</span><span class="d">learngitbranching.js.org</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 00-03 --status complete \
+    --minutes 55 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="00-02-your-machine-your-terminal-your-editor.html">&larr; 00-02 Your machine, your terminal, your editor</a></span>
+    <span><a href="00-04-your-first-python-program.html">00-04 Your first Python program &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>2 of 100 lessons &middot; 4.0 hours logged</span>
+    <span>Rebuilt 16 Aug 2026, 17:54</span>
+  </footer>
+
+</div>
+</body>
+</html>
