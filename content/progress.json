@@ -13,17 +13,17 @@
       "date": "2026-08-15",
       "lesson_id": "00-02",
       "status": "complete",
-      "minutes": 55,
+      "minutes": 65,
       "artifact": "./requirements-frozen.txt",
       "note": "made my first venv"
     },
     {
-      "date": "2026-08-15",
-      "lesson_id": "00-02",
+      "date": "2026-08-16",
+      "lesson_id": "00-03",
       "status": "complete",
-      "minutes": 65,
-      "artifact": "./requirements-frozen.txt",
-      "note": "made my first venv"
+      "minutes": 80,
+      "artifact": "./notes/00-03-git-notes.md",
+      "note": "branched and merged for the first time"
     }
   ]
 }

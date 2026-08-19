@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your first Python program &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">00 &nbsp;Getting set up</a> &nbsp;&middot;&nbsp; Lesson 00-04</p>
+    <h1>Your first Python program</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        45 min core &middot; 100 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A script that takes your name as input and prints a formatted greeting, committed to git.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>You have Python installed, a virtual environment, and a repo with history. What you
+don&rsquo;t have yet is a program you wrote. That changes in the next forty-five minutes.</p>
+<p>The thing to take from this lesson isn&rsquo;t <code>print()</code> — you&rsquo;ll have that in five minutes.
+It&rsquo;s the loop underneath every hour you&rsquo;ll spend from here on: <strong>write a little, run it,
+read what came back, adjust.</strong> Beginners lose weeks because they treat a red error
+message as a verdict on themselves rather than as the most useful output the computer
+produces. An error is Python telling you, in a fixed and readable format, exactly which
+line it choked on and why. Once you can read that, you&rsquo;re not stuck — you&rsquo;re debugging,
+which is just programming with more information.</p>
+<p>By the end you&rsquo;ll be able to run a Python file from the terminal, store values in
+variables, build a piece of text out of those values, ask the person running the program
+a question, and — when it breaks, which it will — look at the traceback and know where
+to go.</p>
+<h2>The mental model</h2>
+<p>A Python file is not a document the computer looks at. It&rsquo;s a list of instructions
+carried out in <strong>two distinct phases</strong>, and knowing which phase you&rsquo;re in tells you what
+an error means.</p>
+<p>First Python reads the <em>entire file</em> and checks that it&rsquo;s grammatically valid Python.
+Nothing runs during this phase. Only if the whole file parses does Python go back to the
+top and start executing, one line at a time, top to bottom.</p>
+<figure class="figure">
+<svg viewBox="0 0 740 300" role="img" aria-label="Running a Python file happens in two phases. Python first parses the whole file; if the grammar is wrong it stops with a SyntaxError and nothing runs, so no output appears at all. If parsing succeeds, Python executes the file line by line from the top, and each line can print to the terminal or read input from it. An error during this second phase produces a traceback, and any output printed before that point already really happened.">
+  <defs>
+    <marker id="p-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="p-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+
+    <rect x="8" y="86" width="146" height="96" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="81" y="108" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">greet.py</text>
+    <text x="22" y="132" font-family="ui-monospace, monospace" font-size="10" opacity="0.6">name = input(...)</text>
+    <text x="22" y="148" font-family="ui-monospace, monospace" font-size="10" opacity="0.6">print(f"Hi {name}")</text>
+    <text x="22" y="164" font-family="ui-monospace, monospace" font-size="10" opacity="0.6">print("bye")</text>
+
+
+    <rect x="214" y="86" width="146" height="96" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="287" y="112" text-anchor="middle" font-weight="600">1. parse</text>
+    <text x="287" y="132" text-anchor="middle" font-size="10.5" opacity="0.65">reads the whole file,</text>
+    <text x="287" y="146" text-anchor="middle" font-size="10.5" opacity="0.65">checks the grammar,</text>
+    <text x="287" y="160" text-anchor="middle" font-size="10.5" opacity="0.65">runs nothing</text>
+
+
+    <rect x="420" y="86" width="146" height="96" rx="9" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="493" y="112" text-anchor="middle" font-weight="600">2. execute</text>
+    <text x="493" y="132" text-anchor="middle" font-size="10.5" fill="var(--accent)">one line at a time,</text>
+    <text x="493" y="146" text-anchor="middle" font-size="10.5" fill="var(--accent)">top to bottom,</text>
+    <text x="493" y="160" text-anchor="middle" font-size="10.5" fill="var(--accent)">in order</text>
+
+
+    <rect x="606" y="86" width="126" height="96" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="669" y="112" text-anchor="middle" font-weight="600">terminal</text>
+    <text x="669" y="140" text-anchor="middle" font-size="10.5" opacity="0.65">what you see,</text>
+    <text x="669" y="154" text-anchor="middle" font-size="10.5" opacity="0.65">what you type</text>
+
+
+    <line x1="160" y1="134" x2="208" y2="134" stroke="currentColor" stroke-width="1.8" marker-end="url(#p-ar)"/>
+    <text x="184" y="124" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10">python</text>
+
+    <line x1="366" y1="134" x2="414" y2="134" stroke="var(--accent)" stroke-width="2" marker-end="url(#p-ar-a)"/>
+    <text x="390" y="124" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--accent)">valid</text>
+
+    <line x1="572" y1="118" x2="600" y2="118" stroke="currentColor" stroke-width="1.6" marker-end="url(#p-ar)"/>
+    <text x="586" y="108" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10">print</text>
+
+    <line x1="600" y1="164" x2="572" y2="164" stroke="currentColor" stroke-width="1.6" marker-end="url(#p-ar)"/>
+    <text x="586" y="180" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10">input</text>
+
+
+    <line x1="287" y1="188" x2="287" y2="212" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.6" marker-end="url(#p-ar)"/>
+    <text x="295" y="205" font-size="10" opacity="0.7">bad grammar</text>
+
+    <line x1="493" y1="188" x2="493" y2="212" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" opacity="0.6" marker-end="url(#p-ar)"/>
+    <text x="501" y="205" font-size="10" opacity="0.7">bad value</text>
+
+    <rect x="176" y="214" width="196" height="62" rx="8" fill="none" stroke="currentColor" stroke-width="1.3" opacity="0.5"/>
+    <text x="274" y="236" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="600">SyntaxError</text>
+    <text x="274" y="254" text-anchor="middle" font-size="10.5" opacity="0.7">nothing ran at all —</text>
+    <text x="274" y="268" text-anchor="middle" font-size="10.5" opacity="0.7">you get no output</text>
+
+    <rect x="404" y="214" width="230" height="62" rx="8" fill="none" stroke="currentColor" stroke-width="1.3" opacity="0.5"/>
+    <text x="519" y="236" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="600">Traceback</text>
+    <text x="519" y="254" text-anchor="middle" font-size="10.5" opacity="0.7">the lines above it really ran —</text>
+    <text x="519" y="268" text-anchor="middle" font-size="10.5" opacity="0.7">the last line names the problem</text>
+
+  </g>
+</svg>
+<figcaption>Two phases, two kinds of failure. Whether any output appeared before the error
+tells you which phase you were in — and that's the first question to ask when a program
+misbehaves.</figcaption>
+</figure>
+
+<p>Three consequences worth holding on to.</p>
+<p><strong>A <code>SyntaxError</code> means you typed something that isn&rsquo;t Python</strong>, not that your logic is
+wrong. A missing colon, an unclosed bracket, a stray quote. Because nothing ran, you see
+no output at all — even from lines <em>above</em> the mistake. That absence is itself a clue.</p>
+<p><strong>Any other error happened mid-run</strong>, so whatever printed before it genuinely happened.
+Python then stops immediately: lines after the failure never execute.</p>
+<p><strong>Order is everything.</strong> Python has no idea what&rsquo;s coming later in the file. Use a
+variable on line 2 that you only create on line 5 and you get a <code>NameError</code>, because on
+line 2 that name genuinely didn&rsquo;t exist yet.</p>
+<h2>In practice</h2>
+<p>Open a terminal in this folder and activate your venv from lesson 00-02 — your prompt
+should start with <code>(.venv)</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+
+<h3>The shell, for throwaway experiments</h3>
+<p>Type <code>python</code> on its own and you get the <strong>interactive shell</strong>: it runs a line the moment
+you press Enter and shows the result. It&rsquo;s a scratchpad, not somewhere you write
+programs.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Python 3.14.3 ...
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p><code>&gt;&gt;&gt;</code> is Python waiting for you. Try these:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="mi">4</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="n">hello</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello&quot;</span>
+<span class="s1">&#39;hello&#39;</span>
+</code></pre></div>
+
+<p>Notice the difference between the last two. <code>print("hello")</code> <em>displays</em> the text. Typing
+<code>"hello"</code> on its own shows you how Python would <em>write it down</em> — with quotes, because
+it&rsquo;s a string. Only the shell does that second thing; in a real script, nothing appears
+unless you print it.</p>
+<p>Type <code>exit()</code> and press Enter to get out.</p>
+<h3>A file you can run again</h3>
+<p>Create a folder and a file — this is the program you&rsquo;ll keep:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">mkdir</span> <span class="n">builds</span>
+<span class="n">code</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<p>Type this in, and save with <code>Ctrl+S</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, world.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file ran top to bottom.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Run it from the terminal:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Hello, world.
+This file ran top to bottom.
+</code></pre></div>
+
+<p>Two lines of source, two lines of output, in order. That&rsquo;s the diagram, working.</p>
+<h3>Variables and types</h3>
+<p>A <strong>variable</strong> is a name pointing at a value. <code>=</code> doesn&rsquo;t mean &ldquo;equals&rdquo; here — it means
+&ldquo;make this name refer to this value&rdquo;. Replace the file&rsquo;s contents with:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+<span class="n">lessons_done</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">lessons_done</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Jack
+3
+</code></pre></div>
+
+<p><code>"Jack"</code> in quotes is a <strong>string</strong> — text. <code>3</code> without quotes is an <strong>integer</strong> — a
+number. The difference isn&rsquo;t pedantry; it decides what operations mean:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3&quot;</span> <span class="o">+</span> <span class="s2">&quot;4&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>34
+7
+</code></pre></div>
+
+<p><code>+</code> joins strings and adds numbers. Same symbol, different behaviour depending on the
+types either side of it. Mixing the two is an error rather than a guess:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lessons: &quot;</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;E:\Claude Knowledge\builds\00-04-greet.py&quot;, line 1, in &lt;module&gt;
+    print(&quot;Lessons: &quot; + 3)
+          ~~~~~~~~~~~~^~~
+TypeError: can only concatenate str (not &quot;int&quot;) to str
+</code></pre></div>
+
+<p><strong>Read a traceback from the bottom up.</strong> The last line is the actual problem —
+<code>TypeError: can only concatenate str (not "int") to str</code> — and just above it is the file
+and line number, with the offending code quoted and the <code>^</code> marks pointing at the part
+that failed. Everything else is context. That bottom line is usually enough to fix it;
+when it isn&rsquo;t, it&rsquo;s the exact phrase to paste into a search or into Claude.</p>
+<h3>f-strings: the way to build text</h3>
+<p>You could convert the number by hand with <code>str(3)</code>, but nobody does that in practice. Put
+an <code>f</code> in front of the opening quote and you can drop values straight into the text
+inside <code>{}</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+<span class="n">lessons_done</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> has finished </span><span class="si">{</span><span class="n">lessons_done</span><span class="si">}</span><span class="s2"> lessons.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Jack has finished 3 lessons.
+</code></pre></div>
+
+<p>An <strong>f-string</strong> (formatted string literal) evaluates whatever is inside each <code>{}</code> and
+converts the result to text for you. Anything can go in there, not just a bare name:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After this one: </span><span class="si">{</span><span class="n">lessons_done</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shouted: </span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>After this one: 4
+Shouted: JACK
+</code></pre></div>
+
+<p>Forget the <code>f</code> and you get exactly what you typed, braces included — a bug with no error
+message at all, which is why it&rsquo;s worth seeing once:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{name}</span><span class="s2"> has finished&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>{name} has finished
+</code></pre></div>
+
+<h3>Asking a question</h3>
+<p><code>input()</code> prints a prompt, waits for the person to type a line and press Enter, and hands
+back what they typed:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;What&#39;s your name? &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>What&#39;s your name? Jack
+Hello, Jack.
+</code></pre></div>
+
+<p><strong><code>input()</code> always returns a string</strong>, even when the person types digits. This is the
+single most common beginner surprise:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">age</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Age? &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Age? 30
+Traceback (most recent call last):
+  File &quot;E:\Claude Knowledge\builds\00-04-greet.py&quot;, line 2, in &lt;module&gt;
+    print(age + 1)
+          ~~~~^~~
+TypeError: can only concatenate str (not &quot;int&quot;) to str
+</code></pre></div>
+
+<p><code>"30"</code> is text that happens to look like a number. Convert it deliberately with <code>int()</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Age? &quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Age? 30
+31
+</code></pre></div>
+
+<p>And if they type <code>thirty</code>, <code>int()</code> refuses rather than guessing — <code>ValueError: invalid
+literal for int() with base 10: 'thirty'</code>. Handling that gracefully is lesson 01-06&rsquo;s
+job; for now, just learn to recognise the message.</p>
+<h3>Tidying what people type</h3>
+<p>People type stray spaces. <code>.strip()</code> removes whitespace from both ends of a string, and
+<code>.title()</code> capitalises each word:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;What&#39;s your name? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Typing <code>"  jack  "</code> now gives <code>Hello, Jack.</code> Methods chain left to right: strip first,
+then title-case whatever strip handed back.</p>
+<h2>Build it</h2>
+<p>A script that asks for your name and prints a formatted greeting, committed to git.</p>
+<p><strong>1. Branch first</strong> — you learned this last lesson, so use it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04</span>
+</code></pre></div>
+
+<p><strong>2. Write <code>builds/00-04-greet.py</code>.</strong> It must:</p>
+<ul>
+<li>ask for a name with <code>input()</code>, and clean it with <code>.strip()</code></li>
+<li>ask for one number — how many lessons you&rsquo;ve finished — and convert it with <code>int()</code></li>
+<li>print a greeting of at least two lines using <strong>f-strings</strong>, one of which does a small
+  calculation inside the braces (the lesson number you&rsquo;re on next, for instance)</li>
+<li>start with a one-line <code>#</code> comment saying what the file does</li>
+</ul>
+<p><code>#</code> starts a comment: Python ignores the rest of that line. Write it for yourself in
+three months.</p>
+<p><strong>3. Run it at least three times</strong> — a normal name, a name with spaces around it, and
+once typing a word instead of a number so you see the <code>ValueError</code> on purpose. Errors you
+caused deliberately are much cheaper to read than ones that ambush you.</p>
+<p><strong>4. Commit and merge:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add greeting script from lesson 00-04&quot;</span>
+<span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04</span>
+<span class="n">git</span> <span class="n">push</span>
+</code></pre></div>
+
+<p>Done when:</p>
+<ul>
+<li><code>python builds/00-04-greet.py</code> runs, asks two questions, and prints your greeting</li>
+<li>Leading and trailing spaces in the name don&rsquo;t appear in the output</li>
+<li>At least one <code>{}</code> in your file contains a calculation, not just a variable name</li>
+<li>Typing <code>abc</code> at the number prompt produces a <code>ValueError</code>, and you can say in your own
+  words which line caused it and why</li>
+<li><code>git log --oneline -3</code> shows your commit on <code>main</code></li>
+<li><code>git status</code> prints <code>nothing to commit, working tree clean</code></li>
+</ul>
+<p>Then log it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">04</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">45</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;first program I wrote myself&quot;</span>
+<span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<h2>Going deeper</h2>
+<ul>
+<li>Add a third question and print a number to two decimal places with <code>f"{value:.2f}"</code>.
+  The part after the <code>:</code> is a <strong>format specifier</strong>; skim
+  <a href="https://docs.python.org/3/tutorial/inputoutput.html">Input and output</a> for what else
+  can go there.</li>
+<li>Break your script on purpose, one way at a time, and note what each failure looks like:
+  delete a closing bracket, misspell a variable name, remove the <code>int()</code>. Aim to predict
+  <code>SyntaxError</code>, <code>NameError</code> and <code>TypeError</code> before you press Enter.</li>
+<li>Try <code>print(f"{name=}")</code> — the <code>=</code> inside the braces prints the variable&rsquo;s <em>name and its
+  value</em>. It&rsquo;s the fastest debugging tool in the language.</li>
+<li>Read <a href="https://docs.python.org/3/tutorial/errors.html">Errors and exceptions</a> as far as
+  the end of section 8.2, then use <code>type()</code> to check what <code>input()</code> actually returns.</li>
+<li>Work through chapter 1 of
+  <a href="https://automatetheboringstuff.com/3e/chapter1.html">Automate the Boring Stuff</a>, free
+  online. Same ground, different examples — which is how you find out whether it stuck.</li>
+<li>Look up why <code>print</code> needs parentheses. The answer involves Python 2, and it explains a
+  lot of the broken tutorial code you&rsquo;ll find online.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>Your script prints three lines, then hits an error. Someone says "so nothing ran." Are they right?</summary>
+<p>No. Output appeared, so the file parsed successfully and Python was already in the
+execution phase — those three lines really ran, and any effects they had are real. The
+error happened on a later line, and everything after it never ran.</p>
+<p>The reverse case is the informative one: an error with <em>no</em> output at all usually means a
+<code>SyntaxError</code>, where Python rejected the file before running a single line.</p>
+</details>
+<details>
+<summary>You write `total = input("How many? ") + 10` and get `TypeError: can only concatenate str (not "int") to str`. What's the fix, and why is Python being fussy rather than helpful?</summary>
+<p><code>total = int(input("How many? ")) + 10</code>. <code>input()</code> always hands back a string, so you
+asked Python to join <code>"5"</code> and <code>10</code>, which have no shared meaning for <code>+</code>.</p>
+<p>Python refuses to guess because the guess would sometimes be wrong: <code>"5" + 10</code> could
+reasonably mean <code>15</code> or <code>"510"</code>, and a program that quietly picks the wrong one is far
+worse than one that stops and tells you. Making the conversion explicit puts your intent
+in the code where you can see it.</p>
+</details>
+<details>
+<summary>`print("Hi {name}")` prints `Hi {name}` literally, and no error appears. What went wrong, and why is the absence of an error the interesting part?</summary>
+<p>The <code>f</code> is missing. Without it, the braces are just characters in a piece of text, so
+Python did precisely what you asked.</p>
+<p>It&rsquo;s interesting because it&rsquo;s a whole category of bug: the program is valid, it runs, and
+it&rsquo;s wrong. No traceback will ever point at it — the only thing that catches it is you
+looking at the output and noticing it isn&rsquo;t what you meant. Which is why the loop is &ldquo;run
+it and read what came back&rdquo;, not &ldquo;run it until the red text stops&rdquo;.</p>
+</details>
+<details>
+<summary>A traceback is six lines long. Which line do you read first, and what is the rest for?</summary>
+<p>The last one. It names the exception type and describes the problem in a sentence —
+<code>TypeError: can only concatenate...</code>, <code>NameError: name 'nmae' is not defined</code>. That&rsquo;s
+usually enough to know what to fix.</p>
+<p>The lines above give you <em>where</em>: file, line number, and the offending code. You read
+upward only when the bottom line alone isn&rsquo;t enough. The phrase &ldquo;most recent call last&rdquo;
+at the top is the hint — Python puts the important part at the bottom deliberately.</p>
+</details>
+<details>
+<summary>You put `print(greeting)` on line 2 and `greeting = "hi"` on line 5. Python is happy with the grammar of both lines. What happens when you run it?</summary>
+<p><code>NameError: name 'greeting' is not defined</code>, pointing at line 2.</p>
+<p>Parsing only checks that each line is well-formed Python, and <code>print(greeting)</code> is
+perfectly well-formed — so the file passes phase one with no complaint. Phase two runs in
+order, and when line 2 executes, nothing called <code>greeting</code> exists yet. Line 5 never gets
+a chance, because Python stops at the error.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/tutorial/introduction.html"><span class="t">Python tutorial — An informal introduction to Python</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/tutorial/inputoutput.html"><span class="t">Python tutorial — Input and output (f-strings)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/tutorial/errors.html"><span class="t">Python tutorial — Errors and exceptions</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/library/functions.html#input"><span class="t">Python docs — the input() built-in</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter1.html"><span class="t">Automate the Boring Stuff, chapter 1 — Python basics (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 00-04 --status complete \
+    --minutes 45 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="00-03-git-and-github-properly.html">&larr; 00-03 Git and GitHub, properly</a></span>
+    <span><a href="00-05-your-first-call-to-a-real-model.html">00-05 Your first call to a real model &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>3 of 100 lessons &middot; 4.4 hours logged</span>
+    <span>Rebuilt 18 Aug 2026, 21:23</span>
+  </footer>
+
+</div>
+</body>
+</html>
