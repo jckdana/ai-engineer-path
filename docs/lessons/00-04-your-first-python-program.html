@@ -36,6 +36,10 @@
       <span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         45 min core &middot; 100 min with extensions      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ca30c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>
+        Completed 2026-08-18
+      </span>
     </div>
   </div>
 
@@ -188,11 +192,18 @@ it&rsquo;s a string. Only the shell does that second thing; in a real script, no
 unless you print it.</p>
 <p>Type <code>exit()</code> and press Enter to get out.</p>
 <h3>A file you can run again</h3>
-<p>Create a folder and a file — this is the program you&rsquo;ll keep:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">mkdir</span> <span class="n">builds</span>
-<span class="n">code</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
+<p>Create the file — this is the program you&rsquo;ll keep. <code>builds/</code> already exists in this repo,
+so you only need one command:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">code</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
 </code></pre></div>
 
+<p><code>code</code> opens a file in VS Code, creating it if it isn&rsquo;t there yet. If your terminal says
+<code>code</code> isn&rsquo;t recognised, just make the file in VS Code&rsquo;s file explorer instead.</p>
+<p>A note on typing these, since it bites everyone once: <strong>each line in a code block here is
+its own command.</strong> Type it, press Enter, wait for the prompt to come back, then type the
+next one. Pressing Enter is how you run a command in a terminal — there&rsquo;s no separate
+&ldquo;submit&rdquo; step, and a newline can&rsquo;t be typed <em>into</em> a command. If you do want two commands
+on one line, the separator is a semicolon: <code>mkdir notes; code notes/scratch.md</code>.</p>
 <p>Type this in, and save with <code>Ctrl+S</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, world.&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file ran top to bottom.&quot;</span><span class="p">)</span>
@@ -465,8 +476,8 @@ python tools/site_build.py --open</div>
   </main>
 
   <footer class="sitefoot">
-    <span>3 of 100 lessons &middot; 4.4 hours logged</span>
-    <span>Rebuilt 18 Aug 2026, 21:23</span>
+    <span>4 of 100 lessons &middot; 5.4 hours logged</span>
+    <span>Rebuilt 19 Aug 2026, 16:51</span>
   </footer>
 
 </div>

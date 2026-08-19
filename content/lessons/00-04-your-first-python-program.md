@@ -181,12 +181,21 @@ Type `exit()` and press Enter to get out.
 
 ### A file you can run again
 
-Create a folder and a file — this is the program you'll keep:
+Create the file — this is the program you'll keep. `builds/` already exists in this repo,
+so you only need one command:
 
 ```powershell
-mkdir builds
 code builds/00-04-greet.py
 ```
+
+`code` opens a file in VS Code, creating it if it isn't there yet. If your terminal says
+`code` isn't recognised, just make the file in VS Code's file explorer instead.
+
+A note on typing these, since it bites everyone once: **each line in a code block here is
+its own command.** Type it, press Enter, wait for the prompt to come back, then type the
+next one. Pressing Enter is how you run a command in a terminal — there's no separate
+"submit" step, and a newline can't be typed *into* a command. If you do want two commands
+on one line, the separator is a semicolon: `mkdir notes; code notes/scratch.md`.
 
 Type this in, and save with `Ctrl+S`:
 

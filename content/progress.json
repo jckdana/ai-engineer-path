@@ -24,6 +24,14 @@
       "minutes": 80,
       "artifact": "./notes/00-03-git-notes.md",
       "note": "branched and merged for the first time"
+    },
+    {
+      "date": "2026-08-18",
+      "lesson_id": "00-04",
+      "status": "complete",
+      "minutes": 60,
+      "artifact": "./builds/00-04-greet.py",
+      "note": "first program I wrote myself"
     }
   ]
 }
