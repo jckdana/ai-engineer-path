@@ -4,9 +4,8 @@ Progress is an append-only list of session records. Every derived number
 (streak, percent complete, portfolio) is recomputed from that list at build
 time, so nothing here can drift out of sync.
 
-Usage:
-    python tools/progress_log.py --lesson-id 03-02 --status complete --minutes 55 \\
-        --artifact ./builds/tool_use_demo.py --note "tool_choice was the missing piece"
+Usage (PowerShell — one line each; `\` is bash and will not continue a line here):
+    python tools/progress_log.py --lesson-id 03-02 --status complete --minutes 55 --artifact ./builds/tool_use_demo.py --note "tool_choice was the missing piece"
     python tools/progress_log.py --lesson-id 03-02 --status started --minutes 20
     python tools/progress_log.py --lesson-id 03-02 --status complete --minutes 50 --date 2026-08-14
 """
