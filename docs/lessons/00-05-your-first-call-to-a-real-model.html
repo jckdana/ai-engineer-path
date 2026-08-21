@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your first call to a real model &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">00 &nbsp;Getting set up</a> &nbsp;&middot;&nbsp; Lesson 00-05</p>
+    <h1>Your first call to a real model</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        50 min core &middot; 120 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A script that sends a question to Claude and prints the answer, with the API key loaded from .env and never committed.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Everything you&rsquo;ve done so far has run entirely on your own machine. This lesson is
+the first time your code reaches out and talks to something else — a model running
+in a data centre you don&rsquo;t own, over the internet, using a key that proves you&rsquo;re
+allowed to.</p>
+<p>That&rsquo;s the shape of nearly all AI engineering. You will not train models. You will
+send carefully assembled text to someone else&rsquo;s model and do something useful with
+what comes back. Everything later in this path — prompts, tools, RAG, agents,
+evals — is a variation on the twenty lines you&rsquo;re about to write.</p>
+<p>By the end you&rsquo;ll have an API key, know why it lives in a file git refuses to
+commit, and have a script that asks Claude a question and prints the answer. You&rsquo;ll
+also know what the response actually <em>is</em> — not a string, but an object with
+several parts, one of which happens to be text.</p>
+<h2>The mental model</h2>
+<p>Two separate things travel from your machine to Anthropic&rsquo;s servers, and keeping
+them separate in your head prevents most of the confusion beginners hit.</p>
+<p>The first is your <strong>message</strong> — the question, written in your code, safe to show
+anyone. The second is your <strong>API key</strong> — a long secret string that identifies your
+account and gets billed for the call. The key is <em>never</em> written in your code. It
+sits in a file called <code>.env</code>, gets loaded into your program&rsquo;s environment when it
+starts, and the SDK picks it up from there and attaches it as an HTTP header.
+Your source file stays publishable; the secret stays out of git.</p>
+<figure class="figure">
+<svg viewBox="0 0 760 400" role="img" aria-label="One API call has two inputs that travel by different routes. Your script holds the message: the model name, a max_tokens limit, and a list of messages. That goes out as an HTTPS POST request to api.anthropic.com. The API key travels separately: it sits in a gitignored .env file, load_dotenv reads it into the running program's environment, and the SDK attaches it to the same request as an x-api-key header, so the key is never written in your source file. The server replies with JSON, which the SDK turns into a Message object holding a list of content blocks, a usage token count, and a stop_reason.">
+  <defs>
+    <marker id="m5-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="m5-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+
+    <rect x="14" y="104" width="196" height="104" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="112" y="128" text-anchor="middle" font-weight="600">your script</text>
+    <text x="30" y="150" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">model="claude-opus-5"</text>
+    <text x="30" y="166" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">max_tokens=200</text>
+    <text x="30" y="182" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">messages=[{role, content}]</text>
+    <text x="30" y="198" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">— no key anywhere —</text>
+
+
+    <rect x="550" y="104" width="196" height="104" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="648" y="140" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="600">api.anthropic.com</text>
+    <text x="648" y="164" text-anchor="middle" font-size="10.5" opacity="0.65">checks the key,</text>
+    <text x="648" y="180" text-anchor="middle" font-size="10.5" opacity="0.65">runs the model,</text>
+    <text x="648" y="196" text-anchor="middle" font-size="10.5" opacity="0.65">bills your account</text>
+
+
+    <line x1="214" y1="132" x2="544" y2="132" stroke="currentColor" stroke-width="1.5" marker-end="url(#m5-ar)"/>
+    <text x="379" y="112" text-anchor="middle" font-size="11.5" font-weight="600">POST /v1/messages</text>
+    <text x="379" y="126" text-anchor="middle" font-size="10.5" opacity="0.65">your question, as JSON</text>
+
+
+    <line x1="544" y1="186" x2="214" y2="186" stroke="currentColor" stroke-width="1.5" marker-end="url(#m5-ar)"/>
+    <text x="379" y="204" text-anchor="middle" font-size="11.5" font-weight="600">JSON response</text>
+
+
+    <rect x="14" y="288" width="196" height="82" rx="9" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8" stroke-dasharray="5 3"/>
+    <text x="112" y="312" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="600" fill="var(--accent)">.env</text>
+    <text x="112" y="332" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5" fill="var(--accent)">ANTHROPIC_API_KEY=sk-ant-…</text>
+    <text x="112" y="352" text-anchor="middle" font-size="10" fill="var(--accent)">listed in .gitignore —</text>
+    <text x="112" y="365" text-anchor="middle" font-size="10" fill="var(--accent)">git will not commit it</text>
+
+
+    <path d="M210 322 L300 322 L300 258 L379 258 L379 146" fill="none" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#m5-ar-a)"/>
+    <text x="228" y="312" font-size="10.5" fill="var(--accent)">load_dotenv() → os.environ</text>
+    <text x="392" y="252" font-size="10.5" fill="var(--accent)">SDK adds header</text>
+    <text x="392" y="266" font-family="ui-monospace, monospace" font-size="10" fill="var(--accent)">x-api-key: sk-ant-…</text>
+
+
+    <rect x="286" y="300" width="290" height="84" rx="9" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.45"/>
+    <text x="431" y="322" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" font-weight="600">Message object</text>
+    <text x="302" y="342" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">.content  → a list of blocks, not a string</text>
+    <text x="302" y="358" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">.usage    → tokens in / tokens out</text>
+    <text x="302" y="374" font-family="ui-monospace, monospace" font-size="10" opacity="0.65">.stop_reason → why it stopped</text>
+    <path d="M300 196 L300 220 L431 220 L431 294" fill="none" stroke="currentColor" stroke-width="1.3" stroke-dasharray="4 3" opacity="0.55" marker-end="url(#m5-ar)"/>
+    <text x="444" y="216" font-size="10.5" opacity="0.65">the SDK parses it for you</text>
+
+  </g>
+</svg>
+<figcaption>One call, two routes. The message is written in your code; the key never is —
+it travels from <code>.env</code> through your program's environment into an HTTP header the SDK
+adds for you. That's what makes the script safe to commit.</figcaption>
+</figure>
+
+<p>Three terms, plainly:</p>
+<ul>
+<li>An <strong>API</strong> (application programming interface) is a way for one program to ask
+  another program to do something. Here it&rsquo;s a web address you send text to.</li>
+<li>An <strong>API key</strong> is a password for a program rather than a person. Anyone holding
+  it can spend your money, which is why it never goes in a file git tracks.</li>
+<li>An <strong>SDK</strong> (software development kit) is a library that hides the tedious parts —
+  building the HTTP request, setting headers, retrying, parsing JSON. You&rsquo;ll install
+  Anthropic&rsquo;s Python SDK, called <code>anthropic</code>.</li>
+</ul>
+<h2>In practice</h2>
+<h3>Get a key</h3>
+<p>Go to <a href="https://platform.claude.com">platform.claude.com</a>, make an account, then
+open <strong>Settings → API keys</strong> and create one. Copy it immediately — the full value
+is shown once and never again. It looks like <code>sk-ant-api03-</code> followed by a long
+string.</p>
+<p>You&rsquo;ll also need a few dollars of credit under <strong>Settings → Billing</strong>. To calibrate:
+Claude Opus 5 costs <strong>$5 per million input tokens and $25 per million output tokens</strong>.
+A token is roughly ¾ of a word. The script in this lesson sends maybe 20 tokens and
+gets back a couple hundred — call it half a cent per run. You would have to run it
+several thousand times to spend a pound. Cost stops being trivial when you start
+sending whole documents, which is lesson 02-05&rsquo;s subject.</p>
+<h3>Put the key where git can&rsquo;t reach it</h3>
+<p>This repo already has a <code>.env</code> file with the line waiting for you:</p>
+<div class="codehilite"><pre><span></span><code>ANTHROPIC_API_KEY=
+</code></pre></div>
+
+<p>Open it, paste your key after the <code>=</code> with no quotes and no spaces, and save:</p>
+<div class="codehilite"><pre><span></span><code>ANTHROPIC_API_KEY=sk-ant-api03-your-actual-key-here
+</code></pre></div>
+
+<p>Before going further, prove to yourself that git will ignore it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">check-ignore</span> <span class="n">-v</span> <span class="p">.</span><span class="n">env</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>.gitignore:2:.env       .env
+</code></pre></div>
+
+<p>That output means &ldquo;line 2 of <code>.gitignore</code> is why <code>.env</code> is excluded&rdquo;. If the
+command prints <em>nothing</em>, git is not ignoring the file and your next commit would
+publish your key — stop and fix <code>.gitignore</code> first.</p>
+<p>There&rsquo;s also a <code>.env.example</code> in the repo, which <em>is</em> committed. It lists the
+variable names with empty values, so someone cloning your repo knows what to fill
+in without ever seeing your secrets. That pair — a real <code>.env</code> that&rsquo;s ignored, an
+example that isn&rsquo;t — is the standard arrangement across the industry.</p>
+<h3>Install the SDK</h3>
+<p>Make sure your virtual environment is active — your prompt should start with
+<code>(.venv)</code>. If it doesn&rsquo;t:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+
+<p>Then install both libraries:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">pip</span> <span class="n">install</span> <span class="n">anthropic</span> <span class="n">python-dotenv</span>
+</code></pre></div>
+
+<p><code>anthropic</code> is Anthropic&rsquo;s official Python SDK (it needs Python 3.10 or newer;
+you have 3.14). <code>python-dotenv</code> is the small library that reads <code>.env</code> files.</p>
+<p>Record what you installed, so the next person — including future you on a new
+machine — can reproduce it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">pip</span> <span class="n">freeze</span> <span class="p">&gt;</span> <span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div>
+
+<h3>The call itself</h3>
+<p>Create the file:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">code</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<p>Type this in. It&rsquo;s short, and every line earns its place:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Asks Claude a question and prints the answer.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">anthropic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
+
+<span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-5&quot;</span><span class="p">,</span>
+    <span class="n">max_tokens</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;In one sentence, what is an API key for?&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+
+<span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Line by line:</p>
+<ul>
+<li><code>load_dotenv()</code> reads <code>.env</code> and copies each <code>NAME=value</code> pair into
+  <code>os.environ</code> — the set of variables your running program can see. It changes
+  nothing on disk and nothing outside this process.</li>
+<li><code>anthropic.Anthropic()</code> builds the client. You passed it no key: it looks for
+  <code>ANTHROPIC_API_KEY</code> in the environment itself, which <code>load_dotenv()</code> just put
+  there. This is why the order of those two lines matters.</li>
+<li><code>messages</code> is a <strong>list of dictionaries</strong>. Each has a <code>role</code> and <code>content</code>. For
+  now there&rsquo;s one, with the role <code>"user"</code> — you. Lesson 02-01 is entirely about
+  this list.</li>
+<li><code>max_tokens</code> is a hard ceiling on the <em>reply</em> length. It is required. Set it too
+  low and the answer gets cut off mid-sentence.</li>
+</ul>
+<p>Run it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>An API key is a unique credential that identifies and authenticates your
+application when it makes requests to a service, so the provider knows who is
+calling and what they&#39;re allowed to do.
+</code></pre></div>
+
+<p>Your wording will be different from mine, and different again if you run it twice.
+That&rsquo;s not a bug — a model is not a lookup table, and lesson 03-02 explains why.
+Either way: you just paid a fraction of a penny for that. Congratulations.</p>
+<h3>Why the loop, instead of <code>message.content[0].text</code></h3>
+<p>You&rsquo;ll see <code>message.content[0].text</code> in a lot of tutorials, and it works right up
+until it doesn&rsquo;t. <code>content</code> is a <strong>list of content blocks</strong>, and a block is not
+always text — a response can also carry a thinking block, or later in this path,
+a request to use a tool. Indexing at <code>[0]</code> assumes the first block is text and
+crashes with an <code>AttributeError</code> when it isn&rsquo;t.</p>
+<p>The loop with <code>if block.type == "text"</code> costs you two extra lines and never
+breaks. Get in the habit now, while the habit is cheap.</p>
+<h3>Look at the whole response</h3>
+<p>Add this to the bottom of your file to see what else came back:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;stop_reason:&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">stop_reason</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input tokens:&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">input_tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;output tokens:&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">output_tokens</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>stop_reason: end_turn
+input tokens: 18
+output tokens: 41
+</code></pre></div>
+
+<p><code>stop_reason: end_turn</code> means Claude finished on its own. The value you need to
+recognise is <code>max_tokens</code> — that means your ceiling cut it off, and the reply you
+got is <em>incomplete</em>. No error is raised. Nothing turns red. You just get a
+truncated answer, and the only way to know is to check this field. Try it: set
+<code>max_tokens=10</code>, run again, and watch the sentence stop mid-word.</p>
+<p>The <code>usage</code> numbers are what you&rsquo;re billed on. Multiply them by the per-million
+rates above and you have the exact cost of the call.</p>
+<h3>Two failures worth causing on purpose</h3>
+<p><strong>Forget <code>load_dotenv()</code></strong> — comment the line out and run:</p>
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;E:\Claude Knowledge\builds\00-05-ask.py&quot;, line 9, in &lt;module&gt;
+    message = client.messages.create(
+    ...
+TypeError: &quot;Could not resolve authentication method. Expected one of api_key,
+auth_token, or credentials to be set. ...&quot;
+</code></pre></div>
+
+<p>Read the bottom line: the SDK looked for a key and found nothing. Note that this
+happens <em>before</em> any network request — the SDK refuses to send an unauthenticated
+call. The same error appears if <code>.env</code> exists but the key is blank, or if you run
+the script from a different folder where <code>load_dotenv()</code> finds no <code>.env</code> at all.</p>
+<p><strong>Use a wrong key</strong> — change one character in <code>.env</code> and run again. This time the
+request does go out, and the server rejects it with HTTP <strong>401</strong>, which the SDK
+raises as <code>anthropic.AuthenticationError</code>. Two different failures, two different
+causes: <code>TypeError</code> means <em>no key was found locally</em>; <code>401</code> means <em>a key was sent
+and Anthropic didn&rsquo;t accept it</em>. Telling them apart saves you twenty minutes the
+first time it happens for real.</p>
+<p>Put your key back afterwards.</p>
+<h2>Build it</h2>
+<p>A script that sends a question to Claude and prints the answer, with the key
+loaded from <code>.env</code> and never committed.</p>
+<p><strong>1. Branch first:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05</span>
+</code></pre></div>
+
+<p><strong>2. Write <code>builds/00-05-ask.py</code>.</strong> It must:</p>
+<ul>
+<li>load the key with <code>load_dotenv()</code> and create the client with no arguments</li>
+<li>ask a question you actually want the answer to — pick your own, not the one above</li>
+<li>use <code>input()</code> so the question is typed when the script runs, rather than
+  hard-coded (you learned this last lesson)</li>
+<li>print the reply by looping over <code>message.content</code> and checking <code>block.type</code></li>
+<li>print <code>stop_reason</code> and both token counts on their own lines afterwards</li>
+<li>start with a <code>#</code> comment saying what the file does</li>
+</ul>
+<p><strong>3. Prove the key is safe.</strong> Run <code>git status</code>. <code>.env</code> must not appear in it —
+not as modified, not as untracked. If it does, do not commit; fix <code>.gitignore</code>
+first.</p>
+<p><strong>4. Run it three times:</strong> once normally, once with <code>max_tokens=10</code> to see
+<code>stop_reason: max_tokens</code>, and once with <code>load_dotenv()</code> commented out to see the
+<code>TypeError</code>. Restore the working version before committing.</p>
+<p><strong>5. Commit and merge:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span> <span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add first API call script from lesson 00-05&quot;</span>
+<span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05</span>
+<span class="n">git</span> <span class="n">push</span>
+</code></pre></div>
+
+<p>Done when:</p>
+<ul>
+<li><code>python builds/00-05-ask.py</code> asks you for a question and prints Claude&rsquo;s answer</li>
+<li>The word <code>sk-ant</code> appears nowhere in any file git is tracking — check with
+  <code>git grep "sk-ant"</code>, which should print nothing</li>
+<li><code>git status</code> shows <code>nothing to commit, working tree clean</code>, with <code>.env</code> absent</li>
+<li>You can say what <code>stop_reason: max_tokens</code> means and why it isn&rsquo;t an error</li>
+<li>You&rsquo;ve seen the <code>TypeError</code> from a missing key and can explain how it differs
+  from a 401</li>
+</ul>
+<p>Then log it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">05</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;first call to a real model&quot;</span>
+<span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<p>That&rsquo;s module 00 finished. You have an environment, version control, a program you
+wrote, and a working line to a frontier model. Module 01 goes back to Python
+properly, because the next thing standing between you and useful software is
+loops, dictionaries and functions — not the API.</p>
+<h2>Going deeper</h2>
+<ul>
+<li>Add a <code>system</code> prompt: pass <code>system="Answer in exactly two sentences."</code> alongside
+  <code>messages</code>. Same question, different behaviour. That&rsquo;s lesson 02-02&rsquo;s whole
+  subject, previewed in one line.</li>
+<li>Print the raw response with <code>print(message.to_dict())</code> and compare it to the JSON
+  in <a href="https://platform.claude.com/docs/en/build-with-claude/working-with-messages">Using the Messages API</a>.
+  Every attribute you&rsquo;ve used is a key in that dictionary.</li>
+<li>Make the script report its own cost: multiply <code>usage.input_tokens</code> by 5/1,000,000
+  and <code>usage.output_tokens</code> by 25/1,000,000, and print the total to six decimal
+  places with <code>f"{cost:.6f}"</code>.</li>
+<li>Read the <a href="https://platform.claude.com/docs/en/api/errors">errors page</a> and note
+  which codes mean <em>your fault</em> (400, 401, 403) and which mean <em>try again</em> (429,
+  500, 529). The SDK already retries the second group for you, twice, automatically.</li>
+<li>Swap <code>model="claude-opus-5"</code> for <code>model="claude-haiku-4-5"</code> — a smaller, faster,
+  cheaper model at $1/$5 per million tokens. Ask both the same hard question and
+  the same easy one. Where does the difference show up, and where doesn&rsquo;t it?
+  Choosing between them for real is lesson 13-03.</li>
+<li>Look up what an environment variable actually is at the operating-system level.
+  It explains why <code>.env</code> files exist at all, and why every cloud host configures
+  secrets this way.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>Your script runs fine on your machine. You push it to a public GitHub repo and a stranger clones it. What breaks for them, and why is that the correct behaviour?</summary>
+<p>Their run fails with the <code>TypeError</code> about not resolving an authentication method,
+because <code>.env</code> was never committed — they cloned your code but not your key.</p>
+<p>That&rsquo;s exactly right. The key identifies <em>your</em> account and bills <em>your</em> card. Code
+is meant to be shareable; credentials are not. What they should do is copy
+<code>.env.example</code> to <code>.env</code> and fill in their own key, which is why that example file
+is committed and the real one isn&rsquo;t.</p>
+</details>
+<details>
+<summary>You get back a confident, complete-sounding answer, but `stop_reason` says `max_tokens`. Is anything wrong?</summary>
+<p>Yes. <code>max_tokens</code> means Claude was still generating when your ceiling stopped it,
+so the reply is cut short — even if it happens to end at a plausible point.</p>
+<p>This is a bug with no traceback, the same category as the missing <code>f</code> on an
+f-string in the last lesson. The program ran, nothing went red, and the output is
+wrong. Checking <code>stop_reason</code> is how you catch it, and it&rsquo;s why every serious
+script that calls a model checks it rather than assuming.</p>
+</details>
+<details>
+<summary>Why does `anthropic.Anthropic()` work when you passed it no API key at all?</summary>
+<p>Because the client looks for one in the environment — specifically for a variable
+named <code>ANTHROPIC_API_KEY</code> — and <code>load_dotenv()</code> put it there a line earlier by
+reading <code>.env</code>.</p>
+<p>Nothing magic is happening: <code>.env</code> is a plain text file, <code>load_dotenv()</code> copies its
+contents into <code>os.environ</code> for this process only, and the SDK reads from
+<code>os.environ</code>. Swap the two lines around and it fails, because the client would look
+before anything had been loaded.</p>
+</details>
+<details>
+<summary>A tutorial you find online uses `print(message.content[0].text)`. Why does that work in the tutorial and why shouldn't you copy it?</summary>
+<p>It works whenever the first block in the list happens to be a text block, which is
+most of the time for a plain question.</p>
+<p>It&rsquo;s fragile because <code>content</code> is a <em>list of blocks</em> and the block types vary — a
+response can include thinking blocks, and later in this path, tool-use blocks.
+The moment one of those lands first, <code>[0].text</code> raises an <code>AttributeError</code> in code
+you wrote weeks earlier and haven&rsquo;t thought about since. Looping and checking
+<code>block.type</code> never has that failure mode.</p>
+</details>
+<details>
+<summary>You changed one character of your key and now get `anthropic.AuthenticationError` instead of the `TypeError` you saw earlier. What does that swap tell you about where each failure happened?</summary>
+<p>The <code>TypeError</code> was raised on your own machine, before anything was sent — the SDK
+found no key and refused to build a request. No network, no cost.</p>
+<p>The <code>AuthenticationError</code> means a request <em>did</em> travel to <code>api.anthropic.com</code>, and
+the server replied with HTTP 401 because the key it received isn&rsquo;t valid. The
+failure moved from your side of the wire to theirs. That distinction — local
+validation versus a server response — is worth carrying into every API you ever
+use, because it tells you which half of the system to go and look at.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://platform.claude.com/docs/en/get-started"><span class="t">Claude docs — Get started (make your first API call)</span><span class="d">platform.claude.com</span></a></li>
+      <li><a href="https://platform.claude.com/docs/en/build-with-claude/working-with-messages"><span class="t">Claude docs — Using the Messages API</span><span class="d">platform.claude.com</span></a></li>
+      <li><a href="https://platform.claude.com/docs/en/api/errors"><span class="t">Claude docs — Errors (what each status code means)</span><span class="d">platform.claude.com</span></a></li>
+      <li><a href="https://platform.claude.com/docs/en/about-claude/pricing"><span class="t">Claude docs — Pricing (per-million-token rates)</span><span class="d">platform.claude.com</span></a></li>
+      <li><a href="https://pypi.org/project/python-dotenv/"><span class="t">python-dotenv on PyPI — load_dotenv and .env files</span><span class="d">pypi.org</span></a></li>
+      <li><a href="https://github.com/anthropics/anthropic-sdk-python"><span class="t">anthropic-sdk-python on GitHub — the SDK you&#39;re installing</span><span class="d">github.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 00-05 --status complete \
+    --minutes 50 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="00-04-your-first-python-program.html">&larr; 00-04 Your first Python program</a></span>
+    <span><a href="01-01-variables-types-and-strings.html">01-01 Variables, types, and strings &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>4 of 100 lessons &middot; 5.4 hours logged</span>
+    <span>Rebuilt 20 Aug 2026, 20:13</span>
+  </footer>
+
+</div>
+</body>
+</html>

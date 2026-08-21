@@ -107,3 +107,12 @@ Append here as you discover constraints, quirks, or better methods. Date each en
   exactly the shape that's easy to half-remember. Step 6 now requires a successful WebFetch of
   every URL before it's written. Also worth preferring: free full-text sources (PMC, official docs)
   over paywalled abstracts — a beginner who hits a paywall just stops reading.
+- 2026-08-20 — Lesson 00-05 needed real API output to show. Installed `anthropic` into
+  `.venv` and tried a probe call; `ANTHROPIC_API_KEY` in `.env` is present but **empty**
+  (`len == 0`), so the SDK raised `TypeError: "Could not resolve authentication method..."`
+  *before* any network request. Two takeaways: (a) that TypeError is the real, verified
+  failure for a missing/blank key — a 401 `AuthenticationError` is a different failure that
+  only happens once a key is actually sent, and the lesson now teaches the distinction;
+  (b) when a live call isn't possible, model output shown in a lesson must be labelled as
+  illustrative — it's nondeterministic anyway, so say so rather than implying a fixed answer.
+  Uninstalled `anthropic` afterwards so the lesson's `pip install` step is a genuine install.
