@@ -32,6 +32,14 @@
       "minutes": 60,
       "artifact": "./builds/00-04-greet.py",
       "note": "first program I wrote myself"
+    },
+    {
+      "date": "2026-08-23",
+      "lesson_id": "00-05",
+      "status": "complete",
+      "minutes": 90,
+      "artifact": "./builds/00-05-ask.py",
+      "note": "input() needs its own statement; PowerShell doesn't take bash env syntax"
     }
   ]
 }
