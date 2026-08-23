@@ -1,4 +1,5 @@
-#claude-opus-5 asking a question
+# Asks Claude a question typed at the prompt and prints the reply with token counts.
+
 import anthropic
 from dotenv import load_dotenv
 
