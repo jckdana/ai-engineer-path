@@ -134,6 +134,20 @@ open **Settings → API keys** and create one. Copy it immediately — the full 
 is shown once and never again. It looks like `sk-ant-api03-` followed by a long
 string.
 
+The create dialog asks for three things. **Workspace** can stay `Default`.
+**Name** should be something you'll recognise in six months — `ai-engineer-path`,
+not `key1` — because the whole point of naming is knowing which key to revoke
+without revoking the others. **Expires** offers everything from 3 hours to Never;
+choose **30 days**.
+
+Thirty days is a backstop for the mistake you haven't made yet. Right now you're
+still building the habits that keep a key out of screenshots, chat messages, and
+commits — an expiry date means any key that escapes stops working on its own.
+`Never` is the right answer for a deployed service where an expiry means a 3am
+outage, and that is not what you're doing. When the key does lapse, your script
+starts failing with a `401` even though nothing in your code changed; make a new
+key, paste it into `.env`, and you're going again in under a minute.
+
 You'll also need a few dollars of credit under **Settings → Billing**. To calibrate:
 Claude Opus 5 costs **$5 per million input tokens and $25 per million output tokens**.
 A token is roughly ¾ of a word. The script in this lesson sends maybe 20 tokens and
@@ -143,17 +157,48 @@ sending whole documents, which is lesson 02-05's subject.
 
 ### Put the key where git can't reach it
 
-This repo already has a `.env` file with the line waiting for you:
+This repo already has a `.env` file. Open it in your editor:
+
+```powershell
+code .env
+```
+
+**Everything in this section happens inside that file, not at the terminal
+prompt.** The two blocks below are file *contents* — lines you edit and save, not
+commands you run. Typing `ANTHROPIC_API_KEY=sk-ant-...` at a PowerShell prompt
+gets you `CommandNotFoundException`, because PowerShell reads it as a request to
+run a program by that very long name. (In bash that syntax *would* set a
+variable, which is why the mistake is an easy one to make.)
+
+The file may already hold other projects' keys. Find the line beginning
+`ANTHROPIC_API_KEY=` — it's waiting empty:
 
 ```text
 ANTHROPIC_API_KEY=
 ```
 
-Open it, paste your key after the `=` with no quotes and no spaces, and save:
+Put your key immediately after that `=`, with no quotes and no spaces, and save:
 
 ```text
 ANTHROPIC_API_KEY=sk-ant-api03-your-actual-key-here
 ```
+
+If VS Code offers to enable `python.terminal.useEnvFile`, decline it. That
+setting injects `.env` into every terminal you open, which would mean your key is
+loaded whether a program asked for it or not — and it would quietly break the
+experiment at the end of this lesson, where you *want* the missing key to cause a
+visible error.
+
+Now confirm the key loaded, without ever putting it on screen:
+
+```powershell
+python -c "from dotenv import load_dotenv; import os; load_dotenv(); k=os.getenv('ANTHROPIC_API_KEY'); print('loaded, length', len(k)) if k else print('NOT FOUND')"
+```
+
+You want `loaded, length 108` or thereabouts. `NOT FOUND` means the file didn't
+save, or the variable name is misspelled. Checking a secret's *length* rather
+than echoing its value is a habit worth keeping for good: the instant a key
+appears on screen it exists in scrollback, screen recordings, and screenshots.
 
 Before going further, prove to yourself that git will ignore it:
 
@@ -173,6 +218,15 @@ There's also a `.env.example` in the repo, which *is* committed. It lists the
 variable names with empty values, so someone cloning your repo knows what to fill
 in without ever seeing your secrets. That pair — a real `.env` that's ignored, an
 example that isn't — is the standard arrangement across the industry.
+
+**If a key ever does get out** — pasted into a chat, caught in a screenshot,
+committed by accident — revoke it. Console → Settings → API keys → delete the
+one that leaked, then create a replacement and update `.env`. Revocation is
+instant and total: anything still using the old key starts getting `401`. This is
+not a big deal *if you do it promptly*, and expensive if you don't; keys scraped
+out of public repositories get used within minutes, billed to your card. Treat
+"I think that key was visible somewhere" as sufficient reason to replace it. You
+never need to be certain, because replacing a key costs you thirty seconds.
 
 ### Install the SDK
 

@@ -152,6 +152,18 @@ adds for you. That's what makes the script safe to commit.</figcaption>
 open <strong>Settings → API keys</strong> and create one. Copy it immediately — the full value
 is shown once and never again. It looks like <code>sk-ant-api03-</code> followed by a long
 string.</p>
+<p>The create dialog asks for three things. <strong>Workspace</strong> can stay <code>Default</code>.
+<strong>Name</strong> should be something you&rsquo;ll recognise in six months — <code>ai-engineer-path</code>,
+not <code>key1</code> — because the whole point of naming is knowing which key to revoke
+without revoking the others. <strong>Expires</strong> offers everything from 3 hours to Never;
+choose <strong>30 days</strong>.</p>
+<p>Thirty days is a backstop for the mistake you haven&rsquo;t made yet. Right now you&rsquo;re
+still building the habits that keep a key out of screenshots, chat messages, and
+commits — an expiry date means any key that escapes stops working on its own.
+<code>Never</code> is the right answer for a deployed service where an expiry means a 3am
+outage, and that is not what you&rsquo;re doing. When the key does lapse, your script
+starts failing with a <code>401</code> even though nothing in your code changed; make a new
+key, paste it into <code>.env</code>, and you&rsquo;re going again in under a minute.</p>
 <p>You&rsquo;ll also need a few dollars of credit under <strong>Settings → Billing</strong>. To calibrate:
 Claude Opus 5 costs <strong>$5 per million input tokens and $25 per million output tokens</strong>.
 A token is roughly ¾ of a word. The script in this lesson sends maybe 20 tokens and
@@ -159,14 +171,38 @@ gets back a couple hundred — call it half a cent per run. You would have to ru
 several thousand times to spend a pound. Cost stops being trivial when you start
 sending whole documents, which is lesson 02-05&rsquo;s subject.</p>
 <h3>Put the key where git can&rsquo;t reach it</h3>
-<p>This repo already has a <code>.env</code> file with the line waiting for you:</p>
+<p>This repo already has a <code>.env</code> file. Open it in your editor:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">code</span> <span class="p">.</span><span class="n">env</span>
+</code></pre></div>
+
+<p><strong>Everything in this section happens inside that file, not at the terminal
+prompt.</strong> The two blocks below are file <em>contents</em> — lines you edit and save, not
+commands you run. Typing <code>ANTHROPIC_API_KEY=sk-ant-...</code> at a PowerShell prompt
+gets you <code>CommandNotFoundException</code>, because PowerShell reads it as a request to
+run a program by that very long name. (In bash that syntax <em>would</em> set a
+variable, which is why the mistake is an easy one to make.)</p>
+<p>The file may already hold other projects&rsquo; keys. Find the line beginning
+<code>ANTHROPIC_API_KEY=</code> — it&rsquo;s waiting empty:</p>
 <div class="codehilite"><pre><span></span><code>ANTHROPIC_API_KEY=
 </code></pre></div>
 
-<p>Open it, paste your key after the <code>=</code> with no quotes and no spaces, and save:</p>
+<p>Put your key immediately after that <code>=</code>, with no quotes and no spaces, and save:</p>
 <div class="codehilite"><pre><span></span><code>ANTHROPIC_API_KEY=sk-ant-api03-your-actual-key-here
 </code></pre></div>
 
+<p>If VS Code offers to enable <code>python.terminal.useEnvFile</code>, decline it. That
+setting injects <code>.env</code> into every terminal you open, which would mean your key is
+loaded whether a program asked for it or not — and it would quietly break the
+experiment at the end of this lesson, where you <em>want</em> the missing key to cause a
+visible error.</p>
+<p>Now confirm the key loaded, without ever putting it on screen:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;from dotenv import load_dotenv; import os; load_dotenv(); k=os.getenv(&#39;ANTHROPIC_API_KEY&#39;); print(&#39;loaded, length&#39;, len(k)) if k else print(&#39;NOT FOUND&#39;)&quot;</span>
+</code></pre></div>
+
+<p>You want <code>loaded, length 108</code> or thereabouts. <code>NOT FOUND</code> means the file didn&rsquo;t
+save, or the variable name is misspelled. Checking a secret&rsquo;s <em>length</em> rather
+than echoing its value is a habit worth keeping for good: the instant a key
+appears on screen it exists in scrollback, screen recordings, and screenshots.</p>
 <p>Before going further, prove to yourself that git will ignore it:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">check-ignore</span> <span class="n">-v</span> <span class="p">.</span><span class="n">env</span>
 </code></pre></div>
@@ -181,6 +217,14 @@ publish your key — stop and fix <code>.gitignore</code> first.</p>
 variable names with empty values, so someone cloning your repo knows what to fill
 in without ever seeing your secrets. That pair — a real <code>.env</code> that&rsquo;s ignored, an
 example that isn&rsquo;t — is the standard arrangement across the industry.</p>
+<p><strong>If a key ever does get out</strong> — pasted into a chat, caught in a screenshot,
+committed by accident — revoke it. Console → Settings → API keys → delete the
+one that leaked, then create a replacement and update <code>.env</code>. Revocation is
+instant and total: anything still using the old key starts getting <code>401</code>. This is
+not a big deal <em>if you do it promptly</em>, and expensive if you don&rsquo;t; keys scraped
+out of public repositories get used within minutes, billed to your card. Treat
+&ldquo;I think that key was visible somewhere&rdquo; as sufficient reason to replace it. You
+never need to be certain, because replacing a key costs you thirty seconds.</p>
 <h3>Install the SDK</h3>
 <p>Make sure your virtual environment is active — your prompt should start with
 <code>(.venv)</code>. If it doesn&rsquo;t:</p>
@@ -455,7 +499,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>4 of 100 lessons &middot; 5.4 hours logged</span>
-    <span>Rebuilt 20 Aug 2026, 20:13</span>
+    <span>Rebuilt 23 Aug 2026, 15:56</span>
   </footer>
 
 </div>
