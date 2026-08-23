@@ -1,3 +1,4 @@
+#claude-opus-5 asking a question
 import anthropic
 from dotenv import load_dotenv
 
