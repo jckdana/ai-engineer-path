@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Variables, types, and strings &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">01 &nbsp;Python that AI work actually needs</a> &nbsp;&middot;&nbsp; Lesson 01-01</p>
+    <h1>Variables, types, and strings</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        50 min core &middot; 110 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A script that cleans a messy string: strips whitespace, fixes capitalisation, counts words.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Last lesson you sent a question to a model and got an answer back. Look closely at what
+actually crossed the wire: a piece of text went out, and a piece of text came back.
+That&rsquo;s the shape of nearly all AI work. Prompts are strings. Model replies are strings.
+Scraped pages, CSV rows, log lines, user input — strings, all of them, and almost none
+of them arrive clean.</p>
+<p>So the skill this lesson buys you is unglamorous and used constantly: taking text that&rsquo;s
+a mess — ragged spacing, shouty capitals, invisible characters on the end — and turning
+it into something predictable enough to act on. Real text has trailing spaces you can&rsquo;t
+see, <code>"YES"</code> where you expected <code>"yes"</code>, and three spaces where you expected one. If you
+compare that text to something without cleaning it first, you get a wrong answer with no
+error message, which is the most expensive kind of wrong.</p>
+<p>By the end you&rsquo;ll know what type a value is and how to check, why <code>"3" + 4</code> is an error
+rather than a guess, and — the part that trips up nearly everyone — why calling
+<code>.strip()</code> on your text can leave it exactly as messy as before.</p>
+<h2>The mental model</h2>
+<p>A variable is a <strong>name pointing at a value</strong>. That&rsquo;s not a metaphor, it&rsquo;s the mechanism,
+and it explains the single most common bug beginners write.</p>
+<p>Here&rsquo;s the fact that causes it: <strong>strings in Python are immutable</strong>. Once a string
+exists, nothing can change it. So <code>.strip()</code>, <code>.lower()</code>, <code>.replace()</code> and every other
+string method do <em>not</em> edit your text. They build a brand-new string and hand it back.
+If you don&rsquo;t catch what they hand back, it&rsquo;s thrown away, and your variable still points
+at the old messy value.</p>
+<figure class="figure">
+<svg viewBox="0 0 760 306" role="img" aria-label="A comparison of two lines of code. In the first, text.strip() is written on its own line: the name text points at the original string with spaces, strip builds a new trimmed string, but because nothing catches the result the new string is discarded and text still points at the messy original. In the second, text is assigned the result of text.strip(): the same new string is built, but the equals sign re-points the name text at the new trimmed string, and the original becomes unreachable. Only the second line actually cleans the variable.">
+  <defs>
+    <marker id="s-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="s-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+
+    <text x="14" y="40" font-family="ui-monospace, monospace" font-size="12.5" font-weight="600">text.strip()</text>
+    <text x="14" y="58" font-size="10.5" opacity="0.65">no assignment</text>
+
+    <rect x="150" y="30" width="62" height="32" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+    <text x="181" y="51" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5">text</text>
+
+    <line x1="216" y1="46" x2="256" y2="46" stroke="currentColor" stroke-width="1.7" marker-end="url(#s-ar)"/>
+    <text x="236" y="37" text-anchor="middle" font-size="9.5" opacity="0.7">points at</text>
+
+    <rect x="258" y="26" width="122" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+    <text x="319" y="51" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5">"&#160;&#160;hello&#160;&#160;"</text>
+
+    <line x1="384" y1="46" x2="440" y2="46" stroke="currentColor" stroke-width="1.7" marker-end="url(#s-ar)"/>
+    <text x="412" y="37" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5">.strip()</text>
+    <text x="412" y="61" text-anchor="middle" font-size="9.5" opacity="0.7">builds</text>
+
+    <rect x="442" y="26" width="102" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+    <text x="493" y="51" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5">"hello"</text>
+
+    <line x1="548" y1="46" x2="596" y2="46" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6" marker-end="url(#s-ar)"/>
+    <text x="572" y="37" text-anchor="middle" font-size="9.5" opacity="0.7">nothing</text>
+    <text x="572" y="61" text-anchor="middle" font-size="9.5" opacity="0.7">catches it</text>
+
+    <text x="604" y="42" font-size="11" font-weight="600" opacity="0.8">discarded</text>
+    <text x="604" y="58" font-size="10.5" opacity="0.65">text is still messy</text>
+
+    <line x1="14" y1="104" x2="746" y2="104" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+
+
+    <text x="14" y="170" font-family="ui-monospace, monospace" font-size="12.5" font-weight="600" fill="var(--accent)">text = text.strip()</text>
+    <text x="14" y="188" font-size="10.5" opacity="0.65">assigned back</text>
+
+    <rect x="150" y="160" width="62" height="32" rx="7" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="181" y="181" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" fill="var(--accent)">text</text>
+
+    <line x1="216" y1="176" x2="256" y2="176" stroke="currentColor" stroke-width="1.4" stroke-dasharray="4 4" opacity="0.35"/>
+    <line x1="230" y1="168" x2="242" y2="184" stroke="currentColor" stroke-width="1.6" opacity="0.5"/>
+    <line x1="242" y1="168" x2="230" y2="184" stroke="currentColor" stroke-width="1.6" opacity="0.5"/>
+
+    <rect x="258" y="156" width="122" height="40" rx="7" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.3"/>
+    <text x="319" y="181" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" opacity="0.4">"&#160;&#160;hello&#160;&#160;"</text>
+    <text x="319" y="212" text-anchor="middle" font-size="10" opacity="0.55">now unreachable</text>
+
+    <line x1="384" y1="176" x2="440" y2="176" stroke="currentColor" stroke-width="1.7" marker-end="url(#s-ar)"/>
+    <text x="412" y="167" text-anchor="middle" font-family="ui-monospace, monospace" font-size="9.5">.strip()</text>
+    <text x="412" y="191" text-anchor="middle" font-size="9.5" opacity="0.7">builds</text>
+
+    <rect x="442" y="156" width="102" height="40" rx="7" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="493" y="181" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" fill="var(--accent)">"hello"</text>
+
+    <path d="M 181 196 C 181 258, 400 268, 486 202" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#s-ar-a)"/>
+    <text x="330" y="272" text-anchor="middle" font-size="11" font-weight="600" fill="var(--accent)">= re-points the name at the new string</text>
+
+    <text x="604" y="172" font-size="11" font-weight="600" fill="var(--accent)">kept</text>
+    <text x="604" y="188" font-size="10.5" opacity="0.65">text is now clean</text>
+
+  </g>
+</svg>
+<figcaption>Both lines build the same trimmed string. The only difference is whether
+anything catches it — and that difference is the whole bug. A string method never
+changes the string you called it on.</figcaption>
+</figure>
+
+<p>Two consequences worth carrying forward.</p>
+<p><strong>A string method with no <code>=</code> in front of it is almost always a mistake.</strong> The line runs,
+Python raises nothing, and your data is untouched. There&rsquo;s no error to read, so the only
+thing that catches it is printing the value and looking.</p>
+<p><strong>Trying to edit a string in place is a hard error</strong>, which is Python being consistent
+rather than awkward:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
+<span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>TypeError: &#39;str&#39; object does not support item assignment
+</code></pre></div>
+
+<p>You don&rsquo;t modify a string. You build the string you wanted and point a name at it.</p>
+<h2>In practice</h2>
+<p>Activate your venv so your prompt starts with <code>(.venv)</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+
+<p>Start the interactive shell — this whole section is worth doing there, because it shows
+you every result without needing <code>print()</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span>
+</code></pre></div>
+
+<h3>Four types you&rsquo;ll meet constantly</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">lessons</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">hours</span> <span class="o">=</span> <span class="mf">7.5</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">finished</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+
+<p>Those are the four basic types: <code>str</code> (text), <code>int</code> (whole number), <code>float</code> (number with
+a decimal point), and <code>bool</code> (<code>True</code> or <code>False</code> — note the capitals; <code>true</code> is a
+<code>NameError</code>). When you&rsquo;re unsure what you&rsquo;re holding, ask:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">str</span><span class="s1">&#39;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">lessons</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">int</span><span class="s1">&#39;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">hours</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">float</span><span class="s1">&#39;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">finished</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">bool</span><span class="s1">&#39;&gt;</span>
+</code></pre></div>
+
+<p><code>type()</code> is a debugging tool you&rsquo;ll reach for constantly, because the confusing bugs are
+nearly always &ldquo;this isn&rsquo;t the type I thought it was&rdquo;. Quotes are what make the
+difference, not the characters inside:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">int</span><span class="s1">&#39;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;6&quot;</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">str</span><span class="s1">&#39;&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;6&quot;</span> <span class="o">+</span> <span class="mi">6</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">can</span> <span class="n">only</span> <span class="n">concatenate</span> <span class="nb">str</span> <span class="p">(</span><span class="ow">not</span> <span class="s2">&quot;int&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="nb">str</span>
+</code></pre></div>
+
+<p>You met that error last lesson. Now you can name why: <code>+</code> means <em>join</em> between two
+strings and <em>add</em> between two numbers, and Python refuses to pick one for you.</p>
+<h3>Strings don&rsquo;t change — prove it to yourself</h3>
+<p>This is the lesson&rsquo;s core idea, so run it rather than reading it:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;   Hello World   &quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="s1">&#39;Hello World&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">text</span>
+<span class="s1">&#39;   Hello World   &#39;</span>
+</code></pre></div>
+
+<p>Line two <em>showed</em> you a clean string. Line four proves <code>text</code> never changed — the shell
+displayed the new string and then threw it away. Keep it and the picture changes:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">text</span>
+<span class="s1">&#39;Hello World&#39;</span>
+</code></pre></div>
+
+<p>Read <code>text = text.strip()</code> right-to-left: build a trimmed copy of whatever <code>text</code> points
+at, then point <code>text</code> at that copy. The name is reused; the value is new.</p>
+<h3>The cleaning toolkit</h3>
+<p><code>.strip()</code> removes whitespace — spaces, tabs, newlines — from <strong>both ends only</strong>, never
+the middle:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;   spacious   &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="s1">&#39;spacious&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;  a  b  &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="s1">&#39;a  b&#39;</span>
+</code></pre></div>
+
+<p>Note the two spaces between <code>a</code> and <code>b</code> survived. Inner whitespace needs <code>.split()</code>,
+which we&rsquo;ll get to in a moment.</p>
+<p><code>.strip()</code> also accepts characters to remove — and this is a genuine trap, worth seeing
+once so it never costs you an hour:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;www.example.com&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;cmowz.&quot;</span><span class="p">)</span>
+<span class="s1">&#39;example&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;Monty Python&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; Python&quot;</span><span class="p">)</span>
+<span class="s1">&#39;M&#39;</span>
+</code></pre></div>
+
+<p>The argument is a <strong>set of characters</strong>, not a prefix. Python chewed <code>" Python"</code> off the
+end letter by letter — the <code>n</code>, the <code>o</code>, the <code>h</code>, the <code>t</code>, the <code>y</code>, the space — and kept
+going into <code>Monty</code> until it hit a character not in the set. To remove an actual prefix
+or suffix, use <code>.removeprefix()</code> and <code>.removesuffix()</code> instead.</p>
+<p>For case, you have four options and they differ in ways that matter:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;HELLO World&quot;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="s1">&#39;hello world&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello world&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="s1">&#39;HELLO WORLD&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello world&quot;</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+<span class="s1">&#39;Hello world&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello world&quot;</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="s1">&#39;Hello World&#39;</span>
+</code></pre></div>
+
+<p><code>.capitalize()</code> does the first letter of the <em>string</em>; <code>.title()</code> does the first letter
+of every <em>word</em>. <code>.title()</code> also has a documented wart:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;don&#39;t stop&quot;</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="s2">&quot;Don&#39;T Stop&quot;</span>
+</code></pre></div>
+
+<p>It capitalises after any non-letter, and an apostrophe is a non-letter. Which is the
+real lesson: <code>.title()</code> is fine for a name field, wrong for a sentence. Pick the method
+that matches your data.</p>
+<p>For <strong>comparing</strong> text, use <code>.lower()</code> — or better, <code>.casefold()</code>, which is built for
+exactly that job and handles cases <code>.lower()</code> won&rsquo;t:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;YES&quot;</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;YES&quot;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span>
+<span class="kc">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;straße&quot;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="s1">&#39;straße&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;straße&quot;</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
+<span class="s1">&#39;strasse&#39;</span>
+</code></pre></div>
+
+<p><code>==</code> on strings is exact, character for character. Nearly every &ldquo;why didn&rsquo;t my check
+match?&rdquo; bug is a case difference or an invisible trailing space.</p>
+<h3>Splitting text into words</h3>
+<p><code>.split()</code> cuts a string into a <strong>list</strong> of pieces. Called with no argument, it splits on
+any run of whitespace and drops the empties — which is exactly what you want for
+counting words:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;the quick brown fox&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;quick&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;fox&#39;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;   the   quick   brown   &quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;quick&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Three spaces between words, and it still produced three clean pieces. Compare that with
+passing a separator explicitly:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;the   quick&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;quick&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>With an argument, every single space is a cut, so the runs produced empty strings. <strong>The
+no-argument version is the one you want for words.</strong> A list is the next lesson&rsquo;s topic;
+for now the only thing you need from it is its length:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;the quick brown fox&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="mi">4</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;the quick brown fox&quot;</span><span class="p">)</span>
+<span class="mi">19</span>
+</code></pre></div>
+
+<p><code>len()</code> on a list counts items; <code>len()</code> on a string counts characters, spaces included.
+Same function, and what it counts depends on what you hand it.</p>
+<p><code>.join()</code> is <code>.split()</code> in reverse, and it&rsquo;s how you squash inner whitespace:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;the&quot;</span><span class="p">,</span> <span class="s2">&quot;quick&quot;</span><span class="p">])</span>
+<span class="s1">&#39;the quick&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;  the   quick   brown  &quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="s1">&#39;the quick brown&#39;</span>
+</code></pre></div>
+
+<p>Read that last line inside-out: split on any whitespace (giving clean pieces), then glue
+them back with exactly one space between each. That single expression normalises the
+spacing of any text you&rsquo;ll ever be handed.</p>
+<p>Two more you&rsquo;ll use weekly — <code>.replace()</code>, and <code>in</code> for asking whether text contains
+something:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;spam, spam, spam&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;spam&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">)</span>
+<span class="s1">&#39;eggs, eggs, eggs&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="s2">&quot;connection error: timed out&quot;</span>
+<span class="kc">True</span>
+</code></pre></div>
+
+<p>Type <code>exit()</code> to leave the shell.</p>
+<h3>Chaining, and where it stops being readable</h3>
+<p>Methods return strings, so you can call another one straight away:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;  JACK  &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="s1">&#39;jack&#39;</span>
+</code></pre></div>
+
+<p>That reads left to right: strip, then lowercase the result. Chaining three or four is
+fine; chaining eight becomes a line nobody can debug, because when the output is wrong
+you can&rsquo;t see which step did it. Break long chains into named steps — you&rsquo;ll do exactly
+that in the build.</p>
+<h2>Build it</h2>
+<p>A script that takes a deliberately messy piece of text and cleans it up, then reports on
+what changed.</p>
+<p><strong>1. Branch first:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01</span>
+</code></pre></div>
+
+<p><strong>2. Write <code>builds/01-01-clean.py</code>.</strong> Start with this messy text pasted in as-is — the
+<code>\t</code> is a tab and the <code>\n</code> is a line break, both of which count as whitespace:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Cleans a messy string and reports on what changed.</span>
+
+<span class="n">raw</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">  the QUICK   brown fox    jumped over    the LAZY dog.  </span><span class="se">\n</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>Your script must then:</p>
+<ul>
+<li>record the original character count with <code>len()</code> <strong>before</strong> cleaning anything</li>
+<li>produce a <code>cleaned</code> string that has no leading or trailing whitespace, has exactly one
+  space between words, and is all lowercase — assigning each step to a name rather than
+  writing one long chain</li>
+<li>count the words using <code>.split()</code> and <code>len()</code></li>
+<li>count the characters in the cleaned string</li>
+<li>print a report using <strong>f-strings</strong>, showing the original text, the cleaned text, the
+  word count, and how many characters were removed (a calculation inside the braces)</li>
+<li>print the original text <em>after</em> the cleaning is done, to prove for yourself that
+  cleaning built a new string rather than altering <code>raw</code></li>
+</ul>
+<p>Wrap the two texts in your output like <code>f"[{raw}]"</code> — the brackets make the leftover
+whitespace visible, which is the only way to see whitespace at all.</p>
+<p><strong>3. Run it and read the output.</strong> Then break it on purpose once: change one line from
+<code>cleaned = cleaned.lower()</code> to just <code>cleaned.lower()</code>, run it again, and watch the
+capitals survive with no error message. Put it back.</p>
+<p><strong>4. Commit and merge:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01-clean</span><span class="p">.</span><span class="n">py</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add string cleaner from lesson 01-01&quot;</span>
+<span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01</span>
+<span class="n">git</span> <span class="n">push</span>
+</code></pre></div>
+
+<p>Done when:</p>
+<ul>
+<li><code>python builds/01-01-clean.py</code> prints a report with no errors</li>
+<li>The cleaned text is <code>the quick brown fox jumped over the lazy dog.</code> — one space
+  between every word, nothing on either end</li>
+<li>The word count prints <code>9</code></li>
+<li>The report shows how many characters were removed, calculated inside an f-string</li>
+<li>Printing <code>raw</code> at the end still shows the original mess, and you can say why</li>
+<li>You saw the dropped-<code>=</code> version leave the text uppercase without raising an error</li>
+<li><code>git log --oneline -3</code> shows your commit on <code>main</code>, and <code>git status</code> is clean</li>
+</ul>
+<p>Then log it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">01</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01-clean</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;what clicked&quot;</span>
+<span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<h2>Going deeper</h2>
+<ul>
+<li>Add a <code>.replace()</code> step that swaps a word, and use <code>in</code> to print whether the cleaned
+  text contains <code>"fox"</code>.</li>
+<li>Take the messy text from <code>input()</code> instead of hard-coding it, and make sure your
+  cleaning still works when someone types nothing but spaces. What does <code>len("".split())</code>
+  give you, and is that the answer you wanted?</li>
+<li>Try slicing: <code>cleaned[0]</code>, <code>cleaned[:3]</code>, <code>cleaned[-1]</code>, <code>cleaned[::-1]</code>. Skim the
+  <a href="https://docs.python.org/3/tutorial/introduction.html">text section of the tutorial</a>
+  for how the start and end positions work, then predict <code>cleaned[0:3]</code> before running it.</li>
+<li>Read through the <a href="https://docs.python.org/3/library/stdtypes.html#string-methods">full list of string methods</a>.
+  Don&rsquo;t memorise it — just build a rough map of what exists, so later you search rather
+  than reinvent. Look specifically at <code>.startswith()</code>, <code>.count()</code>, and <code>.removeprefix()</code>.</li>
+<li>Explore f-string format specifiers: <code>f"{3.14159:.2f}"</code>, <code>f"{cleaned!r}"</code> (which shows
+  the string the way Python would write it, quotes and all — the fastest way to reveal
+  hidden whitespace), and <code>f"{words=}"</code>. The
+  <a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings">f-string reference</a>
+  covers all three.</li>
+<li>Work through <a href="https://automatetheboringstuff.com/3e/chapter8.html">chapter 8 of Automate the Boring Stuff</a>,
+  free online. It covers the same methods plus escape sequences and multiline strings.</li>
+<li><strong>Worth knowing now, for later:</strong> models don&rsquo;t read words, they read <em>tokens</em>, and a
+  word count is not a token count. When you need a real number, the Anthropic API has a
+  dedicated <code>count_tokens</code> endpoint that tells you exactly — you&rsquo;ll use it when cost and
+  context limits start to matter. Never estimate tokens by counting words.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>You write `answer.strip()` then compare `answer == "yes"`, and it's `False` even though the user clearly typed yes. Give two separate reasons this could happen.</summary>
+<p><strong>One:</strong> <code>answer.strip()</code> on its own line does nothing to <code>answer</code>. It built a trimmed
+string and discarded it. The trailing whitespace is still there, so you&rsquo;re comparing
+<code>"yes "</code> with <code>"yes"</code>. The fix is <code>answer = answer.strip()</code>.</p>
+<p><strong>Two:</strong> they typed <code>Yes</code> or <code>YES</code>. <code>==</code> on strings is exact, so case alone breaks it.
+The fix is to compare <code>answer.lower() == "yes"</code> (or <code>.casefold()</code>).</p>
+<p>Both failures are silent — no traceback, just a wrong answer — which is why cleaning
+before comparing is a habit rather than a special case.</p>
+</details>
+<details>
+<summary>`"  a  b  ".strip()` gives `'a  b'`, not `'a b'`. Why, and what actually collapses the inner spaces?</summary>
+<p><code>.strip()</code> only touches the two ends. It walks in from the left and in from the right,
+removing whitespace until it hits something that isn&rsquo;t whitespace — and then it stops.
+Anything between those two points is left exactly as it was.</p>
+<p>To normalise the middle, split and rejoin: <code>" ".join("  a  b  ".split())</code> gives <code>'a b'</code>.
+The no-argument <code>.split()</code> treats any run of whitespace as one separator and drops the
+empty pieces, and <code>" ".join(...)</code> puts back exactly one space between each piece. As a
+bonus it strips the ends too, so it does both jobs at once.</p>
+</details>
+<details>
+<summary>Someone cleans a filename with `"report.txt".strip(".txt")` and gets `'repor'`. What did they assume, and what should they have used?</summary>
+<p>They assumed the argument is a suffix to remove. It isn&rsquo;t — it&rsquo;s a <strong>set of characters</strong>.
+Python removed any of <code>.</code>, <code>t</code>, <code>x</code> from each end repeatedly: it took <code>.txt</code> off the
+right, then kept going and ate the final <code>t</code> of <code>report</code>, stopping at <code>r</code>.</p>
+<p>The right tool is <code>"report.txt".removesuffix(".txt")</code>, which matches the exact string or
+does nothing at all. Same trap as <code>"Monty Python".strip(" Python")</code> giving <code>'M'</code>.</p>
+</details>
+<details>
+<summary>You have `count = "12"` from somewhere and write `count + 1`. Predict the exact error, then explain why Python won't just do the sensible thing.</summary>
+<p><code>TypeError: can only concatenate str (not "int") to str</code>.</p>
+<p><code>"12"</code> is text that looks like a number. <code>+</code> between two strings joins them and between
+two numbers adds them, so Python has two plausible readings of <code>"12" + 1</code>: <code>13</code>, or
+<code>"121"</code>. Both are defensible, which is precisely why guessing would be dangerous — a
+program that silently picks the wrong one produces bad data that nothing flags.</p>
+<p>Convert explicitly with <code>int(count) + 1</code>, and your intent is visible in the code. Use
+<code>type(count)</code> to check when you&rsquo;re unsure what you&rsquo;re holding.</p>
+</details>
+<details>
+<summary>Your word counter returns 7 for a sentence you can see has 5 words. The text came from a web page. What's the most likely cause, and how would you find it in ten seconds?</summary>
+<p>Something you can&rsquo;t see is being counted as a word — most likely stray punctuation or
+non-word fragments separated by whitespace, or line breaks and tabs splitting a word
+across pieces.</p>
+<p>The ten-second diagnosis is to stop guessing and look. Print the list itself rather than
+its length — <code>print(text.split())</code> — and the pieces appear individually, in quotes. An
+<code>f"{text!r}"</code> does the same job for the raw string, showing <code>\n</code> and <code>\t</code> explicitly
+instead of rendering them invisibly.</p>
+<p>The general habit: when a count is wrong, print the thing being counted, not the count.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/library/stdtypes.html#string-methods"><span class="t">Python docs — string methods (the full list)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/tutorial/introduction.html"><span class="t">Python tutorial — text, indexing, slicing, immutability</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/library/functions.html#type"><span class="t">Python docs — type() and isinstance()</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/reference/lexical_analysis.html#f-strings"><span class="t">Python reference — f-strings and replacement fields</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter8.html"><span class="t">Automate the Boring Stuff, chapter 8 — Strings and Text Editing (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 01-01 --status complete \
+    --minutes 50 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="00-05-your-first-call-to-a-real-model.html">&larr; 00-05 Your first call to a real model</a></span>
+    <span><a href="01-02-lists-loops-and-conditionals.html">01-02 Lists, loops, and conditionals &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>5 of 100 lessons &middot; 6.9 hours logged</span>
+    <span>Rebuilt 24 Aug 2026, 15:53</span>
+  </footer>
+
+</div>
+</body>
+</html>
