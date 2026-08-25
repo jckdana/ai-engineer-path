@@ -47,7 +47,7 @@
       "status": "complete",
       "minutes": 50,
       "artifact": "./builds/01-01-clean.py",
-      "note": "what clicked"
+      "note": "Learned different python coding commands to fix strings"
     }
   ]
 }
