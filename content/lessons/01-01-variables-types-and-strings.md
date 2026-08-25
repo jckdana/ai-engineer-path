@@ -153,6 +153,13 @@ Activate your venv so your prompt starts with `(.venv)`:
 .\.venv\Scripts\Activate.ps1
 ```
 
+**This prints nothing when it works.** The only thing that changes is your prompt, which
+gains a `(.venv)` prefix — silence plus that prefix means success. If the prefix is
+already there, you're done; running it again is harmless and equally silent. Two things
+that trip people up here: if you get *"running scripts is disabled on this system"*, see
+[the activation fix in 00-02](00-02-your-machine-your-terminal-your-editor.html), and
+remember activation lasts only for that one terminal window — a new tab starts without it.
+
 Start the interactive shell — this whole section is worth doing there, because it shows
 you every result without needing `print()`:
 

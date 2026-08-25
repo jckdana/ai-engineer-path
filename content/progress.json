@@ -40,6 +40,14 @@
       "minutes": 90,
       "artifact": "./builds/00-05-ask.py",
       "note": "input() needs its own statement; PowerShell doesn't take bash env syntax"
+    },
+    {
+      "date": "2026-08-24",
+      "lesson_id": "01-01",
+      "status": "complete",
+      "minutes": 50,
+      "artifact": "./builds/01-01-clean.py",
+      "note": "what clicked"
     }
   ]
 }
