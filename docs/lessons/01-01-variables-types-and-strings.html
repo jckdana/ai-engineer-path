@@ -36,6 +36,10 @@
       <span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
         50 min core &middot; 110 min with extensions      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0ca30c" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>
+        Completed 2026-08-24
+      </span>
     </div>
   </div>
 
@@ -167,6 +171,12 @@ rather than awkward:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
 </code></pre></div>
 
+<p><strong>This prints nothing when it works.</strong> The only thing that changes is your prompt, which
+gains a <code>(.venv)</code> prefix — silence plus that prefix means success. If the prefix is
+already there, you&rsquo;re done; running it again is harmless and equally silent. Two things
+that trip people up here: if you get <em>&ldquo;running scripts is disabled on this system&rdquo;</em>, see
+<a href="00-02-your-machine-your-terminal-your-editor.html">the activation fix in 00-02</a>, and
+remember activation lasts only for that one terminal window — a new tab starts without it.</p>
 <p>Start the interactive shell — this whole section is worth doing there, because it shows
 you every result without needing <code>print()</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">python</span>
@@ -501,8 +511,8 @@ python tools/site_build.py --open</div>
   </main>
 
   <footer class="sitefoot">
-    <span>5 of 100 lessons &middot; 6.9 hours logged</span>
-    <span>Rebuilt 24 Aug 2026, 15:53</span>
+    <span>6 of 100 lessons &middot; 7.8 hours logged</span>
+    <span>Rebuilt 24 Aug 2026, 17:49</span>
   </footer>
 
 </div>
