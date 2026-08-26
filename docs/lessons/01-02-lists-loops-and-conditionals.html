@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lists, loops, and conditionals &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">01 &nbsp;Python that AI work actually needs</a> &nbsp;&middot;&nbsp; Lesson 01-02</p>
+    <h1>Lists, loops, and conditionals</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        55 min core &middot; 120 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A script that reads a list of questions and sends each one to a model, printing results as it goes.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Everything you&rsquo;ve written so far handled exactly one thing: one question, one
+messy string, one answer. Nobody pays for that. The work people pay for is
+<em>&ldquo;here are two hundred support emails, categorise them&rdquo;</em> or <em>&ldquo;here are fifty
+product descriptions, rewrite each one&rdquo;</em> — one operation, applied over and over,
+without you sitting there pressing enter.</p>
+<p>That&rsquo;s what a loop is. And the moment you have a loop, you need the other half:
+deciding what to do when an item is different from the rest. Some of those two
+hundred emails will be blank. Some will be in another language. A loop that
+can&rsquo;t skip, stop, or branch is a loop that crashes on item forty-three and loses
+everything it did on items one through forty-two.</p>
+<p>By the end of this you&rsquo;ll be able to take a list of anything, do work on each
+item, keep the results, and handle the odd ones without falling over. You&rsquo;ll
+also meet the one bug that eats beginners here: putting a line one indent too
+far in, so it quietly runs two hundred times when it should have run once.</p>
+<p>One warning specific to this lesson, because it&rsquo;s the first time it applies:
+<strong>a loop around an API call costs money on every pass.</strong> Five questions is five
+calls. A typo that puts your call inside two loops instead of one is a bill.
+You&rsquo;ll build the habit of doing a dry run first.</p>
+<h2>The mental model</h2>
+<p>A <strong>list</strong> is an ordered container: <code>["a", "b", "c"]</code>. A <strong>for loop</strong> hands you
+its items one at a time, re-pointing a name at each item in turn — the same
+&ldquo;name pointing at a value&rdquo; idea from last lesson, just happening repeatedly.</p>
+<p>What makes or breaks the loop is <strong>where each line sits</strong>. Python has no
+braces; indentation <em>is</em> the block. Lines indented under <code>for</code> are the <strong>body</strong>
+and run once per item. Lines at the outer level run once, before or after the
+whole loop. Getting that boundary wrong is not a syntax error — it&rsquo;s a silent
+logic error, which is worse.</p>
+<figure class="figure">
+<svg viewBox="0 0 760 320" role="img" aria-label="A diagram of one for loop. On the left, a list named questions holds three items and feeds into the loop. Above the loop, at the outer indentation level, an accented line reads results equals empty list, created once before the loop so it survives every pass. Below it the line for q in questions begins the loop, and a dashed vertical line marks the indentation boundary: everything to the right of it is the body and runs once per item. The body contains three stacked steps, q re-pointed at the next item, answer set to the model's reply for q, and results dot append of answer. An accented curve runs from the results equals empty list line down into the append step, showing that every pass appends to that same one list. An arrow loops from the body back up to the for line, labelled next item. When the list runs out, an arrow exits to a box holding results with three answers.">
+  <defs>
+    <marker id="l-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="l-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+
+    <text x="14" y="48" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">questions</text>
+    <rect x="14" y="58" width="118" height="96" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+    <text x="26" y="82" font-family="ui-monospace, monospace" font-size="10" opacity="0.8">"What is X?"</text>
+    <text x="26" y="108" font-family="ui-monospace, monospace" font-size="10" opacity="0.8">"Why Y?"</text>
+    <text x="26" y="134" font-family="ui-monospace, monospace" font-size="10" opacity="0.8">"How Z?"</text>
+    <text x="73" y="172" text-anchor="middle" font-size="9.5" opacity="0.7">3 items</text>
+
+    <line x1="136" y1="106" x2="194" y2="106" stroke="currentColor" stroke-width="1.7" marker-end="url(#l-ar)"/>
+    <text x="165" y="98" text-anchor="middle" font-size="9.5" opacity="0.7">feeds</text>
+
+
+    <rect x="206" y="16" width="170" height="28" rx="7" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="291" y="35" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11.5" fill="var(--accent)">results = []</text>
+    <text x="390" y="28" font-size="10.5" font-weight="600">created once, before the loop</text>
+    <text x="390" y="43" font-size="10" opacity="0.65">outer level — so it survives every pass</text>
+
+
+    <text x="206" y="86" font-family="ui-monospace, monospace" font-size="12.5" font-weight="600">for q in questions:</text>
+
+
+    <line x1="222" y1="96" x2="222" y2="282" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 5" opacity="0.4"/>
+    <text x="228" y="298" font-size="9.5" opacity="0.7">right of this dashed line = indented = the body</text>
+
+
+    <rect x="236" y="102" width="300" height="152" rx="8" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.35"/>
+
+    <rect x="252" y="116" width="268" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+    <text x="266" y="136" font-family="ui-monospace, monospace" font-size="10.5">q &#8594; the next item, this pass</text>
+
+    <line x1="386" y1="146" x2="386" y2="158" stroke="currentColor" stroke-width="1.6" marker-end="url(#l-ar)"/>
+
+    <rect x="252" y="160" width="268" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+    <text x="266" y="180" font-family="ui-monospace, monospace" font-size="10.5">answer = the reply for q</text>
+
+    <line x1="386" y1="190" x2="386" y2="202" stroke="currentColor" stroke-width="1.6" marker-end="url(#l-ar)"/>
+
+    <rect x="252" y="204" width="268" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+    <text x="266" y="224" font-family="ui-monospace, monospace" font-size="10.5">results.append(answer)</text>
+
+    <text x="386" y="272" text-anchor="middle" font-size="10.5" opacity="0.7">the body — runs once per item</text>
+
+
+    <path d="M 212 44 C 172 130, 172 224, 246 219" fill="none" stroke="var(--accent)" stroke-width="1.8" marker-end="url(#l-ar-a)"/>
+    <text x="166" y="198" text-anchor="end" font-size="10" font-weight="600" fill="var(--accent)">the same one list,</text>
+    <text x="166" y="212" text-anchor="end" font-size="10" opacity="0.65">appended on every pass</text>
+
+
+    <path d="M 536 178 C 606 176, 608 64, 470 64 L 358 64" fill="none" stroke="currentColor" stroke-width="1.7" marker-end="url(#l-ar)"/>
+    <text x="512" y="56" text-anchor="middle" font-size="9.5" opacity="0.7">next item — body runs again</text>
+
+
+    <line x1="536" y1="238" x2="596" y2="238" stroke="currentColor" stroke-width="1.7" marker-end="url(#l-ar)"/>
+    <text x="566" y="230" text-anchor="middle" font-size="9.5" opacity="0.7">list exhausted</text>
+    <rect x="604" y="220" width="142" height="36" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.55"/>
+    <text x="675" y="243" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11">results</text>
+    <text x="675" y="270" text-anchor="middle" font-size="9.5" opacity="0.7">3 answers</text>
+
+  </g>
+</svg>
+<figcaption>The list is fed in one item at a time; the body runs once per item;
+anything you want to keep must be created <em>outside</em> the body, or it gets
+rebuilt from scratch on every pass. The indent is the only thing marking that
+boundary, and Python will not warn you if you get it wrong.</figcaption>
+</figure>
+
+<p>Three consequences worth carrying.</p>
+<p><strong>Indentation is meaning, not style.</strong> Moving one line four spaces to the right
+changes how many times it runs. Nothing turns red.</p>
+<p><strong>Lists are mutable — the opposite of strings.</strong> Last lesson you learned that
+<code>text.strip()</code> builds a <em>new</em> string and you must catch it with <code>=</code>. Lists work
+the other way round: <code>results.append(x)</code> changes the list in place and gives you
+back nothing at all. So the rule flips, and so does the mistake — writing
+<code>results = results.append(x)</code> throws your whole list away.</p>
+<p><strong>A loop&rsquo;s job is usually to fill something.</strong> Create an empty list before it,
+append inside it, use it after. That three-part shape — set up, loop, report —
+is most of the batch scripts you&rsquo;ll ever write.</p>
+<h2>In practice</h2>
+<p>Activate your venv so your prompt starts with <code>(.venv)</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">Activate</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+
+<p>Then start the shell — everything up to the build is worth doing here:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span>
+</code></pre></div>
+
+<h3>Lists hold things in order</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is an API?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is a token?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is JSON?&quot;</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span>
+<span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="s1">&#39;What is an API?&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="s1">&#39;What is JSON?&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="s1">&#39;What is JSON?&#39;</span>
+</code></pre></div>
+
+<p>Positions start at <strong>0</strong>, not 1, so the last item of a three-item list is at
+index <code>2</code>. <code>-1</code> means &ldquo;the last one&rdquo; and saves you doing the arithmetic. Ask for
+a position that isn&rsquo;t there and Python tells you plainly:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">IndexError</span><span class="p">:</span> <span class="nb">list</span> <span class="n">index</span> <span class="n">out</span> <span class="n">of</span> <span class="nb">range</span>
+</code></pre></div>
+
+<p><code>IndexError</code> is one you&rsquo;ll see for real, usually because a list was shorter than
+you assumed. The fix is nearly always to check <code>len()</code> rather than to guess.</p>
+<h3>Lists change in place — strings don&rsquo;t</h3>
+<p>This is the flip from last lesson, so run it rather than reading it:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;What is a rate limit?&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span>
+<span class="p">[</span><span class="s1">&#39;What is an API?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is a token?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is JSON?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is a rate limit?&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Notice <code>.append()</code> printed nothing and you assigned nothing — yet the list
+changed. That&rsquo;s what &ldquo;mutable&rdquo; means. Now the trap:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;What is latency?&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span>
+<span class="kc">None</span>
+</code></pre></div>
+
+<p>Your entire list is gone. <code>.append()</code> returns <code>None</code> (Python&rsquo;s word for &ldquo;no
+value at all&rdquo;), and you just pointed <code>questions</code> at that <code>None</code>. Compare the two
+rules side by side, because they are exact opposites and both hinge on one
+character:</p>
+<div class="table-scroll"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Method</th>
+<th>Correct usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>str</code> (immutable)</td>
+<td><code>.strip()</code>, <code>.lower()</code></td>
+<td><code>text = text.strip()</code> — <strong>must</strong> catch the result</td>
+</tr>
+<tr>
+<td><code>list</code> (mutable)</td>
+<td><code>.append()</code>, <code>.sort()</code></td>
+<td><code>items.append(x)</code> — <strong>never</strong> catch the result</td>
+</tr>
+</tbody>
+</table></div>
+<p>Rebuild the list before continuing:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is an API?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is a token?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is JSON?&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+<h3>Your first loop</h3>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">What</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">API</span><span class="err">?</span>
+<span class="n">What</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">token</span><span class="err">?</span>
+<span class="n">What</span> <span class="ow">is</span> <span class="n">JSON</span><span class="err">?</span>
+</code></pre></div>
+
+<p>Three things happened there. The line ends with a colon. The shell switched its
+prompt to <code>...</code> because it&rsquo;s waiting for an indented block — type four spaces,
+then the line. And you pressed enter on an empty line to say &ldquo;block finished&rdquo;,
+which is only needed in the shell, not in a file.</p>
+<p><code>q</code> is just a name you chose; it gets re-pointed at each item in turn. <code>for
+question in questions:</code> would behave identically and read better — use names
+that say what the thing is.</p>
+<p>Indentation decides how often a line runs, and this is the whole lesson:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">count</span>
+<span class="mi">3</span>
+</code></pre></div>
+
+<p>Now move the setup line one indent inward and watch it break:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="o">...</span>     <span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">count</span>
+<span class="mi">1</span>
+</code></pre></div>
+
+<p>Three passes, and <code>count</code> is 1. <code>count = 0</code> ran at the top of <em>every</em> pass,
+wiping the previous total. No error, no warning, just a wrong number — the same
+family of silent failure as the missing <code>=</code> last lesson.</p>
+<h3>The pattern you&rsquo;ll use constantly</h3>
+<p>Create an empty list outside, fill it inside, use it after:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">lengths</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+<span class="o">...</span>     <span class="n">lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+<span class="o">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">lengths</span>
+<span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Empty brackets <code>[]</code> make an empty list. Three passes, three appends, three
+numbers. Move <code>lengths = []</code> inside the loop and you&rsquo;d finish with one.</p>
+<h3>Deciding inside the loop</h3>
+<p><code>if</code> runs a block only when a condition is true. The comparison operators are
+<code>==</code> (equal), <code>!=</code> (not equal), and <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
+<span class="o">...</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
+<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;long: &quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>     <span class="k">else</span><span class="p">:</span>
+<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;short:&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">short</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">API</span><span class="err">?</span>
+<span class="n">long</span><span class="p">:</span>  <span class="n">What</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">token</span><span class="err">?</span>
+<span class="n">short</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">JSON</span><span class="err">?</span>
+</code></pre></div>
+
+<p>Two levels of indent now: the <code>if</code> is inside the loop, and the <code>if</code>&rsquo;s own body
+is inside that. <code>elif</code> adds more branches, checked in order, and only the first
+true one runs:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">72</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">:</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+<span class="o">...</span> <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">70</span><span class="p">:</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+<span class="o">...</span> <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="p">:</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="o">...</span> <span class="k">else</span><span class="p">:</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">B</span>
+</code></pre></div>
+
+<p>Note that <code>score &gt;= 50</code> is also true — it never ran, because <code>elif</code> stops at the
+first match. Order your branches from most specific to least.</p>
+<h3>Empty things are false</h3>
+<p>You don&rsquo;t need <code>== ""</code> to check for empty text. Python treats empty values as
+false in a condition:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="kc">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">([])</span>
+<span class="kc">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="kc">False</span>
+</code></pre></div>
+
+<p>Empty string, empty list, zero, and <code>None</code> are all &ldquo;falsy&rdquo;; nearly everything
+else is truthy. So this reads well and handles the blank-input case:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s2">&quot;   &quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nothing was typed&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">nothing</span> <span class="n">was</span> <span class="n">typed</span>
+</code></pre></div>
+
+<p><code>answer.strip()</code> builds a cleaned copy — which you deliberately <em>don&rsquo;t</em> keep
+here, because you only want to test it — and <code>not</code> flips the result.
+Whitespace-only input is a real thing that will reach your scripts.</p>
+<h3>Skipping and stopping</h3>
+<p><code>continue</code> abandons this pass and moves to the next item. <code>break</code> leaves the
+loop entirely:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;third&quot;</span><span class="p">]:</span>
+<span class="o">...</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">q</span><span class="p">:</span>
+<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;skipping a blank&quot;</span><span class="p">)</span>
+<span class="o">...</span>         <span class="k">continue</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;asking:&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="n">asking</span><span class="p">:</span> <span class="n">first</span>
+<span class="n">skipping</span> <span class="n">a</span> <span class="n">blank</span>
+<span class="n">asking</span><span class="p">:</span> <span class="n">third</span>
+</code></pre></div>
+
+<p>Swap <code>continue</code> for <code>break</code> and the output stops after <code>skipping a blank</code> — the
+third question never gets asked. For a loop that costs money per pass, knowing
+which one you want is not academic.</p>
+<h3>Numbering the passes</h3>
+<p>You&rsquo;ll want &ldquo;question 2 of 5&rdquo; in your output. Don&rsquo;t keep a counter by hand —
+<code>enumerate()</code> gives you the position and the item together:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">questions</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+<span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">API</span><span class="err">?</span>
+<span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">token</span><span class="err">?</span>
+<span class="mi">3</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">JSON</span><span class="err">?</span>
+</code></pre></div>
+
+<p><code>enumerate</code> counts from 0 unless you tell it otherwise; <code>start=1</code> makes it read
+naturally to a human. The two names before <code>in</code> unpack the pair it hands back.</p>
+<p>Type <code>exit()</code> to leave the shell.</p>
+<h3>Why the model&rsquo;s reply needed a loop too</h3>
+<p>Look again at the last three lines of your <code>00-05-ask.py</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
+
+<p>You wrote a loop and a conditional in that lesson without being told what they
+were. Now you can read it: <code>message.content</code> is a <strong>list</strong> of blocks, because a
+reply can contain more than just text — with Claude Opus 5, thinking is on by
+default, so a thinking block can sit in that list alongside the answer. Taking
+<code>message.content[0].text</code> and hoping is exactly how a script breaks in a week.
+Loop, check the type, use the ones you want.</p>
+<p>In this lesson&rsquo;s build you&rsquo;ll do the same thing one level in: a loop over your
+questions, and inside it a loop over the reply&rsquo;s blocks. Nesting isn&rsquo;t a new
+idea — it&rsquo;s the same shape, indented once more.</p>
+<h2>Build it</h2>
+<p>A script that asks a model several questions in a row, prints each answer as it
+arrives, skips anything blank, and reports at the end.</p>
+<p><strong>This one spends money</strong> — three API calls, at <code>max_tokens=150</code> each. Small,
+but real. Step 3 exists so you never run an untested loop against a paid API.</p>
+<p><strong>1. Branch first:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02</span>
+</code></pre></div>
+
+<p><strong>2. Write <code>builds/01-02-ask-many.py</code>.</strong> Start from this skeleton and fill in
+the rest yourself:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Asks a model several questions in a row and reports on the batch.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">anthropic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
+
+<span class="n">questions</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;In one sentence, what is an API rate limit?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;In one sentence, what is a token?&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;In one sentence, why do API keys go in .env files?&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Your script must then:</p>
+<ul>
+<li>create an empty <code>results</code> list, a <code>skipped</code> counter, and a running
+  <code>total_output_tokens</code> counter — all <strong>before</strong> the loop</li>
+<li>loop over the questions with <code>enumerate(questions, start=1)</code> so you can print
+  <code>Question 2 of 4</code> as it goes</li>
+<li>skip any question that is blank or whitespace-only with <code>continue</code>, printing
+  that it was skipped and adding one to <code>skipped</code> — the blank must <strong>not</strong> reach
+  the API</li>
+<li>for each real question, call the model with <code>max_tokens=150</code>, then build the
+  answer text by looping over <code>message.content</code> and keeping the blocks whose
+  <code>type</code> is <code>"text"</code></li>
+<li>print the question and its answer as each one comes back, not all at the end</li>
+<li>append each answer to <code>results</code>, and add <code>message.usage.output_tokens</code> to your
+  running total</li>
+<li>after the loop, print a summary: how many were asked, how many were skipped,
+  and the total output tokens for the batch</li>
+</ul>
+<p>Keep <code>max_tokens</code> at 150. Three short answers, not three essays.</p>
+<p><strong>3. Dry run first — before you spend anything.</strong> Comment out the line that
+creates the client and the line that makes the call, and put a fake answer in
+their place:</p>
+<div class="codehilite"><pre><span></span><code>    <span class="n">answer</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(pretend answer to </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">)&quot;</span>
+</code></pre></div>
+
+<p>Run it. Check the numbering is right, the blank is skipped, and the counts add
+up. <em>Then</em> put the real call back. This is the habit: a loop around a paid call
+gets proved on fake data first, every time.</p>
+<p><strong>4. Run it for real, and watch the output appear.</strong> Each answer arrives after a
+visible pause — that&rsquo;s a real network round trip per pass, and it&rsquo;s why a batch
+of two hundred is a very different thing from a batch of four.</p>
+<p><strong>5. Commit and merge:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02-ask-many</span><span class="p">.</span><span class="n">py</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add batch question script from lesson 01-02&quot;</span>
+<span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02</span>
+<span class="n">git</span> <span class="n">push</span>
+</code></pre></div>
+
+<p>Done when:</p>
+<ul>
+<li><code>python builds/01-02-ask-many.py</code> runs start to finish with no traceback</li>
+<li>Three questions were asked and answered; the blank one printed a skip message
+  and made no API call</li>
+<li>Each answer printed as it arrived, numbered <code>1 of 4</code>, <code>2 of 4</code>, and so on</li>
+<li>The summary prints 3 asked, 1 skipped, and a total output-token count larger
+  than any single answer&rsquo;s</li>
+<li><code>len(results)</code> is 3, and you can say why it isn&rsquo;t 4</li>
+<li>You did the dry run before the real run</li>
+<li><code>git log --oneline -3</code> shows your commit on <code>main</code>, and <code>git status</code> is clean</li>
+</ul>
+<p>Then log it:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02-ask-many</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;what clicked&quot;</span>
+<span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<h2>Going deeper</h2>
+<ul>
+<li>Move <code>results = []</code> inside the loop, run the script, and watch the summary
+  collapse to 1. Put it back. Do the same with the token total. Seeing your own
+  script fail this way is worth more than reading about it.</li>
+<li>Add a cheap quality check: after each answer, <code>if len(answer) &lt; 20:</code> print a
+  warning that the reply looks suspiciously short. Real batch jobs need checks
+  like this, because nobody reads two hundred outputs by hand.</li>
+<li>Ask the same question twice in the list and compare the two answers. They
+  won&rsquo;t match word for word. That&rsquo;s not a bug — lesson 03-02 covers why.</li>
+<li>Wrap the API call in <code>try:</code> / <code>except anthropic.APIError as e:</code> so one failed
+  question prints an error and the loop keeps going instead of losing the whole
+  batch. Skim <a href="https://platform.claude.com/docs/en/api/rate-limits">Anthropic&rsquo;s rate limits page</a>
+  for what a 429 is and what the <code>retry-after</code> header tells you — a loop is
+  exactly how people meet those limits for the first time.</li>
+<li>Read <a href="https://automatetheboringstuff.com/3e/chapter6.html">chapter 6 of Automate the Boring Stuff</a>
+  for lists, and <a href="https://automatetheboringstuff.com/3e/chapter2.html">chapter 2</a>
+  for flow control. Both free, both cover this ground with different examples.</li>
+<li>Learn <code>while</code>, the other loop, from the
+  <a href="https://docs.python.org/3/tutorial/controlflow.html">control flow tutorial</a>:
+  <code>for</code> runs once per item, <code>while</code> runs until a condition stops being true. You
+  will use <code>for</code> ninety percent of the time.</li>
+<li>Meet the <strong>list comprehension</strong> in the
+  <a href="https://docs.python.org/3/tutorial/datastructures.html">data structures tutorial</a>:
+  <code>[len(q) for q in questions]</code> does in one line what your four-line loop did.
+  It&rsquo;s everywhere in real AI code — learn to read it before you write it.</li>
+<li><strong>Worth knowing now, for later:</strong> when a batch gets big, looping one call at a
+  time is the slow, expensive way. The Message Batches API processes thousands
+  of requests asynchronously at half the price. Your loop is the right tool at
+  four questions and the wrong tool at four thousand.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>A script loops over 50 records and prints "processed 1 record" at the end. The loop body works fine. What single thing is almost certainly wrong, and where?</summary>
+<p>The counter is being created inside the loop body — something like <code>count = 0</code>
+sitting one indent too far in. It resets at the top of every pass, so the final
+value reflects the last pass only.</p>
+<p>The fix is to move <code>count = 0</code> out to the same indentation level as the <code>for</code>
+line, above it. General rule: <strong>anything that must survive the loop has to be
+born outside it.</strong> Nothing raises an error here, which is why the symptom you
+notice is a suspiciously small number rather than a traceback.</p>
+</details>
+<details>
+<summary>Last lesson the rule was "you must catch what a string method returns". This lesson, `items.append(x)` catches nothing. Are the two rules in conflict?</summary>
+<p>No — they follow from one fact: strings are immutable and lists are mutable.</p>
+<p>A string method can&rsquo;t change the string, so it returns a new one and you must
+catch it: <code>text = text.strip()</code>. A list method changes the list itself, so it
+has nothing to hand back and returns <code>None</code>: <code>items.append(x)</code>.</p>
+<p>Which means the mistake is mirrored too. Forgetting the <code>=</code> on a string leaves
+your data untouched; adding an <code>=</code> to <code>.append()</code> (<code>items = items.append(x)</code>)
+replaces your entire list with <code>None</code>. Same underlying question — does this
+method change the thing or build a new one — with opposite answers.</p>
+</details>
+<details>
+<summary>You want to skip blank questions. Why is `if not q.strip():` better than `if q == "":`?</summary>
+<p><code>q == ""</code> only matches a string of length zero. A question that is <code>"   "</code> or
+<code>"\n"</code> — a stray spacebar, a line break, an empty-looking spreadsheet cell — is
+not equal to <code>""</code>, so it sails through the check and gets sent to the API. You
+pay for it and get a useless answer back.</p>
+<p><code>q.strip()</code> builds a copy with the whitespace removed from both ends. If nothing
+is left, that copy is <code>""</code>, which is falsy, so <code>not</code> makes the condition true
+and you skip. Drop the <code>.strip()</code> and you&rsquo;re back to catching only genuinely
+empty strings.</p>
+<p>Note that you don&rsquo;t assign the result of <code>.strip()</code> here, and that&rsquo;s deliberate:
+you&rsquo;re testing it, not keeping it.</p>
+</details>
+<details>
+<summary>In your build, `continue` skips the blank question. If you'd used `break` instead, what exactly would the output have been, and why is the difference expensive?</summary>
+<p><code>break</code> leaves the loop entirely, so the script would have asked questions 1 and
+2, hit the blank at position 3, printed the skip message, and then <strong>never asked
+question 4</strong>. The summary would say 2 asked instead of 3, and <code>results</code> would
+hold 2 answers.</p>
+<p>Expensive in both directions. In a batch of two hundred, one blank row silently
+throws away the hundred and fifty items after it — and you get no traceback
+saying so, just a short results list. In the other direction, a <code>continue</code> where
+you needed a <code>break</code> keeps a loop running against a failing API, burning calls
+that all error out.</p>
+</details>
+<details>
+<summary>Why does your script loop over `message.content` and check `block.type` instead of just using `message.content[0].text`?</summary>
+<p>Because <code>message.content</code> is a list of blocks, and text is not the only kind.
+With Claude Opus 5 thinking is on by default, so a thinking block can sit in
+that list; tool use adds other block types later on. <code>content[0]</code> is whatever
+happened to come first, and <code>.text</code> on a block that has no <code>.text</code> is an
+<code>AttributeError</code> — in production, at 2am, on the one reply that came back
+differently.</p>
+<p>Looping and checking <code>block.type == "text"</code> says what you actually want: the
+text parts, however many there are and wherever they sit. It&rsquo;s the same
+defensive habit as checking <code>len()</code> before indexing a list.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/tutorial/controlflow.html"><span class="t">Python tutorial — if, for, range, break and continue</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/tutorial/datastructures.html"><span class="t">Python tutorial — lists, list methods, comprehensions</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/library/functions.html#enumerate"><span class="t">Python docs — enumerate() and its start argument</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/library/stdtypes.html#truth-value-testing"><span class="t">Python docs — truth value testing (what counts as false)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter6.html"><span class="t">Automate the Boring Stuff, chapter 6 — Lists (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter2.html"><span class="t">Automate the Boring Stuff, chapter 2 — if-else and flow control (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+      <li><a href="https://platform.claude.com/docs/en/api/rate-limits"><span class="t">Anthropic docs — rate limits, 429 errors, and the retry-after header</span><span class="d">platform.claude.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 01-02 --status complete \
+    --minutes 55 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="01-01-variables-types-and-strings.html">&larr; 01-01 Variables, types, and strings</a></span>
+    <span><a href="01-03-functions-and-why-they-matter.html">01-03 Functions and why they matter &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>6 of 100 lessons &middot; 7.8 hours logged</span>
+    <span>Rebuilt 25 Aug 2026, 18:40</span>
+  </footer>
+
+</div>
+</body>
+</html>
