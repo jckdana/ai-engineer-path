@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functions and why they matter &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">01 &nbsp;Python that AI work actually needs</a> &nbsp;&middot;&nbsp; Lesson 01-03</p>
+    <h1>Functions and why they matter</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        50 min core &middot; 120 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">Refactor your model-calling script so the API call is a function with parameters and a docstring.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Look at the script you wrote in lesson 00-05. It asks the model one question.
+Now imagine a client says: <em>&ldquo;ask it these five questions, but use a different
+model for the last two, and if any answer comes back empty, ask again.&rdquo;</em></p>
+<p>With the script as it stands, you&rsquo;d copy-paste the API call four more times.
+Then you&rsquo;d change the model in two of the copies. Then you&rsquo;d find a bug in how
+you read the reply — and you&rsquo;d have to fix it in five places, and you would miss
+one. That is not a hypothetical; that is the single most common way beginner
+code rots.</p>
+<p>A function is the fix. You name a piece of work once, describe what varies about
+it, and then call it by that name as many times as you like. Fix the bug once,
+every caller gets the fix. This is also the moment your code becomes <em>testable</em>
+and <em>sellable</em>: nobody buys a script, they buy a thing that reliably does a job,
+and a &ldquo;thing that does a job&rdquo; is exactly what a function is.</p>
+<h2>The mental model</h2>
+<p>A function has two boundaries, and almost every beginner bug lives at one of
+them.</p>
+<p>The first is <strong>the way in</strong>. When you define a function you list <strong>parameters</strong> —
+names the function will use internally. When you call it you supply
+<strong>arguments</strong> — the actual values. Python binds each argument to the matching
+parameter name, and those names exist <em>only inside the function</em>. Python&rsquo;s own
+glossary draws exactly this line: parameters are in the definition, arguments
+are at the call.</p>
+<p>The second is <strong>the way out</strong>. A function hands back exactly one value, using
+<code>return</code>. The moment <code>return</code> runs, the function stops and the call expression
+<em>becomes</em> that value. If you never write <code>return</code>, Python hands back <code>None</code> —
+which is the cause of the classic &ldquo;why is my variable None?&rdquo; confusion.</p>
+<p>And the part that surprises people: the names created inside a function are
+thrown away when it returns. That&rsquo;s a feature. It means a function can&rsquo;t
+accidentally clobber a variable somewhere else in your program.</p>
+<figure class="figure">
+<svg viewBox="0 0 780 340" role="img" aria-label="A diagram of one function call. At the top left, the call site reads reply equals ask, open bracket, the string what is X, comma, max tokens equals 300. Two arrows carry those two arguments rightward and down into the function's parameter slots. The function definition box below is surrounded by a dashed boundary labelled names in here do not exist outside, and shows def ask, open bracket, question, comma, max tokens equals 500. Inside the box, the parameter question is now bound to the string what is X, and max tokens is bound to 300, with a note that the argument beat the default of 500. A third local name, message, is created inside the body and is marked local, discarded on return. An accented box reading return text sits at the lower right, and an accented arrow carries a single value from it back up and leftward to the call site. A note beside that arrow reads exactly one value comes back.">
+  <defs>
+    <marker id="f-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="f-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+    <text x="16" y="30" font-size="10.5" font-weight="600" opacity="0.75">THE CALL</text>
+    <rect x="16" y="40" width="330" height="34" rx="7" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
+    <text x="30" y="62" font-family="ui-monospace, monospace" font-size="11.5">reply = ask(</text>
+    <text x="112" y="62" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">"What is X?"</text>
+    <text x="196" y="62" font-family="ui-monospace, monospace" font-size="11.5">, max_tokens=</text>
+    <text x="292" y="62" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">300</text>
+    <text x="316" y="62" font-family="ui-monospace, monospace" font-size="11.5">)</text>
+
+    <path d="M 150 78 C 150 120, 250 118, 292 146" fill="none" stroke="currentColor" stroke-width="1.6" marker-end="url(#f-ar)"/>
+    <text x="146" y="106" text-anchor="end" font-size="9.5" opacity="0.7">argument</text>
+    <path d="M 300 78 C 320 116, 400 120, 430 146" fill="none" stroke="currentColor" stroke-width="1.6" marker-end="url(#f-ar)"/>
+    <text x="372" y="106" font-size="9.5" opacity="0.7">argument</text>
+
+    <rect x="246" y="150" width="392" height="162" rx="10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="6 5" opacity="0.45"/>
+    <text x="442" y="330" text-anchor="middle" font-size="9.5" opacity="0.7">names in here do not exist outside</text>
+
+    <text x="262" y="172" font-family="ui-monospace, monospace" font-size="11.5" font-weight="600">def ask(question, max_tokens=500):</text>
+
+    <rect x="262" y="184" width="168" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+    <text x="274" y="203" font-family="ui-monospace, monospace" font-size="10.5">question = "What is X?"</text>
+
+    <rect x="440" y="184" width="184" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+    <text x="452" y="203" font-family="ui-monospace, monospace" font-size="10.5">max_tokens = 300</text>
+    <text x="452" y="228" font-size="9.5" opacity="0.65">the argument beat the default 500</text>
+
+    <rect x="262" y="246" width="168" height="30" rx="6" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.4"/>
+    <text x="274" y="265" font-family="ui-monospace, monospace" font-size="10.5" opacity="0.7">message = ...</text>
+    <text x="274" y="290" font-size="9.5" opacity="0.65">local — discarded on return</text>
+
+    <path d="M 556 246 C 606 212, 636 120, 300 96 L 206 88" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#f-ar-a)"/>
+    <rect x="494" y="246" width="124" height="30" rx="6" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="556" y="265" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="var(--accent)">return text</text>
+    <text x="660" y="182" text-anchor="end" font-size="10.5" font-weight="600" fill="var(--accent)">exactly one value</text>
+    <text x="660" y="196" text-anchor="end" font-size="10" opacity="0.65">comes back</text>
+  </g>
+</svg>
+<figcaption>One call, both boundaries. Arguments flow in and get bound to parameter
+names that live only inside the dashed box; <code>return</code> sends exactly one
+value back out, and everything else the function made is thrown away.</figcaption>
+</figure>
+
+<h2>In practice</h2>
+<p>Open a new file, <code>builds/01-03-ask.py</code>. Type these as you go — don&rsquo;t paste.</p>
+<h3>The smallest possible function</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+
+<span class="n">greet</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>hello
+</code></pre></div>
+
+<p><code>def</code> starts the definition. The indented lines are the <strong>body</strong>. Nothing runs
+until you <em>call</em> it with <code>greet()</code> — defining a function and running it are two
+separate events. Leave off the brackets and you get something odd but useful to
+see once:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">greet</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>&lt;function greet at 0x000001C4A1F2B920&gt;
+</code></pre></div>
+
+<p>That&rsquo;s the function object itself. <code>greet</code> is the thing; <code>greet()</code> is the act of
+running it.</p>
+<h3>Parameters make it reusable</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Jack&quot;</span><span class="p">)</span>
+<span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Mum&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>hello, Jack
+hello, Mum
+</code></pre></div>
+
+<p><code>name</code> is a <strong>parameter</strong>. <code>"Jack"</code> is an <strong>argument</strong>. One definition, two
+different results — that&rsquo;s the whole point.</p>
+<h3><code>return</code> versus <code>print</code></h3>
+<p>This trips up nearly everyone. Try both:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">shout_print</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">shout_return</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">shout_print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">shout_return</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a is&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b is&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>HELLO
+a is None
+b is HELLO
+</code></pre></div>
+
+<p><code>shout_print</code> put something on the screen and handed back nothing, so <code>a</code> is
+<code>None</code>. <code>shout_return</code> handed the value back, so <code>b</code> holds it and you can keep
+working with it. <strong>Printing shows a human. Returning gives your program
+something to use.</strong> You almost always want <code>return</code>.</p>
+<p><code>return</code> also stops the function immediately:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;negative&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;zero or more&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>negative
+zero or more
+</code></pre></div>
+
+<p>No <code>else</code> needed — if the first <code>return</code> runs, nothing after it does.</p>
+<h3>Defaults and keyword arguments</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-5&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">, cap </span><span class="si">{</span><span class="n">max_tokens</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;What is X?&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;What is X?&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;What is X?&quot;</span><span class="p">,</span> <span class="s2">&quot;claude-haiku-4-5&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>[claude-opus-5, cap 500] What is X?
+[claude-opus-5, cap 50] What is X?
+[claude-haiku-4-5, cap 500] What is X?
+</code></pre></div>
+
+<p>Parameters with defaults are optional. Naming them at the call site
+(<code>max_tokens=50</code>) is a <strong>keyword argument</strong>, and it lets you skip past ones you
+don&rsquo;t care about. Two rules worth memorising now:</p>
+<ul>
+<li>Parameters <em>with</em> defaults must come after parameters without them.</li>
+<li>Keyword arguments must come after positional ones at the call site.</li>
+</ul>
+<h3>One mistake worth making on purpose</h3>
+<p>Never use a list or dict as a default value. Watch:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="n">bucket</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bucket</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>[&#39;a&#39;]
+[&#39;a&#39;, &#39;b&#39;]
+[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+</code></pre></div>
+
+<p>You expected <code>['b']</code> on the second call. The default was created <strong>once, when
+the function was defined</strong> — so every call that relies on it shares the same
+list. The Python FAQ documents this exact trap. The fix is always the same:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">bucket</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">bucket</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">bucket</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">bucket</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">bucket</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>[&#39;a&#39;]
+[&#39;b&#39;]
+</code></pre></div>
+
+<h3>Docstrings</h3>
+<p>A <strong>docstring</strong> is a string on the first line of the body. It&rsquo;s not a comment —
+it stays attached to the function and tools can read it.</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Send one question to the model and return the reply text.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+<span class="n">help</span><span class="p">(</span><span class="n">ask</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Send one question to the model and return the reply text.
+Help on function ask in module __main__:
+
+ask(question, max_tokens=500)
+    Send one question to the model and return the reply text.
+</code></pre></div>
+
+<p>PEP 257 is the convention: triple double quotes, and phrase it as a command
+(&ldquo;Return the reply&rdquo;) rather than a description (&ldquo;Returns the reply&rdquo;). Don&rsquo;t
+restate the parameter list — Python already shows that.</p>
+<h3>Scope, seen once</h3>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">():</span>
+    <span class="n">inside</span> <span class="o">=</span> <span class="s2">&quot;local&quot;</span>
+    <span class="k">return</span> <span class="n">inside</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">inside</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>local
+Traceback (most recent call last):
+  File &quot;builds/01-03-ask.py&quot;, line 6, in &lt;module&gt;
+    print(inside)
+          ^^^^^^
+NameError: name &#39;inside&#39; is not defined
+</code></pre></div>
+
+<p>That <code>NameError</code> is the dashed box in the diagram doing its job. <code>inside</code> never
+existed outside the function.</p>
+<h2>Build it</h2>
+<p>Refactor your lesson 00-05 script (<code>builds/00-05-ask.py</code>) so the API call lives
+in a function. Save the new version as <code>builds/01-03-ask.py</code> — keep the old one,
+so you can see how far you&rsquo;ve come.</p>
+<p>Your function should:</p>
+<ol>
+<li>Be called <code>ask</code>.</li>
+<li>Take the question as its first parameter.</li>
+<li>Take <code>model</code> and <code>max_tokens</code> as parameters <strong>with sensible defaults</strong>, so
+   <code>ask("something")</code> works with no other arguments.</li>
+<li>Have a one-line docstring phrased as a command.</li>
+<li><strong>Return</strong> the reply text as a string. It must not <code>print</code> the reply — the
+   caller decides what to do with it.</li>
+<li>Be called at least twice at the bottom of the file, once relying on the
+   defaults and once overriding <code>max_tokens</code> with a keyword argument.</li>
+</ol>
+<p>A skeleton to fill in:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Asks a model a question through a reusable function.</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">anthropic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dotenv</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">()</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-5&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Send one question to the model and return the reply text.&quot;&quot;&quot;</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">,</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}],</span>
+    <span class="p">)</span>
+    <span class="c1"># Pull the text out of the content blocks and hand it back.</span>
+    <span class="o">...</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;Name three uses for a paperclip.&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;Say hello in five words.&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span>
+</code></pre></div>
+
+<p>The <code>...</code> is yours to finish. You already wrote that loop over
+<code>message.content</code> in lesson 00-05 — the difference is that this time you
+<code>return</code> the text instead of printing it.</p>
+<blockquote>
+<p>One naming note: in 00-05 you wrote <code>anthropic.Client()</code>. The documented name
+is <code>anthropic.Anthropic()</code>. Both work — <code>Client</code> is an older alias — but use
+<code>Anthropic()</code> from here on so your code matches the official docs.</p>
+</blockquote>
+<p><strong>Done when:</strong></p>
+<ul>
+<li>[ ] <code>python builds/01-03-ask.py</code> prints two different answers.</li>
+<li>[ ] The word <code>print</code> appears nowhere inside the body of <code>ask</code>.</li>
+<li>[ ] <code>ask("anything")</code> runs without a second argument.</li>
+<li>[ ] <code>help(ask)</code> shows your docstring.</li>
+<li>[ ] Assigning the result works: <code>reply = ask("hi")</code> then <code>print(len(reply))</code>
+      prints a number, not an error about <code>None</code>.</li>
+</ul>
+<h2>Going deeper</h2>
+<ul>
+<li>Add a <code>system</code> parameter defaulting to <code>None</code>, and only pass <code>system=</code> to the
+  API when it isn&rsquo;t <code>None</code>.</li>
+<li>Write a second function <code>ask_many(questions)</code> that takes a list, calls <code>ask</code>
+  once per item using the loop from 01-02, and returns a list of replies. Notice
+  that you did not have to touch <code>ask</code> at all.</li>
+<li>Add a <code>retries=2</code> parameter: if the returned text is empty, call the API again
+  up to that many times before giving up.</li>
+<li>Give the function type hints — <code>def ask(question: str, max_tokens: int = 500) -&gt; str:</code> — and read what PEP 257 says about not duplicating the signature in
+  the docstring.</li>
+<li>Move <code>ask</code> into its own file, <code>builds/askbot.py</code>, and <code>from askbot import ask</code>
+  in a second script. This is the moment a function becomes a <em>tool</em>, which is
+  exactly how everything in this repo&rsquo;s <code>tools/</code> directory is built.</li>
+<li>Read the Python FAQ section on why default values are shared, then find one
+  legitimate use of that behaviour (hint: it&rsquo;s called memoisation).</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>You run <code>result = shout("hey")</code> and <code>result</code> is <code>None</code>, even though "HEY" appeared on screen. What single word is missing, and where?</summary>
+<p><code>return</code>, in the body of <code>shout</code>. The function is printing the value instead of
+handing it back, so the call evaluates to <code>None</code>. Change <code>print(text.upper())</code>
+to <code>return text.upper()</code> — and if you want both, <code>return</code> the value and let the
+<em>caller</em> print it.</p>
+</details>
+<details>
+<summary>Why does <code>def ask(max_tokens=500, question):</code> refuse to run at all?</summary>
+<p>A parameter without a default can&rsquo;t follow one with a default — Python raises a
+<code>SyntaxError</code> before the file executes. If it were allowed, a call like
+<code>ask("hi")</code> would be ambiguous: Python couldn&rsquo;t tell whether <code>"hi"</code> was meant
+for <code>max_tokens</code> or <code>question</code>. Put required parameters first:
+<code>def ask(question, max_tokens=500):</code>.</p>
+</details>
+<details>
+<summary>This function is supposed to start fresh each call, but doesn't. Fix it: <code>def log(msg, seen=[]):</code> then <code>seen.append(msg)</code> then <code>return seen</code>.</summary>
+<p>The default list is created once, when the <code>def</code> line runs — not once per call —
+so every call shares it. Use <code>None</code> as the sentinel and build the list inside:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">seen</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">seen</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">seen</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">seen</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">seen</span>
+</code></pre></div>
+
+<p>The same trap applies to <code>{}</code> and to any other mutable default.</p>
+</details>
+<details>
+<summary>Inside <code>ask</code> you set <code>reply = "..."</code>. After the call, <code>print(reply)</code> raises <code>NameError</code>. Is this a bug?</summary>
+<p>No — it&rsquo;s the point. Names assigned inside a function live in that function&rsquo;s
+local scope and are discarded when it returns. That&rsquo;s what stops a function from
+silently overwriting variables elsewhere in your program. If you need the value
+outside, <code>return</code> it and catch it: <code>reply = ask("hi")</code>.</p>
+</details>
+<details>
+<summary>You want to call <code>ask</code> with the default model but a <code>max_tokens</code> of 50. Why does <code>ask("hi", 50)</code> do the wrong thing, and what should you write?</summary>
+<p>Positional arguments fill parameters in order, so <code>50</code> lands in <code>model</code> — the
+second parameter — and you end up asking a model literally named <code>50</code>. Name the
+one you want instead: <code>ask("hi", max_tokens=50)</code>. This is exactly what keyword
+arguments are for, and it&rsquo;s why skipping over a middle parameter requires them.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/tutorial/controlflow.html"><span class="t">Python tutorial — defining functions, default values, keyword arguments</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/faq/programming.html"><span class="t">Python FAQ — arguments vs parameters, and why default values are shared</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://peps.python.org/pep-0257/"><span class="t">PEP 257 — docstring conventions</span><span class="d">peps.python.org</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter4.html"><span class="t">Automate the Boring Stuff, chapter 4 — Functions (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+      <li><a href="https://docs.python.org/3/glossary.html"><span class="t">Python glossary — the exact definitions of parameter and argument</span><span class="d">docs.python.org</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 01-03 --status complete \
+    --minutes 50 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="01-02-lists-loops-and-conditionals.html">&larr; 01-02 Lists, loops, and conditionals</a></span>
+    <span><a href="01-04-dictionaries-and-json.html">01-04 Dictionaries and JSON &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>6 of 100 lessons &middot; 7.8 hours logged</span>
+    <span>Rebuilt 02 Sep 2026, 20:03</span>
+  </footer>
+
+</div>
+</body>
+</html>
