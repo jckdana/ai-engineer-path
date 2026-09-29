@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dictionaries and JSON &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">01 &nbsp;Python that AI work actually needs</a> &nbsp;&middot;&nbsp; Lesson 01-04</p>
+    <h1>Dictionaries and JSON</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        55 min core &middot; 130 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A script that reads a JSON file of records, filters them by a field, and writes the results to a new JSON file.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>You&rsquo;ve already written a dictionary without being told. Look at the call in
+your <code>ask</code> function:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}]</span>
+</code></pre></div>
+
+<p>Those curly braces are a <strong>dictionary</strong>: a set of labelled values. <code>"role"</code> is
+a label, <code>"user"</code> is the value stored under it. Every AI API you&rsquo;ll ever touch —
+Claude, OpenAI, a CRM, Stripe, a Google Sheet — takes its input in this shape and
+gives its output back in this shape. When you send the request, it travels over
+the internet as <strong>JSON</strong>, which is the same shape written out as plain text.</p>
+<p>This matters for money reasons. The most common small job a business will pay
+for looks like: <em>&ldquo;we have a pile of records (leads, orders, support tickets) —
+pull out the ones that matter and put them somewhere useful.&rdquo;</em> That job is
+dictionaries and JSON, start to finish. By the end of this lesson you&rsquo;ll have
+built exactly that: a script that reads a file of support tickets, keeps the
+urgent ones, and writes them out for someone else to act on.</p>
+<h2>The mental model</h2>
+<p>A <strong>dictionary</strong> (<code>dict</code>) maps <strong>keys</strong> to <strong>values</strong>. A list finds things by
+position (<code>items[0]</code>); a dict finds things by name (<code>ticket["customer"]</code>). Keys
+are usually strings. Values can be anything — including lists and other dicts,
+which is how real data gets its depth.</p>
+<p><strong>JSON</strong> (JavaScript Object Notation) is a text format for the same shapes. A
+JSON <em>object</em> looks like a dict, a JSON <em>array</em> looks like a list. But there&rsquo;s
+one idea the whole lesson turns on:</p>
+<p><strong>JSON is text. A dict is a live object in your program&rsquo;s memory.</strong> You can&rsquo;t
+look up a key in a string; you can&rsquo;t save a live object to a file. So there is
+always a conversion step at the boundary, and Python&rsquo;s built-in <code>json</code> module
+does it:</p>
+<ul>
+<li><code>json.load</code> / <code>json.loads</code> — JSON text <strong>→</strong> Python objects (reading)</li>
+<li><code>json.dump</code> / <code>json.dumps</code> — Python objects <strong>→</strong> JSON text (writing)</li>
+</ul>
+<p>The trailing <code>s</code> means <em>string</em>: <code>loads</code> reads from a string, <code>load</code> reads from
+an open file. Same with <code>dumps</code> and <code>dump</code>.</p>
+<figure class="figure">
+<svg viewBox="0 0 780 360" role="img" aria-label="A diagram of the boundary between JSON text and Python objects. On the left, a box labelled tickets.json, text on disk, shows a line of JSON with double-quoted keys, the word true in lowercase and the word null. On the right, a box labelled Python memory, live objects, shows the same record as a Python dict with True capitalised and None. Two accented arrows cross the boundary in the middle: the upper one, labelled json.load, goes from the file to memory; the lower one, labelled json.dump, goes from memory back to a file. A note says the conversion changes true to True and null to None. Below, a second row shows the same boundary for an API call: your dict passes through the SDK, which converts it to JSON, travels over the internet to Anthropic, and the JSON reply comes back through the SDK into a Python object you read with keys and dots.">
+  <defs>
+    <marker id="j-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="j-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+
+
+    <text x="16" y="26" font-size="10.5" font-weight="600" opacity="0.75">TEXT ON DISK</text>
+    <rect x="16" y="36" width="270" height="96" rx="8" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
+    <text x="30" y="58" font-family="ui-monospace, monospace" font-size="11" font-weight="600">tickets.json</text>
+    <text x="30" y="82" font-family="ui-monospace, monospace" font-size="10.5">{"id": 101,</text>
+    <text x="30" y="98" font-family="ui-monospace, monospace" font-size="10.5"> "open": true,</text>
+    <text x="30" y="114" font-family="ui-monospace, monospace" font-size="10.5"> "notes": null}</text>
+    <text x="196" y="98" font-size="9.5" opacity="0.65">just characters —</text>
+    <text x="196" y="112" font-size="9.5" opacity="0.65">can't look up keys</text>
+
+    <text x="764" y="26" text-anchor="end" font-size="10.5" font-weight="600" opacity="0.75">LIVE OBJECTS IN MEMORY</text>
+    <rect x="494" y="36" width="270" height="96" rx="8" fill="none" stroke="currentColor" stroke-width="1.6" opacity="0.6"/>
+    <text x="508" y="58" font-family="ui-monospace, monospace" font-size="11" font-weight="600">ticket  (a dict)</text>
+    <text x="508" y="82" font-family="ui-monospace, monospace" font-size="10.5">{"id": 101,</text>
+    <text x="508" y="98" font-family="ui-monospace, monospace" font-size="10.5"> "open": True,</text>
+    <text x="508" y="114" font-family="ui-monospace, monospace" font-size="10.5"> "notes": None}</text>
+    <text x="664" y="98" font-size="9.5" opacity="0.65">ticket["open"]</text>
+    <text x="664" y="112" font-size="9.5" opacity="0.65">works here</text>
+
+    <line x1="390" y1="30" x2="390" y2="150" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.45"/>
+    <text x="390" y="166" text-anchor="middle" font-size="9.5" opacity="0.7">the boundary</text>
+
+    <path d="M 292 64 L 488 64" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#j-ar-a)"/>
+    <rect x="344" y="50" width="92" height="22" rx="5" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.4"/>
+    <text x="390" y="65" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="var(--accent)">json.load</text>
+
+    <path d="M 488 110 L 292 110" fill="none" stroke="var(--accent)" stroke-width="2" marker-end="url(#j-ar-a)"/>
+    <rect x="344" y="96" width="92" height="22" rx="5" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.4"/>
+    <text x="390" y="111" text-anchor="middle" font-family="ui-monospace, monospace" font-size="11" fill="var(--accent)">json.dump</text>
+    <text x="390" y="88" text-anchor="middle" font-size="9.5" opacity="0.7">true ↔ True · null ↔ None</text>
+
+
+    <text x="16" y="212" font-size="10.5" font-weight="600" opacity="0.75">THE SAME BOUNDARY, EVERY API CALL</text>
+
+    <rect x="16" y="226" width="150" height="46" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="91" y="245" text-anchor="middle" font-size="11" font-weight="600">your code</text>
+    <text x="91" y="262" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10">{"role": "user", ...}</text>
+
+    <rect x="226" y="226" width="120" height="46" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="286" y="245" text-anchor="middle" font-size="11" font-weight="600">SDK</text>
+    <text x="286" y="262" text-anchor="middle" font-size="9.5" opacity="0.7">converts to JSON</text>
+
+    <rect x="408" y="226" width="130" height="46" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+    <text x="473" y="245" text-anchor="middle" font-size="11" font-weight="600">internet</text>
+    <text x="473" y="262" text-anchor="middle" font-size="9.5" opacity="0.7">only text travels</text>
+
+    <rect x="600" y="226" width="164" height="46" rx="7" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="682" y="245" text-anchor="middle" font-size="11" font-weight="600">Anthropic's API</text>
+    <text x="682" y="262" text-anchor="middle" font-size="9.5" opacity="0.7">reads JSON, writes JSON</text>
+
+    <path d="M 166 240 L 222 240" stroke="currentColor" stroke-width="1.5" marker-end="url(#j-ar)"/>
+    <path d="M 346 240 L 404 240" stroke="currentColor" stroke-width="1.5" marker-end="url(#j-ar)"/>
+    <path d="M 538 240 L 596 240" stroke="currentColor" stroke-width="1.5" marker-end="url(#j-ar)"/>
+    <text x="375" y="232" text-anchor="middle" font-size="9" opacity="0.7">request</text>
+
+    <path d="M 682 272 C 682 318, 560 318, 540 318 L 100 318 C 91 318, 91 300, 91 278" fill="none" stroke="currentColor" stroke-width="1.5" marker-end="url(#j-ar)"/>
+    <text x="400" y="312" text-anchor="middle" font-size="9.5" opacity="0.7">response JSON → SDK → Python object</text>
+    <text x="91" y="344" font-family="ui-monospace, monospace" font-size="10" text-anchor="start" opacity="0.85">message.usage.output_tokens</text>
+  </g>
+</svg>
+<figcaption>JSON is how data travels and gets stored; dicts and lists are how your
+program works with it. <code>json.load</code> and <code>json.dump</code> are the
+only doors between the two. The Anthropic SDK does the same conversion for you on
+every call — which is why your request is written as a dict.</figcaption>
+</figure>
+
+<h2>In practice</h2>
+<p>Open a scratch file, <code>builds/01-04-play.py</code>. Type each block, run it, then
+delete it and type the next.</p>
+<h3>Making and reading a dict</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;customer&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Dana
+high
+</code></pre></div>
+
+<p>Curly braces, <code>key: value</code> pairs, commas between pairs. Square brackets with a
+key reads the value stored under it.</p>
+<h3>Changing and adding</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span>        <span class="c1"># key exists  → value replaced</span>
+<span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;assigned_to&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>    <span class="c1"># key is new  → pair added</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ticket</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>{&#39;id&#39;: 101, &#39;customer&#39;: &#39;Dana&#39;, &#39;priority&#39;: &#39;low&#39;, &#39;open&#39;: True, &#39;assigned_to&#39;: &#39;Jack&#39;}
+5
+</code></pre></div>
+
+<p>Same syntax for both. If the key exists, it&rsquo;s overwritten; if not, it&rsquo;s
+created. A dict can&rsquo;t have the same key twice. <code>len</code> counts the pairs.</p>
+<h3>The mistake you will make this week</h3>
+<p>Ask for a key that isn&rsquo;t there:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
+  File &quot;builds/01-04-play.py&quot;, line 2, in &lt;module&gt;
+    print(ticket[&quot;email&quot;])
+          ~~~~~~^^^^^^^^^
+KeyError: &#39;email&#39;
+</code></pre></div>
+
+<p>A <code>KeyError</code> means <em>&ldquo;that label doesn&rsquo;t exist in this dict&rdquo;</em> — and it names the
+missing key for you. Real data is messy: one record in fifty will be missing a
+field, and square brackets will crash your whole script on it. Two ways to ask
+safely:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;no email on file&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;email&quot;</span> <span class="ow">in</span> <span class="n">ticket</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;customer&quot;</span> <span class="ow">in</span> <span class="n">ticket</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>None
+no email on file
+False
+True
+</code></pre></div>
+
+<p><code>.get(key)</code> returns <code>None</code> instead of crashing; <code>.get(key, fallback)</code> returns
+your fallback. <code>in</code> checks whether a key exists. Rule of thumb: use <code>[]</code> when a
+missing key <em>should</em> crash (it&rsquo;s a bug you want to see), and <code>.get()</code> when a
+missing key is normal (it&rsquo;s data from outside).</p>
+<h3>Looping over a dict</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span><span class="p">}</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ticket</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>id: 101
+customer: Dana
+priority: high
+</code></pre></div>
+
+<p><code>.items()</code> hands you each pair; the <code>for key, value in</code> unpacks both at once.</p>
+<h3>Nesting — how API responses really look</h3>
+<p>Values can be lists and dicts. Here&rsquo;s a cut-down version of what the Claude API
+actually sends back, written as a Python dict:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Paris.&quot;</span><span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;input_tokens&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">&quot;output_tokens&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;usage&quot;</span><span class="p">][</span><span class="s2">&quot;output_tokens&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>4
+Paris.
+</code></pre></div>
+
+<p>Read chained lookups left to right, one step at a time:
+<code>message["content"]</code> is a list → <code>[0]</code> is its first item, a dict →
+<code>["text"]</code> is the string inside. This is the single most useful skill in the
+lesson. When you meet a new API, you print one response, trace the path to the
+value you need, and write it as a chain like this.</p>
+<blockquote>
+<p>The Anthropic SDK gives you the reply as an object, so in your real script you
+write <code>message.usage.output_tokens</code> with dots instead of brackets. Same shape,
+same path — the SDK just converted the JSON for you.</p>
+</blockquote>
+<h3>Crossing the boundary: <code>dumps</code> and <code>loads</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+
+<span class="n">text</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ticket</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+
+<span class="n">back</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">back</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">back</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>{&quot;id&quot;: 101, &quot;customer&quot;: &quot;Dana&quot;, &quot;open&quot;: true, &quot;notes&quot;: null}
+&lt;class &#39;str&#39;&gt;
+True
+&lt;class &#39;dict&#39;&gt;
+</code></pre></div>
+
+<p>Look closely at the first line: <code>True</code> became <code>true</code>, <code>None</code> became <code>null</code>, and
+every string is in double quotes. That&rsquo;s JSON&rsquo;s spelling. <code>type</code> confirms it&rsquo;s
+now just a <code>str</code> — you can&rsquo;t look up keys in it until <code>loads</code> turns it back into
+a <code>dict</code>.</p>
+<h3>JSON is stricter than Python</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">bad</span> <span class="o">=</span> <span class="s2">&quot;{&#39;id&#39;: 101, &#39;customer&#39;: &#39;Dana&#39;}&quot;</span>
+<span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bad</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>json.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+</code></pre></div>
+
+<p>That&rsquo;s a Python dict <em>printed</em>, not JSON. JSON demands double quotes. You&rsquo;ll
+hit this when you copy output from <code>print(some_dict)</code> into a <code>.json</code> file —
+<code>print</code> shows Python&rsquo;s spelling, <code>json.dumps</code> gives you JSON&rsquo;s. The error even
+tells you the line and column to look at.</p>
+<h3>Reading and writing files</h3>
+<p>The pattern you&rsquo;ll use for the rest of your career:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="c1"># Read</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;builds/some-file.json&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Write</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;builds/other-file.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<ul>
+<li><code>with open(...) as f:</code> opens the file and closes it for you when the indented
+  block ends, even if something crashes. (Files get their own lesson, 01-05.)</li>
+<li><code>"w"</code> means write — it <strong>replaces</strong> the file if it already exists.</li>
+<li><code>encoding="utf-8"</code> is what the Python docs tell you to use for JSON. Leave it
+  off on Windows and Python reads with an older default encoding instead: a
+  file containing <em>Zoë</em> loads as <em>ZoÃ«</em>. No error, just quietly wrong data.</li>
+<li><code>indent=2</code> makes the output readable by a human. Without it, everything lands
+  on one line.</li>
+</ul>
+<h2>Build it</h2>
+<p>A client runs a small software company. Support tickets pile up in a JSON
+export. They want a file containing <strong>only the urgent ones — high priority and
+still open</strong> — so whoever&rsquo;s on call can start there.</p>
+<p><strong>1.</strong> Create <code>builds/01-04-tickets.json</code> with this content. This is data, so
+copy-pasting it is fine:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dana Reyes&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Can&#39;t log in after password reset&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marcus Lee&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;How do I change my invoice email?&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Priya Shah&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Double charged in August&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tom Okafor&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Export to CSV is slow&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">105</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ana Costa&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Feature idea: dark mode&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">106</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sam Wright&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Whole team locked out since this morning&quot;</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">107</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lena Park&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HIGH&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Payment page shows an error&quot;</span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>It&rsquo;s a JSON array of objects, so <code>json.load</code> will give you a <strong>list of dicts</strong>.
+Two records are deliberately messy — this is what real exports look like. Find
+them before you start.</p>
+<p><strong>2.</strong> Write <code>builds/01-04-filter.py</code>. Use functions, like lesson 01-03:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Reads support tickets from JSON, keeps the urgent open ones, writes them to a new file.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">INPUT_PATH</span> <span class="o">=</span> <span class="s2">&quot;builds/01-04-tickets.json&quot;</span>
+<span class="n">OUTPUT_PATH</span> <span class="o">=</span> <span class="s2">&quot;builds/01-04-urgent.json&quot;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_records</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a JSON file and return the Python object inside it.&quot;&quot;&quot;</span>
+    <span class="o">...</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_urgent</span><span class="p">(</span><span class="n">ticket</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the ticket is high priority and still open.&quot;&quot;&quot;</span>
+    <span class="o">...</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write records to a JSON file, pretty-printed.&quot;&quot;&quot;</span>
+    <span class="o">...</span>
+
+
+<span class="n">tickets</span> <span class="o">=</span> <span class="n">load_records</span><span class="p">(</span><span class="n">INPUT_PATH</span><span class="p">)</span>
+<span class="n">urgent</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Loop over tickets; append the ones where is_urgent(...) is True.</span>
+<span class="o">...</span>
+
+<span class="n">save_records</span><span class="p">(</span><span class="n">urgent</span><span class="p">,</span> <span class="n">OUTPUT_PATH</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Read </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tickets</span><span class="p">)</span><span class="si">}</span><span class="s2"> tickets, kept </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">urgent</span><span class="p">)</span><span class="si">}</span><span class="s2">, wrote </span><span class="si">{</span><span class="n">OUTPUT_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Fill in each <code>...</code>. Hints, if you&rsquo;re stuck for more than ten minutes:</p>
+<ul>
+<li><code>load_records</code> and <code>save_records</code> are the two halves of the file pattern
+  above, with <code>return</code> on the load side.</li>
+<li>Write <code>is_urgent</code> with square brackets first — <code>ticket["priority"] == "high"</code>
+  — and run it. Read the traceback. Which ticket broke it, and why? Fix it with
+  <code>.get()</code>.</li>
+<li>Then check the output: is ticket 107 in it? It should be. <code>"HIGH"</code> isn&rsquo;t equal
+  to <code>"high"</code>. You fixed exactly this in lesson 01-01 with a string method.</li>
+</ul>
+<p><strong>Done when:</strong></p>
+<ul>
+<li>[ ] <code>python builds/01-04-filter.py</code> prints <code>Read 7 tickets, kept 3, wrote builds/01-04-urgent.json</code>.</li>
+<li>[ ] <code>builds/01-04-urgent.json</code> exists, is indented, and contains tickets 101, 106 and 107 — nothing else.</li>
+<li>[ ] Ticket 105 (no <code>priority</code> field) doesn&rsquo;t crash the script.</li>
+<li>[ ] No square-bracket lookup inside <code>is_urgent</code> can raise <code>KeyError</code>.</li>
+<li>[ ] Opening the output file in VS Code shows double quotes and lowercase <code>true</code>/<code>null</code> style — it&rsquo;s real JSON, not a printed dict.</li>
+</ul>
+<h2>Going deeper</h2>
+<ul>
+<li><strong>Make the filter reusable.</strong> Change <code>is_urgent(ticket)</code> into
+  <code>matches(record, field, value)</code> so the same script can pull tickets by
+  <code>status</code>, <code>customer</code>, or anything else. Call it three ways.</li>
+<li><strong>Count, don&rsquo;t just filter.</strong> Build a dict that counts tickets per priority —
+  <code>{"high": 3, "low": 1, ...}</code> — using <code>counts[p] = counts.get(p, 0) + 1</code>. Treat a
+  missing priority as <code>"unset"</code>. This <code>.get(key, 0) + 1</code> line is one of the most
+  common idioms in Python.</li>
+<li><strong>Sort the output.</strong> Look up <code>sorted(..., key=...)</code> and write the urgent
+  tickets out ordered by <code>id</code> descending (newest first).</li>
+<li><strong>Handle a broken input file.</strong> Put a single quote in place of a double quote
+  in a copy of the tickets file and run your script on it. Read the
+  <code>JSONDecodeError</code> line and column, and find the typo from that alone.</li>
+<li><strong>Look at a real API response.</strong> In your <code>01-03-ask.py</code>, after the call, add
+  <code>print(json.dumps(message.to_dict(), indent=2))</code>. <code>to_dict()</code> is the SDK&rsquo;s way
+  of handing you the response as a plain dict. Trace the path to the reply text
+  and to <code>output_tokens</code> by hand, then compare it with the Messages API
+  reference in the resources.</li>
+<li><strong>Update your default model.</strong> Your scripts use <code>claude-opus-5</code>, which still
+  works. The current Opus is <code>claude-opus-5-5</code>, and it&rsquo;s cheaper per token. Change
+  the default in your <code>ask</code> function — one edit, because it&rsquo;s a function.</li>
+<li><strong>Put the model in the loop.</strong> Combine this with 01-03: for each urgent
+  ticket, call <code>ask</code> to write a one-sentence first reply, store it under a new
+  key (<code>ticket["draft_reply"] = ...</code>), then save. That&rsquo;s a small, real,
+  sellable workflow: triage plus drafted responses.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>Your script crashes with <code>KeyError: 'phone'</code> on record 38 of 200. What does that tell you, and what are your two options?</summary>
+<p>Record 38 has no <code>phone</code> key — the other 37 did, so this is messy data, not a
+typo in your code. If phone numbers are optional, use
+<code>record.get("phone")</code> (or <code>.get("phone", "")</code>) so a missing one is handled. If
+every record <em>must</em> have one, the crash is correct: keep the square brackets and
+fix or report the bad record. The choice is about what the data is supposed to
+guarantee.</p>
+</details>
+<details>
+<summary>You <code>print(my_dict)</code>, copy the output into <code>data.json</code>, and <code>json.load</code> fails. Why, and what should you have done?</summary>
+<p><code>print</code> shows Python&rsquo;s spelling: single quotes, <code>True</code>, <code>None</code>. JSON requires
+double quotes, <code>true</code> and <code>null</code>, so the parser rejects it with
+<code>JSONDecodeError</code>. Use <code>json.dumps(my_dict, indent=2)</code> to produce JSON text, or
+better, write it straight to the file with <code>json.dump(my_dict, f, indent=2)</code>.</p>
+</details>
+<details>
+<summary>Given <code>resp = {"results": [{"name": "Ana", "tags": ["vip", "eu"]}]}</code>, write the expression that gets <code>"eu"</code>.</summary>
+<p><code>resp["results"][0]["tags"][1]</code></p>
+<p>Step by step: <code>resp["results"]</code> is a list → <code>[0]</code> is the first dict →
+<code>["tags"]</code> is a list → <code>[1]</code> is its second item. Walking one bracket at a time
+like this is how you&rsquo;ll read every unfamiliar API response.</p>
+</details>
+<details>
+<summary>What's the difference between <code>json.load</code> and <code>json.loads</code>, and which does your build script need?</summary>
+<p><code>json.load(f)</code> reads JSON from an open <strong>file</strong>; <code>json.loads(s)</code> reads JSON from
+a <strong>string</strong> already in memory (the <code>s</code> is for <em>string</em>). The build reads a file,
+so it uses <code>json.load</code> inside a <code>with open(...)</code> block — and <code>json.dump</code> to
+write. You&rsquo;d reach for <code>loads</code> when JSON arrives as text, like the body of a web
+request.</p>
+</details>
+<details>
+<summary>Your filter kept tickets 101 and 106 but missed 107, whose priority is <code>"HIGH"</code>. Fix <code>is_urgent</code> without listing every capitalisation.</summary>
+<p>Normalise before comparing:
+<code>ticket.get("priority", "").lower() == "high"</code>. The <code>""</code> fallback matters —
+without it, a missing priority gives <code>None</code>, and <code>None.lower()</code> raises
+<code>AttributeError</code>. Cleaning a value <em>before</em> you compare it is a habit that
+prevents a whole class of silent misses in real data.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/tutorial/datastructures.html"><span class="t">Python tutorial 5.5 — Dictionaries (keys, get, in, items)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/tutorial/inputoutput.html"><span class="t">Python tutorial 7.2.2 — Saving structured data with json (and why encoding=&#39;utf-8&#39;)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/library/json.html"><span class="t">The json module reference — load vs loads, dump vs dumps, the type conversion table</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://www.json.org/json-en.html"><span class="t">Introducing JSON — the whole format on one page</span><span class="d">json.org</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter7.html"><span class="t">Automate the Boring Stuff, chapter 7 — Dictionaries and Structuring Data (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+      <li><a href="https://platform.claude.com/docs/en/api/messages"><span class="t">Claude Messages API reference — a real JSON request and response, field by field</span><span class="d">platform.claude.com</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 01-04 --status complete \
+    --minutes 55 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="01-03-functions-and-why-they-matter.html">&larr; 01-03 Functions and why they matter</a></span>
+    <span><a href="01-05-files-paths-and-the-filesystem.html">01-05 Files, paths, and the filesystem &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>8 of 100 lessons &middot; 9.5 hours logged</span>
+    <span>Rebuilt 29 Sep 2026, 12:32</span>
+  </footer>
+
+</div>
+</body>
+</html>
