@@ -158,11 +158,11 @@ Python raises nothing, and your data is untouched. There&rsquo;s no error to rea
 thing that catches it is printing the value and looking.</p>
 <p><strong>Trying to edit a string in place is a hard error</strong>, which is Python being consistent
 rather than awkward:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">word</span> <span class="o">=</span> <span class="s2">&quot;python&quot;</span>
-<span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;P&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">word</span> <span class="o">=</span> <span class="s2">"python"</span>
+<span class="n">word</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"P"</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>TypeError: &#39;str&#39; object does not support item assignment
+<div class="codehilite"><pre><span></span><code>TypeError: 'str' object does not support item assignment
 </code></pre></div>
 
 <p>You don&rsquo;t modify a string. You build the string you wanted and point a name at it.</p>
@@ -183,7 +183,7 @@ you every result without needing <code>print()</code>:</p>
 </code></pre></div>
 
 <h3>Four types you&rsquo;ll meet constantly</h3>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">"Jack"</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">lessons</span> <span class="o">=</span> <span class="mi">6</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">hours</span> <span class="o">=</span> <span class="mf">7.5</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">finished</span> <span class="o">=</span> <span class="kc">True</span>
@@ -193,44 +193,44 @@ you every result without needing <code>print()</code>:</p>
 a decimal point), and <code>bool</code> (<code>True</code> or <code>False</code> — note the capitals; <code>true</code> is a
 <code>NameError</code>). When you&rsquo;re unsure what you&rsquo;re holding, ask:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">str</span><span class="s1">&#39;&gt;</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">'</span><span class="nc">str</span><span class="s1">'&gt;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">lessons</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">int</span><span class="s1">&#39;&gt;</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">'</span><span class="nc">int</span><span class="s1">'&gt;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">hours</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">float</span><span class="s1">&#39;&gt;</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">'</span><span class="nc">float</span><span class="s1">'&gt;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="n">finished</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">bool</span><span class="s1">&#39;&gt;</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">'</span><span class="nc">bool</span><span class="s1">'&gt;</span>
 </code></pre></div>
 
 <p><code>type()</code> is a debugging tool you&rsquo;ll reach for constantly, because the confusing bugs are
 nearly always &ldquo;this isn&rsquo;t the type I thought it was&rdquo;. Quotes are what make the
 difference, not the characters inside:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">int</span><span class="s1">&#39;&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="s2">&quot;6&quot;</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">&#39;</span><span class="nc">str</span><span class="s1">&#39;&gt;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;6&quot;</span> <span class="o">+</span> <span class="mi">6</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">'</span><span class="nc">int</span><span class="s1">'&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">type</span><span class="p">(</span><span class="s2">"6"</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="err">'</span><span class="nc">str</span><span class="s1">'&gt;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"6"</span> <span class="o">+</span> <span class="mi">6</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">TypeError</span><span class="p">:</span> <span class="n">can</span> <span class="n">only</span> <span class="n">concatenate</span> <span class="nb">str</span> <span class="p">(</span><span class="ow">not</span> <span class="s2">&quot;int&quot;</span><span class="p">)</span> <span class="n">to</span> <span class="nb">str</span>
+  <span class="n">File</span> <span class="s2">"&lt;stdin&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">TypeError</span><span class="p">:</span> <span class="n">can</span> <span class="n">only</span> <span class="n">concatenate</span> <span class="nb">str</span> <span class="p">(</span><span class="ow">not</span> <span class="s2">"int"</span><span class="p">)</span> <span class="n">to</span> <span class="nb">str</span>
 </code></pre></div>
 
 <p>You met that error last lesson. Now you can name why: <code>+</code> means <em>join</em> between two
 strings and <em>add</em> between two numbers, and Python refuses to pick one for you.</p>
 <h3>Strings don&rsquo;t change — prove it to yourself</h3>
 <p>This is the lesson&rsquo;s core idea, so run it rather than reading it:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;   Hello World   &quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="s2">"   Hello World   "</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<span class="s1">&#39;Hello World&#39;</span>
+<span class="s1">'Hello World'</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">text</span>
-<span class="s1">&#39;   Hello World   &#39;</span>
+<span class="s1">'   Hello World   '</span>
 </code></pre></div>
 
 <p>Line two <em>showed</em> you a clean string. Line four proves <code>text</code> never changed — the shell
 displayed the new string and then threw it away. Keep it and the picture changes:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">text</span>
-<span class="s1">&#39;Hello World&#39;</span>
+<span class="s1">'Hello World'</span>
 </code></pre></div>
 
 <p>Read <code>text = text.strip()</code> right-to-left: build a trimmed copy of whatever <code>text</code> points
@@ -238,20 +238,20 @@ at, then point <code>text</code> at that copy. The name is reused; the value is 
 <h3>The cleaning toolkit</h3>
 <p><code>.strip()</code> removes whitespace — spaces, tabs, newlines — from <strong>both ends only</strong>, never
 the middle:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;   spacious   &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<span class="s1">&#39;spacious&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;  a  b  &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-<span class="s1">&#39;a  b&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"   spacious   "</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="s1">'spacious'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"  a  b  "</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="s1">'a  b'</span>
 </code></pre></div>
 
 <p>Note the two spaces between <code>a</code> and <code>b</code> survived. Inner whitespace needs <code>.split()</code>,
 which we&rsquo;ll get to in a moment.</p>
 <p><code>.strip()</code> also accepts characters to remove — and this is a genuine trap, worth seeing
 once so it never costs you an hour:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;www.example.com&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;cmowz.&quot;</span><span class="p">)</span>
-<span class="s1">&#39;example&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;Monty Python&quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; Python&quot;</span><span class="p">)</span>
-<span class="s1">&#39;M&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"www.example.com"</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">"cmowz."</span><span class="p">)</span>
+<span class="s1">'example'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"Monty Python"</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">" Python"</span><span class="p">)</span>
+<span class="s1">'M'</span>
 </code></pre></div>
 
 <p>The argument is a <strong>set of characters</strong>, not a prefix. Python chewed <code>" Python"</code> off the
@@ -259,20 +259,20 @@ end letter by letter — the <code>n</code>, the <code>o</code>, the <code>h</co
 going into <code>Monty</code> until it hit a character not in the set. To remove an actual prefix
 or suffix, use <code>.removeprefix()</code> and <code>.removesuffix()</code> instead.</p>
 <p>For case, you have four options and they differ in ways that matter:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;HELLO World&quot;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<span class="s1">&#39;hello world&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello world&quot;</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-<span class="s1">&#39;HELLO WORLD&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello world&quot;</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
-<span class="s1">&#39;Hello world&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello world&quot;</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
-<span class="s1">&#39;Hello World&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"HELLO World"</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="s1">'hello world'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"hello world"</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="s1">'HELLO WORLD'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"hello world"</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+<span class="s1">'Hello world'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"hello world"</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="s1">'Hello World'</span>
 </code></pre></div>
 
 <p><code>.capitalize()</code> does the first letter of the <em>string</em>; <code>.title()</code> does the first letter
 of every <em>word</em>. <code>.title()</code> also has a documented wart:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;don&#39;t stop&quot;</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
-<span class="s2">&quot;Don&#39;T Stop&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"don't stop"</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="s2">"Don'T Stop"</span>
 </code></pre></div>
 
 <p>It capitalises after any non-letter, and an apostrophe is a non-letter. Which is the
@@ -280,14 +280,14 @@ real lesson: <code>.title()</code> is fine for a name field, wrong for a sentenc
 that matches your data.</p>
 <p>For <strong>comparing</strong> text, use <code>.lower()</code> — or better, <code>.casefold()</code>, which is built for
 exactly that job and handles cases <code>.lower()</code> won&rsquo;t:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;YES&quot;</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"YES"</span> <span class="o">==</span> <span class="s2">"yes"</span>
 <span class="kc">False</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;YES&quot;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"YES"</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s2">"yes"</span>
 <span class="kc">True</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;straße&quot;</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<span class="s1">&#39;straße&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;straße&quot;</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
-<span class="s1">&#39;strasse&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"straße"</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="s1">'straße'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"straße"</span><span class="o">.</span><span class="n">casefold</span><span class="p">()</span>
+<span class="s1">'strasse'</span>
 </code></pre></div>
 
 <p><code>==</code> on strings is exact, character for character. Nearly every &ldquo;why didn&rsquo;t my check
@@ -296,34 +296,34 @@ match?&rdquo; bug is a case difference or an invisible trailing space.</p>
 <p><code>.split()</code> cuts a string into a <strong>list</strong> of pieces. Called with no argument, it splits on
 any run of whitespace and drops the empties — which is exactly what you want for
 counting words:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;the quick brown fox&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;quick&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">,</span> <span class="s1">&#39;fox&#39;</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;   the   quick   brown   &quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-<span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;quick&#39;</span><span class="p">,</span> <span class="s1">&#39;brown&#39;</span><span class="p">]</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"the quick brown fox"</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="p">[</span><span class="s1">'the'</span><span class="p">,</span> <span class="s1">'quick'</span><span class="p">,</span> <span class="s1">'brown'</span><span class="p">,</span> <span class="s1">'fox'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"   the   quick   brown   "</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="p">[</span><span class="s1">'the'</span><span class="p">,</span> <span class="s1">'quick'</span><span class="p">,</span> <span class="s1">'brown'</span><span class="p">]</span>
 </code></pre></div>
 
 <p>Three spaces between words, and it still produced three clean pieces. Compare that with
 passing a separator explicitly:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;the   quick&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
-<span class="p">[</span><span class="s1">&#39;the&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;quick&#39;</span><span class="p">]</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"the   quick"</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">" "</span><span class="p">)</span>
+<span class="p">[</span><span class="s1">'the'</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">''</span><span class="p">,</span> <span class="s1">'quick'</span><span class="p">]</span>
 </code></pre></div>
 
 <p>With an argument, every single space is a cut, so the runs produced empty strings. <strong>The
 no-argument version is the one you want for words.</strong> A list is the next lesson&rsquo;s topic;
 for now the only thing you need from it is its length:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;the quick brown fox&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="s2">"the quick brown fox"</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
 <span class="mi">4</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;the quick brown fox&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="s2">"the quick brown fox"</span><span class="p">)</span>
 <span class="mi">19</span>
 </code></pre></div>
 
 <p><code>len()</code> on a list counts items; <code>len()</code> on a string counts characters, spaces included.
 Same function, and what it counts depends on what you hand it.</p>
 <p><code>.join()</code> is <code>.split()</code> in reverse, and it&rsquo;s how you squash inner whitespace:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;the&quot;</span><span class="p">,</span> <span class="s2">&quot;quick&quot;</span><span class="p">])</span>
-<span class="s1">&#39;the quick&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;  the   quick   brown  &quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
-<span class="s1">&#39;the quick brown&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">"the"</span><span class="p">,</span> <span class="s2">"quick"</span><span class="p">])</span>
+<span class="s1">'the quick'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"  the   quick   brown  "</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+<span class="s1">'the quick brown'</span>
 </code></pre></div>
 
 <p>Read that last line inside-out: split on any whitespace (giving clean pieces), then glue
@@ -331,17 +331,17 @@ them back with exactly one space between each. That single expression normalises
 spacing of any text you&rsquo;ll ever be handed.</p>
 <p>Two more you&rsquo;ll use weekly — <code>.replace()</code>, and <code>in</code> for asking whether text contains
 something:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;spam, spam, spam&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;spam&quot;</span><span class="p">,</span> <span class="s2">&quot;eggs&quot;</span><span class="p">)</span>
-<span class="s1">&#39;eggs, eggs, eggs&#39;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;error&quot;</span> <span class="ow">in</span> <span class="s2">&quot;connection error: timed out&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"spam, spam, spam"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"spam"</span><span class="p">,</span> <span class="s2">"eggs"</span><span class="p">)</span>
+<span class="s1">'eggs, eggs, eggs'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"error"</span> <span class="ow">in</span> <span class="s2">"connection error: timed out"</span>
 <span class="kc">True</span>
 </code></pre></div>
 
 <p>Type <code>exit()</code> to leave the shell.</p>
 <h3>Chaining, and where it stops being readable</h3>
 <p>Methods return strings, so you can call another one straight away:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;  JACK  &quot;</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-<span class="s1">&#39;jack&#39;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="s2">"  JACK  "</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="s1">'jack'</span>
 </code></pre></div>
 
 <p>That reads left to right: strip, then lowercase the result. Chaining three or four is
@@ -359,7 +359,7 @@ what changed.</p>
 <code>\t</code> is a tab and the <code>\n</code> is a line break, both of which count as whitespace:</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Cleans a messy string and reports on what changed.</span>
 
-<span class="n">raw</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n\t</span><span class="s2">  the QUICK   brown fox    jumped over    the LAZY dog.  </span><span class="se">\n</span><span class="s2">&quot;</span>
+<span class="n">raw</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\n\t</span><span class="s2">  the QUICK   brown fox    jumped over    the LAZY dog.  </span><span class="se">\n</span><span class="s2">"</span>
 </code></pre></div>
 
 <p>Your script must then:</p>
@@ -382,7 +382,7 @@ whitespace visible, which is the only way to see whitespace at all.</p>
 capitals survive with no error message. Put it back.</p>
 <p><strong>4. Commit and merge:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01-clean</span><span class="p">.</span><span class="n">py</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add string cleaner from lesson 01-01&quot;</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add string cleaner from lesson 01-01"</span>
 <span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
 <span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01</span>
 <span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01</span>
@@ -401,10 +401,21 @@ capitals survive with no error message. Put it back.</p>
 <li><code>git log --oneline -3</code> shows your commit on <code>main</code>, and <code>git status</code> is clean</li>
 </ul>
 <p>Then log it:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">01</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01-clean</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;what clicked&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">01</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">01-clean</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">"what clicked"</span>
 <span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
 </code></pre></div>
 
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/little-sisters-vocab">Little Sister&rsquo;s Vocabulary</a></strong> covers concatenation, <code>join</code>, slicing
+  and <code>split</code>.</li>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/little-sisters-essay">Little Sister&rsquo;s Essay</a></strong> covers <code>title</code>, <code>strip</code>, <code>replace</code> and
+  <code>endswith</code>, which are the same methods as your build task.</li>
+</ul>
+<p>Exercism is free forever, and you code in the browser with no install. Each exercise runs
+automated tests against your code, so you also get used to failing tests. If one is locked,
+finish the earlier exercise the track points you to first.</p>
 <h2>Going deeper</h2>
 <ul>
 <li>Add a <code>.replace()</code> step that swaps a word, and use <code>in</code> to print whether the cleaned
@@ -512,7 +523,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

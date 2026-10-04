@@ -140,7 +140,7 @@ value back out, and everything else the function made is thrown away.</figcaptio
 <p>Open a new file, <code>builds/01-03-ask.py</code>. Type these as you go — don&rsquo;t paste.</p>
 <h3>The smallest possible function</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
 
 <span class="n">greet</span><span class="p">()</span>
 </code></pre></div>
@@ -162,10 +162,10 @@ see once:</p>
 running it.</p>
 <h3>Parameters make it reusable</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-<span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Jack&quot;</span><span class="p">)</span>
-<span class="n">greet</span><span class="p">(</span><span class="s2">&quot;Mum&quot;</span><span class="p">)</span>
+<span class="n">greet</span><span class="p">(</span><span class="s2">"Jack"</span><span class="p">)</span>
+<span class="n">greet</span><span class="p">(</span><span class="s2">"Mum"</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>hello, Jack
@@ -182,11 +182,11 @@ different results — that&rsquo;s the whole point.</p>
 <span class="k">def</span><span class="w"> </span><span class="nf">shout_return</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">text</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
-<span class="n">a</span> <span class="o">=</span> <span class="n">shout_print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-<span class="n">b</span> <span class="o">=</span> <span class="n">shout_return</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">shout_print</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">shout_return</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a is&quot;</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b is&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"a is"</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"b is"</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>HELLO
@@ -201,8 +201,8 @@ something to use.</strong> You almost always want <code>return</code>.</p>
 <p><code>return</code> also stops the function immediately:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;negative&quot;</span>
-    <span class="k">return</span> <span class="s2">&quot;zero or more&quot;</span>
+        <span class="k">return</span> <span class="s2">"negative"</span>
+    <span class="k">return</span> <span class="s2">"zero or more"</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">check</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
@@ -214,12 +214,12 @@ zero or more
 
 <p>No <code>else</code> needed — if the first <code>return</code> runs, nothing after it does.</p>
 <h3>Defaults and keyword arguments</h3>
-<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-5&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">, cap </span><span class="si">{</span><span class="n">max_tokens</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"claude-opus-5"</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">, cap </span><span class="si">{</span><span class="n">max_tokens</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">question</span><span class="si">}</span><span class="s2">"</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;What is X?&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;What is X?&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;What is X?&quot;</span><span class="p">,</span> <span class="s2">&quot;claude-haiku-4-5&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">"What is X?"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">"What is X?"</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">50</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">"What is X?"</span><span class="p">,</span> <span class="s2">"claude-haiku-4-5"</span><span class="p">))</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>[claude-opus-5, cap 500] What is X?
@@ -240,14 +240,14 @@ don&rsquo;t care about. Two rules worth memorising now:</p>
     <span class="n">bucket</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bucket</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">"a"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">"b"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">"c"</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>[&#39;a&#39;]
-[&#39;a&#39;, &#39;b&#39;]
-[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;]
+<div class="codehilite"><pre><span></span><code>['a']
+['a', 'b']
+['a', 'b', 'c']
 </code></pre></div>
 
 <p>You expected <code>['b']</code> on the second call. The default was created <strong>once, when
@@ -259,19 +259,19 @@ list. The Python FAQ documents this exact trap. The fix is always the same:</p>
     <span class="n">bucket</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">bucket</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">"a"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">collect</span><span class="p">(</span><span class="s2">"b"</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>[&#39;a&#39;]
-[&#39;b&#39;]
+<div class="codehilite"><pre><span></span><code>['a']
+['b']
 </code></pre></div>
 
 <h3>Docstrings</h3>
 <p>A <strong>docstring</strong> is a string on the first line of the body. It&rsquo;s not a comment —
 it stays attached to the function and tools can read it.</p>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Send one question to the model and return the reply text.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Send one question to the model and return the reply text."""</span>
     <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
@@ -290,7 +290,7 @@ ask(question, max_tokens=500)
 restate the parameter list — Python already shows that.</p>
 <h3>Scope, seen once</h3>
 <div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">():</span>
-    <span class="n">inside</span> <span class="o">=</span> <span class="s2">&quot;local&quot;</span>
+    <span class="n">inside</span> <span class="o">=</span> <span class="s2">"local"</span>
     <span class="k">return</span> <span class="n">inside</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">())</span>
@@ -299,10 +299,10 @@ restate the parameter list — Python already shows that.</p>
 
 <div class="codehilite"><pre><span></span><code>local
 Traceback (most recent call last):
-  File &quot;builds/01-03-ask.py&quot;, line 6, in &lt;module&gt;
+  File "builds/01-03-ask.py", line 6, in &lt;module&gt;
     print(inside)
           ^^^^^^
-NameError: name &#39;inside&#39; is not defined
+NameError: name 'inside' is not defined
 </code></pre></div>
 
 <p>That <code>NameError</code> is the dashed box in the diagram doing its job. <code>inside</code> never
@@ -333,19 +333,19 @@ so you can see how far you&rsquo;ve come.</p>
 <span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-5&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Send one question to the model and return the reply text.&quot;&quot;&quot;</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">ask</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">model</span><span class="o">=</span><span class="s2">"claude-opus-5"</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">500</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Send one question to the model and return the reply text."""</span>
     <span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
         <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
         <span class="n">max_tokens</span><span class="o">=</span><span class="n">max_tokens</span><span class="p">,</span>
-        <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}],</span>
+        <span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}],</span>
     <span class="p">)</span>
     <span class="c1"># Pull the text out of the content blocks and hand it back.</span>
     <span class="o">...</span>
 
 
-<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;Name three uses for a paperclip.&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;Say hello in five words.&quot;</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">"Name three uses for a paperclip."</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ask</span><span class="p">(</span><span class="s2">"Say hello in five words."</span><span class="p">,</span> <span class="n">max_tokens</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span>
 </code></pre></div>
 
 <p>The <code>...</code> is yours to finish. You already wrote that loop over
@@ -364,6 +364,16 @@ is <code>anthropic.Anthropic()</code>. Both work — <code>Client</code> is an o
 <li>[ ] <code>help(ask)</code> shows your docstring.</li>
 <li>[ ] Assigning the result works: <code>reply = ask("hi")</code> then <code>print(len(reply))</code>
       prints a number, not an error about <code>None</code>.</li>
+</ul>
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/guidos-gorgeous-lasagna">Guido&rsquo;s Gorgeous Lasagna</a></strong> covers functions, <code>return</code> and
+  docstrings, with tests that check them.</li>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/currency-exchange">Currency Exchange</a></strong> has six small functions, some of which call
+  others. This is the habit that makes code testable.</li>
+<li><strong><a href="https://pythontutor.com/python-compiler.html">Python Tutor</a></strong>. Step into a function call and watch a new <em>frame</em> appear and then
+  vanish on <code>return</code>. That picture is what &ldquo;local variable&rdquo; means.</li>
 </ul>
 <h2>Going deeper</h2>
 <ul>
@@ -457,7 +467,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

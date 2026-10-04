@@ -421,6 +421,22 @@ Fill in each `...`. Hints, if you're stuck for more than ten minutes:
 - [ ] No square-bracket lookup inside `is_urgent` can raise `KeyError`.
 - [ ] Opening the output file in VS Code shows double quotes and lowercase `true`/`null` style — it's real JSON, not a printed dict.
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **Exercism: [Inventory Management](https://exercism.org/tracks/python/exercises/inventory-management)** covers building, updating and
+  deleting dict entries.
+- **Exercism: [Mecha Munch Management](https://exercism.org/tracks/python/exercises/mecha-munch-management)** is harder. It covers `setdefault`,
+  merging dicts, and sorting by items.
+- **[JSONPlaceholder](https://jsonplaceholder.typicode.com/)** is a free fake API with no key. Use the
+  standard library to pull real JSON over the network. After
+  `import json, urllib.request`, run
+  `json.load(urllib.request.urlopen("https://jsonplaceholder.typicode.com/todos"))`.
+  Then run your build task's filter on it, keeping todos where `completed` is `False`.
+- **Built in:** `python -m json.tool yourfile.json` pretty-prints a file, or tells you the exact
+  line where it isn't valid JSON.
+
 ## Going deeper
 
 - **Make the filter reusable.** Change `is_urgent(ticket)` into

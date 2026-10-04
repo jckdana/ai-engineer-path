@@ -283,6 +283,14 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 `RemoteSigned` means "scripts I made are fine; downloaded ones need a signature." It's
 the setting Microsoft recommends for development machines. Then activate again.
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **[The Missing Semester — The Shell](https://missing.csail.mit.edu/2020/course-shell/)**, MIT's
+  free lecture, with 11 exercises at the end. Do them in Git Bash. Skip the ones that use
+  `/sys` or `chmod`. Those are Linux-only and don't work the same on Windows.
+
 ## Going deeper
 
 - Delete the `.venv` folder entirely, then rebuild it from scratch: create, activate,

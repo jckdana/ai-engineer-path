@@ -385,6 +385,17 @@ The `...` is yours to finish. You already wrote that loop over
 - [ ] Assigning the result works: `reply = ask("hi")` then `print(len(reply))`
       prints a number, not an error about `None`.
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **Exercism: [Guido's Gorgeous Lasagna](https://exercism.org/tracks/python/exercises/guidos-gorgeous-lasagna)** covers functions, `return` and
+  docstrings, with tests that check them.
+- **Exercism: [Currency Exchange](https://exercism.org/tracks/python/exercises/currency-exchange)** has six small functions, some of which call
+  others. This is the habit that makes code testable.
+- **[Python Tutor](https://pythontutor.com/python-compiler.html)**. Step into a function call and watch a new *frame* appear and then
+  vanish on `return`. That picture is what "local variable" means.
+
 ## Going deeper
 
 - Add a `system` parameter defaulting to `None`, and only pass `system=` to the

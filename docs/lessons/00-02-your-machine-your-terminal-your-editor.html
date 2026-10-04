@@ -152,7 +152,7 @@ the right folder — the prompt should end in</code>Claude Knowledge`.</p>
 it from <a href="https://www.python.org/downloads/">python.org/downloads</a>, and <strong>tick &ldquo;Add
 python.exe to PATH&rdquo;</strong> on the first screen of the installer.</p>
 <p>Now find out where that Python actually lives:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import sys; print(sys.executable)"</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>C:\Python314\python.exe
@@ -174,7 +174,7 @@ folder now exists. Activate it:</p>
 <p>Your prompt changes to start with <code>(.venv)</code>. <strong>That prefix is the whole feedback
 mechanism</strong> — it&rsquo;s how you know which Python you&rsquo;re talking to. Check that the change
 took effect:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;import sys; print(sys.executable)&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">"import sys; print(sys.executable)"</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>E:\Claude Knowledge\.venv\Scripts\python.exe
@@ -186,7 +186,7 @@ took effect:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>ModuleNotFoundError: No module named &#39;jinja2&#39;
+<div class="codehilite"><pre><span></span><code>ModuleNotFoundError: No module named 'jinja2'
 </code></pre></div>
 
 <p><strong>You didn&rsquo;t break anything.</strong> Jinja2 is installed on the machine-wide Python; your new
@@ -255,7 +255,7 @@ than from a list:</p>
 <p><code>rich</code> prints colour and tables in the terminal, <code>httpx</code> fetches things over the
 internet, <code>pytest</code> runs tests. You&rsquo;ll meet all three properly later.</p>
 <p><strong>3. Prove <code>rich</code> works</strong>, and that it came from the venv:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;from rich import print; print(&#39;[bold green]venv works[/bold green]&#39;)&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">"from rich import print; print('[bold green]venv works[/bold green]')"</span>
 </code></pre></div>
 
 <p><strong>4. Freeze the environment</strong> to a separate file, so you can compare it against the
@@ -278,7 +278,7 @@ records. You want both, for different reasons.</p>
 <li><code>python tools/site_build.py</code> runs without error while the venv is active</li>
 </ul>
 <p>Then log it:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;made my first venv&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">"made my first venv"</span>
 <span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
 </code></pre></div>
 
@@ -290,6 +290,13 @@ refusing to run script files. Allow locally-created ones for your account only:<
 
 <p><code>RemoteSigned</code> means &ldquo;scripts I made are fine; downloaded ones need a signature.&rdquo; It&rsquo;s
 the setting Microsoft recommends for development machines. Then activate again.</p>
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong><a href="https://missing.csail.mit.edu/2020/course-shell/">The Missing Semester — The Shell</a></strong>, MIT&rsquo;s
+  free lecture, with 11 exercises at the end. Do them in Git Bash. Skip the ones that use
+  <code>/sys</code> or <code>chmod</code>. Those are Linux-only and don&rsquo;t work the same on Windows.</li>
+</ul>
 <h2>Going deeper</h2>
 <ul>
 <li>Delete the <code>.venv</code> folder entirely, then rebuild it from scratch: create, activate,
@@ -370,7 +377,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

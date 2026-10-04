@@ -200,7 +200,7 @@ loaded whether a program asked for it or not — and it would quietly break the
 experiment at the end of this lesson, where you <em>want</em> the missing key to cause a
 visible error.</p>
 <p>Now confirm the key loaded, without ever putting it on screen:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">&quot;from dotenv import load_dotenv; import os; load_dotenv(); k=os.getenv(&#39;ANTHROPIC_API_KEY&#39;); print(&#39;loaded, length&#39;, len(k)) if k else print(&#39;NOT FOUND&#39;)&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">-c</span> <span class="s2">"from dotenv import load_dotenv; import os; load_dotenv(); k=os.getenv('ANTHROPIC_API_KEY'); print('loaded, length', len(k)) if k else print('NOT FOUND')"</span>
 </code></pre></div>
 
 <p>You want <code>loaded, length 108</code> or thereabouts. <code>NOT FOUND</code> means the file didn&rsquo;t
@@ -261,15 +261,15 @@ machine — can reproduce it:</p>
 <span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
 
 <span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
-    <span class="n">model</span><span class="o">=</span><span class="s2">&quot;claude-opus-5&quot;</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="s2">"claude-opus-5"</span><span class="p">,</span>
     <span class="n">max_tokens</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
     <span class="n">messages</span><span class="o">=</span><span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;In one sentence, what is an API key for?&quot;</span><span class="p">}</span>
+        <span class="p">{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="s2">"In one sentence, what is an API key for?"</span><span class="p">}</span>
     <span class="p">],</span>
 <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"text"</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>
 
@@ -293,7 +293,7 @@ machine — can reproduce it:</p>
 
 <div class="codehilite"><pre><span></span><code>An API key is a unique credential that identifies and authenticates your
 application when it makes requests to a service, so the provider knows who is
-calling and what they&#39;re allowed to do.
+calling and what they're allowed to do.
 </code></pre></div>
 
 <p>Your wording will be different from mine, and different again if you run it twice.
@@ -310,9 +310,9 @@ breaks. Get in the habit now, while the habit is cheap.</p>
 <h3>Look at the whole response</h3>
 <p>Add this to the bottom of your file to see what else came back:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;stop_reason:&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">stop_reason</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input tokens:&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">input_tokens</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;output tokens:&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">output_tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"stop_reason:"</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">stop_reason</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"input tokens:"</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">input_tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"output tokens:"</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">usage</span><span class="o">.</span><span class="n">output_tokens</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>stop_reason: end_turn
@@ -330,11 +330,11 @@ rates above and you have the exact cost of the call.</p>
 <h3>Two failures worth causing on purpose</h3>
 <p><strong>Forget <code>load_dotenv()</code></strong> — comment the line out and run:</p>
 <div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
-  File &quot;E:\Claude Knowledge\builds\00-05-ask.py&quot;, line 9, in &lt;module&gt;
+  File "E:\Claude Knowledge\builds\00-05-ask.py", line 9, in &lt;module&gt;
     message = client.messages.create(
     ...
-TypeError: &quot;Could not resolve authentication method. Expected one of api_key,
-auth_token, or credentials to be set. ...&quot;
+TypeError: "Could not resolve authentication method. Expected one of api_key,
+auth_token, or credentials to be set. ..."
 </code></pre></div>
 
 <p>Read the bottom line: the SDK looked for a key and found nothing. Note that this
@@ -373,7 +373,7 @@ first.</p>
 <code>TypeError</code>. Restore the working version before committing.</p>
 <p><strong>5. Commit and merge:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span> <span class="n">requirements-frozen</span><span class="p">.</span><span class="n">txt</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add first API call script from lesson 00-05&quot;</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add first API call script from lesson 00-05"</span>
 <span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
 <span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05</span>
 <span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05</span>
@@ -391,7 +391,7 @@ first.</p>
   from a 401</li>
 </ul>
 <p>Then log it:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">05</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;first call to a real model&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">05</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">05-ask</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">"first call to a real model"</span>
 <span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
 </code></pre></div>
 
@@ -399,6 +399,19 @@ first.</p>
 wrote, and a working line to a frontier model. Module 01 goes back to Python
 properly, because the next thing standing between you and useful software is
 loops, dictionaries and functions — not the API.</p>
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong><a href="https://ai.google.dev/gemini-api/docs/pricing">Gemini API free tier</a></strong>. Google gives free
+  tokens on its Flash models, and the <a href="https://ai.google.dev/gemini-api/docs/quickstart">quickstart</a>
+  gets you a key from AI Studio. Rebuild your <code>ask.py</code> against it (<code>pip install google-genai</code>).
+  The code looks different, but the shape is the same: client, model name, input, text out. Seeing
+  that shape twice is what lets you read any provider&rsquo;s SDK. <strong>Catch:</strong> Google may use free-tier
+  prompts to improve its products. Never send anything private or a client&rsquo;s data through it.</li>
+<li><strong><a href="https://ollama.com/download">Ollama</a></strong> runs open models on your own laptop, offline and free.
+  Pull the smallest model it offers. It will be slower and weaker than Claude. Notice <em>how</em>
+  it&rsquo;s weaker, because that comparison is useful.</li>
+</ul>
 <h2>Going deeper</h2>
 <ul>
 <li>Add a <code>system</code> prompt: pass <code>system="Answer in exactly two sentences."</code> alongside
@@ -503,7 +516,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

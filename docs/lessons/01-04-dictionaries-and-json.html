@@ -51,7 +51,7 @@
 <h2>Why this matters</h2>
 <p>You&rsquo;ve already written a dictionary without being told. Look at the call in
 your <code>ask</code> function:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">question</span><span class="p">}]</span>
+<div class="codehilite"><pre><span></span><code><span class="n">messages</span><span class="o">=</span><span class="p">[{</span><span class="s2">"role"</span><span class="p">:</span> <span class="s2">"user"</span><span class="p">,</span> <span class="s2">"content"</span><span class="p">:</span> <span class="n">question</span><span class="p">}]</span>
 </code></pre></div>
 
 <p>Those curly braces are a <strong>dictionary</strong>: a set of labelled values. <code>"role"</code> is
@@ -166,10 +166,10 @@ every call — which is why your request is written as a dict.</figcaption>
 <p>Open a scratch file, <code>builds/01-04-play.py</code>. Type each block, run it, then
 delete it and type the next.</p>
 <h3>Making and reading a dict</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">"customer"</span><span class="p">:</span> <span class="s2">"Dana"</span><span class="p">,</span> <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"high"</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;customer&quot;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">"customer"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">"priority"</span><span class="p">])</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>Dana
@@ -179,13 +179,13 @@ high
 <p>Curly braces, <code>key: value</code> pairs, commas between pairs. Square brackets with a
 key reads the value stored under it.</p>
 <h3>Changing and adding</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;priority&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;low&quot;</span>        <span class="c1"># key exists  → value replaced</span>
-<span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;assigned_to&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>    <span class="c1"># key is new  → pair added</span>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span><span class="p">[</span><span class="s2">"priority"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"low"</span>        <span class="c1"># key exists  → value replaced</span>
+<span class="n">ticket</span><span class="p">[</span><span class="s2">"assigned_to"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"Jack"</span>    <span class="c1"># key is new  → pair added</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ticket</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>{&#39;id&#39;: 101, &#39;customer&#39;: &#39;Dana&#39;, &#39;priority&#39;: &#39;low&#39;, &#39;open&#39;: True, &#39;assigned_to&#39;: &#39;Jack&#39;}
+<div class="codehilite"><pre><span></span><code>{'id': 101, 'customer': 'Dana', 'priority': 'low', 'open': True, 'assigned_to': 'Jack'}
 5
 </code></pre></div>
 
@@ -193,25 +193,25 @@ key reads the value stored under it.</p>
 created. A dict can&rsquo;t have the same key twice. <code>len</code> counts the pairs.</p>
 <h3>The mistake you will make this week</h3>
 <p>Ask for a key that isn&rsquo;t there:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">}</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">])</span>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">"customer"</span><span class="p">:</span> <span class="s2">"Dana"</span><span class="p">}</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="p">[</span><span class="s2">"email"</span><span class="p">])</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
-  File &quot;builds/01-04-play.py&quot;, line 2, in &lt;module&gt;
-    print(ticket[&quot;email&quot;])
+  File "builds/01-04-play.py", line 2, in &lt;module&gt;
+    print(ticket["email"])
           ~~~~~~^^^^^^^^^
-KeyError: &#39;email&#39;
+KeyError: 'email'
 </code></pre></div>
 
 <p>A <code>KeyError</code> means <em>&ldquo;that label doesn&rsquo;t exist in this dict&rdquo;</em> — and it names the
 missing key for you. Real data is messy: one record in fifty will be missing a
 field, and square brackets will crash your whole script on it. Two ways to ask
 safely:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;no email on file&quot;</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;email&quot;</span> <span class="ow">in</span> <span class="n">ticket</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;customer&quot;</span> <span class="ow">in</span> <span class="n">ticket</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ticket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"email"</span><span class="p">,</span> <span class="s2">"no email on file"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"email"</span> <span class="ow">in</span> <span class="n">ticket</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"customer"</span> <span class="ow">in</span> <span class="n">ticket</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>None
@@ -225,10 +225,10 @@ your fallback. <code>in</code> checks whether a key exists. Rule of thumb: use <
 missing key <em>should</em> crash (it&rsquo;s a bug you want to see), and <code>.get()</code> when a
 missing key is normal (it&rsquo;s data from outside).</p>
 <h3>Looping over a dict</h3>
-<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">,</span> <span class="s2">&quot;priority&quot;</span><span class="p">:</span> <span class="s2">&quot;high&quot;</span><span class="p">}</span>
+<div class="codehilite"><pre><span></span><code><span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">"customer"</span><span class="p">:</span> <span class="s2">"Dana"</span><span class="p">,</span> <span class="s2">"priority"</span><span class="p">:</span> <span class="s2">"high"</span><span class="p">}</span>
 
 <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">ticket</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>id: 101
@@ -241,15 +241,15 @@ priority: high
 <p>Values can be lists and dicts. Here&rsquo;s a cut-down version of what the Claude API
 actually sends back, written as a Python dict:</p>
 <div class="codehilite"><pre><span></span><code><span class="n">message</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;assistant&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="p">[</span>
-        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;Paris.&quot;</span><span class="p">}</span>
+    <span class="s2">"role"</span><span class="p">:</span> <span class="s2">"assistant"</span><span class="p">,</span>
+    <span class="s2">"content"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span><span class="s2">"type"</span><span class="p">:</span> <span class="s2">"text"</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="s2">"Paris."</span><span class="p">}</span>
     <span class="p">],</span>
-    <span class="s2">&quot;usage&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;input_tokens&quot;</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">&quot;output_tokens&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+    <span class="s2">"usage"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"input_tokens"</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="s2">"output_tokens"</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
 <span class="p">}</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;usage&quot;</span><span class="p">][</span><span class="s2">&quot;output_tokens&quot;</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">"usage"</span><span class="p">][</span><span class="s2">"output_tokens"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s2">"content"</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">"text"</span><span class="p">])</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>4
@@ -269,21 +269,21 @@ same path — the SDK just converted the JSON for you.</p>
 <h3>Crossing the boundary: <code>dumps</code> and <code>loads</code></h3>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">&quot;customer&quot;</span><span class="p">:</span> <span class="s2">&quot;Dana&quot;</span><span class="p">,</span> <span class="s2">&quot;open&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+<span class="n">ticket</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"id"</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s2">"customer"</span><span class="p">:</span> <span class="s2">"Dana"</span><span class="p">,</span> <span class="s2">"open"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"notes"</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
 
 <span class="n">text</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">ticket</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
 
 <span class="n">back</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">back</span><span class="p">[</span><span class="s2">&quot;open&quot;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">back</span><span class="p">[</span><span class="s2">"open"</span><span class="p">])</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">back</span><span class="p">))</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>{&quot;id&quot;: 101, &quot;customer&quot;: &quot;Dana&quot;, &quot;open&quot;: true, &quot;notes&quot;: null}
-&lt;class &#39;str&#39;&gt;
+<div class="codehilite"><pre><span></span><code>{"id": 101, "customer": "Dana", "open": true, "notes": null}
+&lt;class 'str'&gt;
 True
-&lt;class &#39;dict&#39;&gt;
+&lt;class 'dict'&gt;
 </code></pre></div>
 
 <p>Look closely at the first line: <code>True</code> became <code>true</code>, <code>None</code> became <code>null</code>, and
@@ -293,7 +293,7 @@ a <code>dict</code>.</p>
 <h3>JSON is stricter than Python</h3>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="n">bad</span> <span class="o">=</span> <span class="s2">&quot;{&#39;id&#39;: 101, &#39;customer&#39;: &#39;Dana&#39;}&quot;</span>
+<span class="n">bad</span> <span class="o">=</span> <span class="s2">"{'id': 101, 'customer': 'Dana'}"</span>
 <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">bad</span><span class="p">)</span>
 </code></pre></div>
 
@@ -309,11 +309,11 @@ tells you the line and column to look at.</p>
 <div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
 <span class="c1"># Read</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;builds/some-file.json&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"builds/some-file.json"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
 <span class="c1"># Write</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;builds/other-file.json&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"builds/other-file.json"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
     <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </code></pre></div>
 
@@ -334,13 +334,13 @@ still open</strong> — so whoever&rsquo;s on call can start there.</p>
 <p><strong>1.</strong> Create <code>builds/01-04-tickets.json</code> with this content. This is data, so
 copy-pasting it is fine:</p>
 <div class="codehilite"><pre><span></span><code><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Dana Reyes&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Can&#39;t log in after password reset&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Marcus Lee&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;low&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;How do I change my invoice email?&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Priya Shah&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;closed&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Double charged in August&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tom Okafor&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;medium&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Export to CSV is slow&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">105</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ana Costa&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Feature idea: dark mode&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">106</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Sam Wright&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;high&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Whole team locked out since this morning&quot;</span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">107</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lena Park&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;priority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;HIGH&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;open&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Payment page shows an error&quot;</span><span class="p">}</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">101</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Dana Reyes"</span><span class="p">,</span><span class="w"> </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can't log in after password reset"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">102</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Marcus Lee"</span><span class="p">,</span><span class="w"> </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"low"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"How do I change my invoice email?"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">103</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Priya Shah"</span><span class="p">,</span><span class="w"> </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"closed"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Double charged in August"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">104</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tom Okafor"</span><span class="p">,</span><span class="w"> </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"medium"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Export to CSV is slow"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">105</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ana Costa"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Feature idea: dark mode"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">106</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sam Wright"</span><span class="p">,</span><span class="w"> </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"high"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Whole team locked out since this morning"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">107</span><span class="p">,</span><span class="w"> </span><span class="nt">"customer"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lena Park"</span><span class="p">,</span><span class="w"> </span><span class="nt">"priority"</span><span class="p">:</span><span class="w"> </span><span class="s2">"HIGH"</span><span class="p">,</span><span class="w"> </span><span class="nt">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"open"</span><span class="p">,</span><span class="w"> </span><span class="nt">"subject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Payment page shows an error"</span><span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div>
 
@@ -351,22 +351,22 @@ them before you start.</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># Reads support tickets from JSON, keeps the urgent open ones, writes them to a new file.</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-<span class="n">INPUT_PATH</span> <span class="o">=</span> <span class="s2">&quot;builds/01-04-tickets.json&quot;</span>
-<span class="n">OUTPUT_PATH</span> <span class="o">=</span> <span class="s2">&quot;builds/01-04-urgent.json&quot;</span>
+<span class="n">INPUT_PATH</span> <span class="o">=</span> <span class="s2">"builds/01-04-tickets.json"</span>
+<span class="n">OUTPUT_PATH</span> <span class="o">=</span> <span class="s2">"builds/01-04-urgent.json"</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">load_records</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a JSON file and return the Python object inside it.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Read a JSON file and return the Python object inside it."""</span>
     <span class="o">...</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">is_urgent</span><span class="p">(</span><span class="n">ticket</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if the ticket is high priority and still open.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Return True if the ticket is high priority and still open."""</span>
     <span class="o">...</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">save_records</span><span class="p">(</span><span class="n">records</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write records to a JSON file, pretty-printed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Write records to a JSON file, pretty-printed."""</span>
     <span class="o">...</span>
 
 
@@ -376,7 +376,7 @@ them before you start.</p>
 <span class="o">...</span>
 
 <span class="n">save_records</span><span class="p">(</span><span class="n">urgent</span><span class="p">,</span> <span class="n">OUTPUT_PATH</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Read </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tickets</span><span class="p">)</span><span class="si">}</span><span class="s2"> tickets, kept </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">urgent</span><span class="p">)</span><span class="si">}</span><span class="s2">, wrote </span><span class="si">{</span><span class="n">OUTPUT_PATH</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Read </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tickets</span><span class="p">)</span><span class="si">}</span><span class="s2"> tickets, kept </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">urgent</span><span class="p">)</span><span class="si">}</span><span class="s2">, wrote </span><span class="si">{</span><span class="n">OUTPUT_PATH</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Fill in each <code>...</code>. Hints, if you&rsquo;re stuck for more than ten minutes:</p>
@@ -396,6 +396,21 @@ them before you start.</p>
 <li>[ ] Ticket 105 (no <code>priority</code> field) doesn&rsquo;t crash the script.</li>
 <li>[ ] No square-bracket lookup inside <code>is_urgent</code> can raise <code>KeyError</code>.</li>
 <li>[ ] Opening the output file in VS Code shows double quotes and lowercase <code>true</code>/<code>null</code> style — it&rsquo;s real JSON, not a printed dict.</li>
+</ul>
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/inventory-management">Inventory Management</a></strong> covers building, updating and
+  deleting dict entries.</li>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/mecha-munch-management">Mecha Munch Management</a></strong> is harder. It covers <code>setdefault</code>,
+  merging dicts, and sorting by items.</li>
+<li><strong><a href="https://jsonplaceholder.typicode.com/">JSONPlaceholder</a></strong> is a free fake API with no key. Use the
+  standard library to pull real JSON over the network. After
+  <code>import json, urllib.request</code>, run
+  <code>json.load(urllib.request.urlopen("https://jsonplaceholder.typicode.com/todos"))</code>.
+  Then run your build task&rsquo;s filter on it, keeping todos where <code>completed</code> is <code>False</code>.</li>
+<li><strong>Built in:</strong> <code>python -m json.tool yourfile.json</code> pretty-prints a file, or tells you the exact
+  line where it isn&rsquo;t valid JSON.</li>
 </ul>
 <h2>Going deeper</h2>
 <ul>
@@ -497,7 +512,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

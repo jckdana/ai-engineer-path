@@ -448,6 +448,19 @@ python tools/progress_log.py --lesson-id 01-01 --status complete --minutes 50 --
 python tools/site_build.py --open
 ```
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **Exercism: [Little Sister's Vocabulary](https://exercism.org/tracks/python/exercises/little-sisters-vocab)** covers concatenation, `join`, slicing
+  and `split`.
+- **Exercism: [Little Sister's Essay](https://exercism.org/tracks/python/exercises/little-sisters-essay)** covers `title`, `strip`, `replace` and
+  `endswith`, which are the same methods as your build task.
+
+Exercism is free forever, and you code in the browser with no install. Each exercise runs
+automated tests against your code, so you also get used to failing tests. If one is locked,
+finish the earlier exercise the track points you to first.
+
 ## Going deeper
 
 - Add a `.replace()` step that swaps a word, and use `in` to print whether the cleaned

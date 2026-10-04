@@ -520,6 +520,16 @@ python tools/progress_log.py --lesson-id 01-02 --status complete --minutes 55 --
 python tools/site_build.py --open
 ```
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **Exercism: [Card Games](https://exercism.org/tracks/python/exercises/card-games)** (lists), **[Meltdown Mitigation](https://exercism.org/tracks/python/exercises/meltdown-mitigation)**
+  (`if`/`elif`/`else`), and **[Making the Grade](https://exercism.org/tracks/python/exercises/making-the-grade)** (`for`, `while`, `break`,
+  `enumerate`). Do them in that order.
+- **[Python Tutor](https://pythontutor.com/python-compiler.html)**. Paste any loop you're unsure of and step through it. Watching the
+  loop variable change on each pass fixes off-by-one confusion faster than reading about it.
+
 ## Going deeper
 
 - Move `results = []` inside the loop, run the script, and watch the summary

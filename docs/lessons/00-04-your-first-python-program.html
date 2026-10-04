@@ -173,17 +173,17 @@ programs.</p>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>Python 3.14.3 ...
-Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+Type "help", "copyright", "credits" or "license" for more information.
 &gt;&gt;&gt;
 </code></pre></div>
 
 <p><code>&gt;&gt;&gt;</code> is Python waiting for you. Try these:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span>
 <span class="mi">4</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
 <span class="n">hello</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="s2">&quot;hello&quot;</span>
-<span class="s1">&#39;hello&#39;</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s2">"hello"</span>
+<span class="s1">'hello'</span>
 </code></pre></div>
 
 <p>Notice the difference between the last two. <code>print("hello")</code> <em>displays</em> the text. Typing
@@ -205,8 +205,8 @@ next one. Pressing Enter is how you run a command in a terminal — there&rsquo;
 &ldquo;submit&rdquo; step, and a newline can&rsquo;t be typed <em>into</em> a command. If you do want two commands
 on one line, the separator is a semicolon: <code>mkdir notes; code notes/scratch.md</code>.</p>
 <p>Type this in, and save with <code>Ctrl+S</code>:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, world.&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This file ran top to bottom.&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"Hello, world."</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"This file ran top to bottom."</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Run it from the terminal:</p>
@@ -221,7 +221,7 @@ This file ran top to bottom.
 <h3>Variables and types</h3>
 <p>A <strong>variable</strong> is a name pointing at a value. <code>=</code> doesn&rsquo;t mean &ldquo;equals&rdquo; here — it means
 &ldquo;make this name refer to this value&rdquo;. Replace the file&rsquo;s contents with:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"Jack"</span>
 <span class="n">lessons_done</span> <span class="o">=</span> <span class="mi">3</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -234,7 +234,7 @@ This file ran top to bottom.
 
 <p><code>"Jack"</code> in quotes is a <strong>string</strong> — text. <code>3</code> without quotes is an <strong>integer</strong> — a
 number. The difference isn&rsquo;t pedantry; it decides what operations mean:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;3&quot;</span> <span class="o">+</span> <span class="s2">&quot;4&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"3"</span> <span class="o">+</span> <span class="s2">"4"</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
 </code></pre></div>
 
@@ -244,14 +244,14 @@ number. The difference isn&rsquo;t pedantry; it decides what operations mean:</p
 
 <p><code>+</code> joins strings and adds numbers. Same symbol, different behaviour depending on the
 types either side of it. Mixing the two is an error rather than a guess:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Lessons: &quot;</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"Lessons: "</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>Traceback (most recent call last):
-  File &quot;E:\Claude Knowledge\builds\00-04-greet.py&quot;, line 1, in &lt;module&gt;
-    print(&quot;Lessons: &quot; + 3)
+  File "E:\Claude Knowledge\builds\00-04-greet.py", line 1, in &lt;module&gt;
+    print("Lessons: " + 3)
           ~~~~~~~~~~~~^~~
-TypeError: can only concatenate str (not &quot;int&quot;) to str
+TypeError: can only concatenate str (not "int") to str
 </code></pre></div>
 
 <p><strong>Read a traceback from the bottom up.</strong> The last line is the actual problem —
@@ -263,10 +263,10 @@ when it isn&rsquo;t, it&rsquo;s the exact phrase to paste into a search or into 
 <p>You could convert the number by hand with <code>str(3)</code>, but nobody does that in practice. Put
 an <code>f</code> in front of the opening quote and you can drop values straight into the text
 inside <code>{}</code>:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;Jack&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="s2">"Jack"</span>
 <span class="n">lessons_done</span> <span class="o">=</span> <span class="mi">3</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> has finished </span><span class="si">{</span><span class="n">lessons_done</span><span class="si">}</span><span class="s2"> lessons.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> has finished </span><span class="si">{</span><span class="n">lessons_done</span><span class="si">}</span><span class="s2"> lessons."</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>Jack has finished 3 lessons.
@@ -274,8 +274,8 @@ inside <code>{}</code>:</p>
 
 <p>An <strong>f-string</strong> (formatted string literal) evaluates whatever is inside each <code>{}</code> and
 converts the result to text for you. Anything can go in there, not just a bare name:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;After this one: </span><span class="si">{</span><span class="n">lessons_done</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shouted: </span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"After this one: </span><span class="si">{</span><span class="n">lessons_done</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Shouted: </span><span class="si">{</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>After this one: 4
@@ -284,7 +284,7 @@ Shouted: JACK
 
 <p>Forget the <code>f</code> and you get exactly what you typed, braces included — a bug with no error
 message at all, which is why it&rsquo;s worth seeing once:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{name}</span><span class="s2"> has finished&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{name}</span><span class="s2"> has finished"</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>{name} has finished
@@ -293,33 +293,33 @@ message at all, which is why it&rsquo;s worth seeing once:</p>
 <h3>Asking a question</h3>
 <p><code>input()</code> prints a prompt, waits for the person to type a line and press Enter, and hands
 back what they typed:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;What&#39;s your name? &quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"What's your name? "</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
 </code></pre></div>
 
-<div class="codehilite"><pre><span></span><code>What&#39;s your name? Jack
+<div class="codehilite"><pre><span></span><code>What's your name? Jack
 Hello, Jack.
 </code></pre></div>
 
 <p><strong><code>input()</code> always returns a string</strong>, even when the person types digits. This is the
 single most common beginner surprise:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">age</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Age? &quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="n">age</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"Age? "</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
 
 <div class="codehilite"><pre><span></span><code>Age? 30
 Traceback (most recent call last):
-  File &quot;E:\Claude Knowledge\builds\00-04-greet.py&quot;, line 2, in &lt;module&gt;
+  File "E:\Claude Knowledge\builds\00-04-greet.py", line 2, in &lt;module&gt;
     print(age + 1)
           ~~~~^~~
-TypeError: can only concatenate str (not &quot;int&quot;) to str
+TypeError: can only concatenate str (not "int") to str
 </code></pre></div>
 
 <p><code>"30"</code> is text that happens to look like a number. Convert it deliberately with <code>int()</code>:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Age? &quot;</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><code><span class="n">age</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">"Age? "</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">age</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
 
@@ -333,8 +333,8 @@ job; for now, just learn to recognise the message.</p>
 <h3>Tidying what people type</h3>
 <p>People type stray spaces. <code>.strip()</code> removes whitespace from both ends of a string, and
 <code>.title()</code> capitalises each word:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;What&#39;s your name? &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="n">name</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">"What's your name? "</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 </code></pre></div>
 
 <p>Typing <code>"  jack  "</code> now gives <code>Hello, Jack.</code> Methods chain left to right: strip first,
@@ -360,7 +360,7 @@ once typing a word instead of a number so you see the <code>ValueError</code> on
 caused deliberately are much cheaper to read than ones that ambush you.</p>
 <p><strong>4. Commit and merge:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add greeting script from lesson 00-04&quot;</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add greeting script from lesson 00-04"</span>
 <span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
 <span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04</span>
 <span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04</span>
@@ -378,10 +378,17 @@ caused deliberately are much cheaper to read than ones that ambush you.</p>
 <li><code>git status</code> prints <code>nothing to commit, working tree clean</code></li>
 </ul>
 <p>Then log it:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">04</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">45</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;first program I wrote myself&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">00</span><span class="p">-</span><span class="n">04</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">45</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">00</span><span class="p">-</span><span class="n">04-greet</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">"first program I wrote myself"</span>
 <span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
 </code></pre></div>
 
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong><a href="https://pythontutor.com/python-compiler.html">Python Tutor</a></strong>. Paste your greeting script and click <em>Visualize</em>, then step
+  through it one line at a time and watch each variable appear. No login. Use it whenever code
+  does something you didn&rsquo;t expect.</li>
+</ul>
 <h2>Going deeper</h2>
 <ul>
 <li>Add a third question and print a number to two decimal places with <code>f"{value:.2f}"</code>.
@@ -477,7 +484,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

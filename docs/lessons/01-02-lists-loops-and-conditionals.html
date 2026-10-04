@@ -180,15 +180,15 @@ is most of the batch scripts you&rsquo;ll ever write.</p>
 </code></pre></div>
 
 <h3>Lists hold things in order</h3>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is an API?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is a token?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is JSON?&quot;</span><span class="p">]</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"What is an API?"</span><span class="p">,</span> <span class="s2">"What is a token?"</span><span class="p">,</span> <span class="s2">"What is JSON?"</span><span class="p">]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span>
 <span class="mi">3</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="s1">&#39;What is an API?&#39;</span>
+<span class="s1">'What is an API?'</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-<span class="s1">&#39;What is JSON?&#39;</span>
+<span class="s1">'What is JSON?'</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="s1">&#39;What is JSON?&#39;</span>
+<span class="s1">'What is JSON?'</span>
 </code></pre></div>
 
 <p>Positions start at <strong>0</strong>, not 1, so the last item of a three-item list is at
@@ -196,7 +196,7 @@ index <code>2</code>. <code>-1</code> means &ldquo;the last one&rdquo; and saves
 a position that isn&rsquo;t there and Python tells you plainly:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
-  <span class="n">File</span> <span class="s2">&quot;&lt;stdin&gt;&quot;</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+  <span class="n">File</span> <span class="s2">"&lt;stdin&gt;"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">1</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
 <span class="ne">IndexError</span><span class="p">:</span> <span class="nb">list</span> <span class="n">index</span> <span class="n">out</span> <span class="n">of</span> <span class="nb">range</span>
 </code></pre></div>
 
@@ -204,14 +204,14 @@ a position that isn&rsquo;t there and Python tells you plainly:</p>
 you assumed. The fix is nearly always to check <code>len()</code> rather than to guess.</p>
 <h3>Lists change in place — strings don&rsquo;t</h3>
 <p>This is the flip from last lesson, so run it rather than reading it:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;What is a rate limit?&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"What is a rate limit?"</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span>
-<span class="p">[</span><span class="s1">&#39;What is an API?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is a token?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is JSON?&#39;</span><span class="p">,</span> <span class="s1">&#39;What is a rate limit?&#39;</span><span class="p">]</span>
+<span class="p">[</span><span class="s1">'What is an API?'</span><span class="p">,</span> <span class="s1">'What is a token?'</span><span class="p">,</span> <span class="s1">'What is JSON?'</span><span class="p">,</span> <span class="s1">'What is a rate limit?'</span><span class="p">]</span>
 </code></pre></div>
 
 <p>Notice <code>.append()</code> printed nothing and you assigned nothing — yet the list
 changed. That&rsquo;s what &ldquo;mutable&rdquo; means. Now the trap:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;What is latency?&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"What is latency?"</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">print</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span>
 <span class="kc">None</span>
 </code></pre></div>
@@ -242,7 +242,7 @@ character:</p>
 </tbody>
 </table></div>
 <p>Rebuild the list before continuing:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;What is an API?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is a token?&quot;</span><span class="p">,</span> <span class="s2">&quot;What is JSON?&quot;</span><span class="p">]</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"What is an API?"</span><span class="p">,</span> <span class="s2">"What is a token?"</span><span class="p">,</span> <span class="s2">"What is JSON?"</span><span class="p">]</span>
 </code></pre></div>
 
 <h3>Your first loop</h3>
@@ -299,9 +299,9 @@ numbers. Move <code>lengths = []</code> inside the loop and you&rsquo;d finish w
 <code>==</code> (equal), <code>!=</code> (not equal), and <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">questions</span><span class="p">:</span>
 <span class="o">...</span>     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">:</span>
-<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;long: &quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"long: "</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
 <span class="o">...</span>     <span class="k">else</span><span class="p">:</span>
-<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;short:&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"short:"</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">short</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">API</span><span class="err">?</span>
 <span class="n">long</span><span class="p">:</span>  <span class="n">What</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">token</span><span class="err">?</span>
@@ -313,13 +313,13 @@ is inside that. <code>elif</code> adds more branches, checked in order, and only
 true one runs:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">score</span> <span class="o">=</span> <span class="mi">72</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">90</span><span class="p">:</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A&quot;</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">"A"</span><span class="p">)</span>
 <span class="o">...</span> <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">70</span><span class="p">:</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;B&quot;</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">"B"</span><span class="p">)</span>
 <span class="o">...</span> <span class="k">elif</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">50</span><span class="p">:</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;C&quot;</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">"C"</span><span class="p">)</span>
 <span class="o">...</span> <span class="k">else</span><span class="p">:</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">"F"</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">B</span>
 </code></pre></div>
@@ -329,9 +329,9 @@ first match. Order your branches from most specific to least.</p>
 <h3>Empty things are false</h3>
 <p>You don&rsquo;t need <code>== ""</code> to check for empty text. Python treats empty values as
 false in a condition:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
 <span class="kc">False</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">)</span>
 <span class="kc">True</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">bool</span><span class="p">([])</span>
 <span class="kc">False</span>
@@ -341,9 +341,9 @@ false in a condition:</p>
 
 <p>Empty string, empty list, zero, and <code>None</code> are all &ldquo;falsy&rdquo;; nearly everything
 else is truthy. So this reads well and handles the blank-input case:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s2">&quot;   &quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">answer</span> <span class="o">=</span> <span class="s2">"   "</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">answer</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;nothing was typed&quot;</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">"nothing was typed"</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">nothing</span> <span class="n">was</span> <span class="n">typed</span>
 </code></pre></div>
@@ -354,11 +354,11 @@ Whitespace-only input is a real thing that will reach your scripts.</p>
 <h3>Skipping and stopping</h3>
 <p><code>continue</code> abandons this pass and moves to the next item. <code>break</code> leaves the
 loop entirely:</p>
-<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;first&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;third&quot;</span><span class="p">]:</span>
+<div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"first"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">"third"</span><span class="p">]:</span>
 <span class="o">...</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">q</span><span class="p">:</span>
-<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;skipping a blank&quot;</span><span class="p">)</span>
+<span class="o">...</span>         <span class="nb">print</span><span class="p">(</span><span class="s2">"skipping a blank"</span><span class="p">)</span>
 <span class="o">...</span>         <span class="k">continue</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;asking:&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">"asking:"</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">asking</span><span class="p">:</span> <span class="n">first</span>
 <span class="n">skipping</span> <span class="n">a</span> <span class="n">blank</span>
@@ -372,7 +372,7 @@ which one you want is not academic.</p>
 <p>You&rsquo;ll want &ldquo;question 2 of 5&rdquo; in your output. Don&rsquo;t keep a counter by hand —
 <code>enumerate()</code> gives you the position and the item together:</p>
 <div class="codehilite"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">q</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">questions</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="o">...</span>     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">API</span><span class="err">?</span>
 <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">:</span> <span class="n">What</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">token</span><span class="err">?</span>
@@ -385,7 +385,7 @@ naturally to a human. The two names before <code>in</code> unpack the pair it ha
 <h3>Why the model&rsquo;s reply needed a loop too</h3>
 <p>Look again at the last three lines of your <code>00-05-ask.py</code>:</p>
 <div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">message</span><span class="o">.</span><span class="n">content</span><span class="p">:</span>
-    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">"text"</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
 </code></pre></div>
 
@@ -417,10 +417,10 @@ the rest yourself:</p>
 <span class="n">client</span> <span class="o">=</span> <span class="n">anthropic</span><span class="o">.</span><span class="n">Anthropic</span><span class="p">()</span>
 
 <span class="n">questions</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;In one sentence, what is an API rate limit?&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;In one sentence, what is a token?&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;In one sentence, why do API keys go in .env files?&quot;</span><span class="p">,</span>
+    <span class="s2">"In one sentence, what is an API rate limit?"</span><span class="p">,</span>
+    <span class="s2">"In one sentence, what is a token?"</span><span class="p">,</span>
+    <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"In one sentence, why do API keys go in .env files?"</span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
 
@@ -446,7 +446,7 @@ the rest yourself:</p>
 <p><strong>3. Dry run first — before you spend anything.</strong> Comment out the line that
 creates the client and the line that makes the call, and put a fake answer in
 their place:</p>
-<div class="codehilite"><pre><span></span><code>    <span class="n">answer</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;(pretend answer to </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">)&quot;</span>
+<div class="codehilite"><pre><span></span><code>    <span class="n">answer</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"(pretend answer to </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s2">)"</span>
 </code></pre></div>
 
 <p>Run it. Check the numbering is right, the blank is skipped, and the counts add
@@ -457,7 +457,7 @@ visible pause — that&rsquo;s a real network round trip per pass, and it&rsquo;
 of two hundred is a very different thing from a batch of four.</p>
 <p><strong>5. Commit and merge:</strong></p>
 <div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02-ask-many</span><span class="p">.</span><span class="n">py</span>
-<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">&quot;Add batch question script from lesson 01-02&quot;</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add batch question script from lesson 01-02"</span>
 <span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
 <span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02</span>
 <span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02</span>
@@ -477,10 +477,19 @@ of two hundred is a very different thing from a batch of four.</p>
 <li><code>git log --oneline -3</code> shows your commit on <code>main</code>, and <code>git status</code> is clean</li>
 </ul>
 <p>Then log it:</p>
-<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02-ask-many</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">&quot;what clicked&quot;</span>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">02</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">55</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">02-ask-many</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">"what clicked"</span>
 <span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
 </code></pre></div>
 
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong>Exercism: <a href="https://exercism.org/tracks/python/exercises/card-games">Card Games</a></strong> (lists), <strong><a href="https://exercism.org/tracks/python/exercises/meltdown-mitigation">Meltdown Mitigation</a></strong>
+  (<code>if</code>/<code>elif</code>/<code>else</code>), and <strong><a href="https://exercism.org/tracks/python/exercises/making-the-grade">Making the Grade</a></strong> (<code>for</code>, <code>while</code>, <code>break</code>,
+  <code>enumerate</code>). Do them in that order.</li>
+<li><strong><a href="https://pythontutor.com/python-compiler.html">Python Tutor</a></strong>. Paste any loop you&rsquo;re unsure of and step through it. Watching the
+  loop variable change on each pass fixes off-by-one confusion faster than reading about it.</li>
+</ul>
 <h2>Going deeper</h2>
 <ul>
 <li>Move <code>results = []</code> inside the loop, run the script, and watch the summary
@@ -605,7 +614,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

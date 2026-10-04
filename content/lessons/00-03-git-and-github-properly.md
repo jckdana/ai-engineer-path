@@ -363,6 +363,15 @@ python tools/progress_log.py --lesson-id 00-03 --status complete --minutes 55 --
 python tools/site_build.py --open
 ```
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **[Learn Git Branching](https://learngitbranching.js.org/)**, an interactive git sandbox in the
+  browser that draws your commit graph as you type commands. Do the first four levels of the
+  *Introduction Sequence*, then the *Remote* tab. You can't break anything there, so it's the
+  place to try `rebase` and `reset` before you use them on a real repo.
+
 ## Going deeper
 
 - Cause a **merge conflict** on purpose: branch, edit line one of a file, switch back to

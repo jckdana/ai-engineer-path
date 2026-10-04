@@ -144,7 +144,7 @@ three you need, and you&rsquo;ll use them in this order.</p>
 <p>That reads the roadmap, researches the topic, and produces the page. When you&rsquo;ve
 finished a lesson and its build task, log it:</p>
 <div class="codehilite"><pre><span></span><code>python<span class="w"> </span>tools/progress_log.py<span class="w"> </span>--lesson-id<span class="w"> </span><span class="m">00</span>-01<span class="w"> </span>--status<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--minutes<span class="w"> </span><span class="m">40</span><span class="w"> </span>--artifact<span class="w"> </span>./README.md<span class="w"> </span>--note<span class="w"> </span><span class="s2">&quot;set up the loop&quot;</span>
+<span class="w">    </span>--minutes<span class="w"> </span><span class="m">40</span><span class="w"> </span>--artifact<span class="w"> </span>./README.md<span class="w"> </span>--note<span class="w"> </span><span class="s2">"set up the loop"</span>
 </code></pre></div>
 
 <p>Then rebuild the site so the dashboard reflects it:</p>
@@ -194,14 +194,14 @@ asymmetry is intentional.</p>
 <p><strong>1. Put this repo under version control.</strong> From the repo root:</p>
 <div class="codehilite"><pre><span></span><code>git<span class="w"> </span>init
 git<span class="w"> </span>add<span class="w"> </span>.
-git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Set up AI engineer learning system&quot;</span>
+git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">"Set up AI engineer learning system"</span>
 </code></pre></div>
 
 <p>If <code>git</code> isn&rsquo;t recognised, install it from <a href="https://git-scm.com/downloads">git-scm.com</a>,
 close your terminal, and open a new one.</p>
 <p><strong>2. Log this session.</strong></p>
 <div class="codehilite"><pre><span></span><code>python<span class="w"> </span>tools/progress_log.py<span class="w"> </span>--lesson-id<span class="w"> </span><span class="m">00</span>-01<span class="w"> </span>--status<span class="w"> </span><span class="nb">complete</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--minutes<span class="w"> </span><span class="m">40</span><span class="w"> </span>--artifact<span class="w"> </span>./README.md<span class="w"> </span>--note<span class="w"> </span><span class="s2">&quot;first session&quot;</span>
+<span class="w">    </span>--minutes<span class="w"> </span><span class="m">40</span><span class="w"> </span>--artifact<span class="w"> </span>./README.md<span class="w"> </span>--note<span class="w"> </span><span class="s2">"first session"</span>
 python<span class="w"> </span>tools/site_build.py<span class="w"> </span>--open
 </code></pre></div>
 
@@ -211,6 +211,13 @@ python<span class="w"> </span>tools/site_build.py<span class="w"> </span>--open
 <li>The dashboard reads <strong>1 day</strong> streak</li>
 <li>The roadmap page shows lesson 00-01 with a green dot and a <strong>Done</strong> tag</li>
 <li>The portfolio page has exactly one entry on it</li>
+</ul>
+<h2>Free practice</h2>
+<p>Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson&rsquo;s idea in a setting you didn&rsquo;t design yourself.</p>
+<ul>
+<li><strong><a href="https://apps.ankiweb.net/">Anki</a></strong>, a free spaced-repetition app for Windows. Make one card per
+  &ldquo;Check yourself&rdquo; question in every lesson, and review for 5 minutes a day. This is the
+  spaced practice from this lesson, done automatically, so you don&rsquo;t forget lessons from three weeks ago.</li>
 </ul>
 <h2>Going deeper</h2>
 <ul>
@@ -277,7 +284,7 @@ python tools/site_build.py --open</div>
 
   <footer class="sitefoot">
     <span>8 of 100 lessons &middot; 9.5 hours logged</span>
-    <span>Rebuilt 29 Sep 2026, 12:32</span>
+    <span>Rebuilt 04 Oct 2026, 13:58</span>
   </footer>
 
 </div>

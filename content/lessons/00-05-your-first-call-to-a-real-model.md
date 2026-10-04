@@ -441,6 +441,20 @@ wrote, and a working line to a frontier model. Module 01 goes back to Python
 properly, because the next thing standing between you and useful software is
 loops, dictionaries and functions — not the API.
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **[Gemini API free tier](https://ai.google.dev/gemini-api/docs/pricing)**. Google gives free
+  tokens on its Flash models, and the [quickstart](https://ai.google.dev/gemini-api/docs/quickstart)
+  gets you a key from AI Studio. Rebuild your `ask.py` against it (`pip install google-genai`).
+  The code looks different, but the shape is the same: client, model name, input, text out. Seeing
+  that shape twice is what lets you read any provider's SDK. **Catch:** Google may use free-tier
+  prompts to improve its products. Never send anything private or a client's data through it.
+- **[Ollama](https://ollama.com/download)** runs open models on your own laptop, offline and free.
+  Pull the smallest model it offers. It will be slower and weaker than Claude. Notice *how*
+  it's weaker, because that comparison is useful.
+
 ## Going deeper
 
 - Add a `system` prompt: pass `system="Answer in exactly two sentences."` alongside

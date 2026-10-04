@@ -37,7 +37,7 @@ Ask me for anything required that wasn't provided. Don't guess.
 3. Run `python tools/lesson_new.py --lesson-id <id>`. Read the JSON on stdout — it returns the
    title, module, time budget and the build task from the roadmap.
 4. Check the result. If `ok: false`, see **Failure handling** below.
-5. Write the lesson body into the scaffolded file, replacing each `<!-- ... -->` hint. Keep the six
+5. Write the lesson body into the scaffolded file, replacing each `<!-- ... -->` hint. Keep the seven
    sections and their order — that shape is the pedagogy, not decoration.
 
    **Why this matters** — the hook. What can he do after this that he couldn't before? Concrete,
@@ -53,6 +53,14 @@ Ask me for anything required that wasn't provided. Don't guess.
    shown. Never a wall of code. Fence with a language for highlighting.
 
    **Build it** — the task in full, ending in a `Done when:` checklist of observable facts.
+
+   **Free practice** — 1–3 free, no-credit-card tools that give extra hands-on reps on *this*
+   lesson's idea: Exercism Python-track exercises matched to the concept, Python Tutor for
+   stepping through code, browser sandboxes (Learn Git Branching), free API tiers or local models
+   (Gemini free tier, Ollama), free datasets and no-key APIs (JSONPlaceholder). Say exactly what to
+   do, in what order, and name any catch (data used for training, Windows quirks, locked
+   exercises). Pick only what fits the lesson. Padding this section with generic links is
+   worse than a single good one. Same WebFetch rule as resources.
 
    **Going deeper** — bullets, roughly ordered by difficulty, for a multi-hour session.
 
@@ -116,3 +124,13 @@ Append here as you discover constraints, quirks, or better methods. Date each en
   (b) when a live call isn't possible, model output shown in a lesson must be labelled as
   illustrative — it's nondeterministic anyway, so say so rather than implying a fixed answer.
   Uninstalled `anthropic` afterwards so the lesson's `pip install` step is a genuine install.
+- 2026-10-04 — Added the **Free practice** section (Jack asked for free hands-on tools) and
+  backfilled lessons 00-01 to 01-04. Verified free as of this date: Exercism (100% free; concept
+  exercises like `little-sisters-vocab`, `card-games`, `making-the-grade`, `meltdown-mitigation`,
+  `guidos-gorgeous-lasagna`, `currency-exchange`, `inventory-management`, `mecha-munch-management`),
+  Python Tutor (no login), Learn Git Branching, MIT Missing Semester, Anki (free on Windows),
+  JSONPlaceholder (no key), Gemini API free tier on Flash models (free-tier data may be used by
+  Google — warn), Ollama (local models free; its cloud models mostly paid). Exercism's
+  `docs/using/features/learning-mode` URL 404s, so don't link it. Good candidates to verify for
+  later modules: SQLBolt / Kaggle datasets (06), Hugging Face free embeddings (09), Promptfoo (11),
+  Neon/Supabase free Postgres (06/09), Render/Fly free tiers (14).

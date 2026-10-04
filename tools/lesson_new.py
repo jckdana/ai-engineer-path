@@ -1,7 +1,7 @@
 """Scaffold a lesson markdown file from its roadmap entry.
 
 Creates content/lessons/<id>-<slug>.md pre-filled with frontmatter and the
-six-section skeleton, so the agent writes content instead of boilerplate.
+seven-section skeleton, so the agent writes content instead of boilerplate.
 The section order is load-bearing: it's the pedagogical shape of every lesson.
 
 Usage:
@@ -43,6 +43,12 @@ resources: []
 
 <!-- The task in full: what to build, and a checklist of what "done" means.
      Must be small enough to finish inside the core time budget. -->
+
+## Free practice
+
+<!-- 1-3 free, no-credit-card tools for extra hands-on reps on THIS lesson's idea
+     (Exercism exercises, Python Tutor, sandboxes, free API tiers, free datasets).
+     Say exactly what to do in each and name any catch. Every URL WebFetched first. -->
 
 ## Going deeper
 

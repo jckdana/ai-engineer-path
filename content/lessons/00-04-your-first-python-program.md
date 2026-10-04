@@ -428,6 +428,14 @@ python tools/progress_log.py --lesson-id 00-04 --status complete --minutes 45 --
 python tools/site_build.py --open
 ```
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **[Python Tutor](https://pythontutor.com/python-compiler.html)**. Paste your greeting script and click *Visualize*, then step
+  through it one line at a time and watch each variable appear. No login. Use it whenever code
+  does something you didn't expect.
+
 ## Going deeper
 
 - Add a third question and print a number to two decimal places with `f"{value:.2f}"`.

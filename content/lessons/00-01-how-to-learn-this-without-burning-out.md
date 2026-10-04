@@ -177,6 +177,14 @@ Done when:
 - The roadmap page shows lesson 00-01 with a green dot and a **Done** tag
 - The portfolio page has exactly one entry on it
 
+## Free practice
+
+Free, no credit card. Do these after the build task, not instead of it. Each is extra reps on this lesson's idea in a setting you didn't design yourself.
+
+- **[Anki](https://apps.ankiweb.net/)**, a free spaced-repetition app for Windows. Make one card per
+  "Check yourself" question in every lesson, and review for 5 minutes a day. This is the
+  spaced practice from this lesson, done automatically, so you don't forget lessons from three weeks ago.
+
 ## Going deeper
 
 - Write a short `README.md` at the repo root saying what you're doing and why. In six
