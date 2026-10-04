@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files, paths, and the filesystem &middot; AI Engineer Path</title>
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="../assets/code.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+</head>
+<body>
+<div class="shell">
+
+  <header class="topbar">
+    <a class="topbar__mark" href="../index.html">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/>
+      </svg>
+      AI Engineer Path
+    </a>
+    <nav>
+      <a href="../index.html">Today</a>
+      <a href="../roadmap.html">Roadmap</a>
+      <a href="../portfolio.html">Portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+
+<article class="lesson">
+
+  <div class="lesson__head">
+    <p class="eyebrow"><a href="../roadmap.html" style="color:inherit;text-decoration:none">01 &nbsp;Python that AI work actually needs</a> &nbsp;&middot;&nbsp; Lesson 01-05</p>
+    <h1>Files, paths, and the filesystem</h1>
+    <div class="lesson__meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        50 min core &middot; 110 min with extensions      </span>
+    </div>
+  </div>
+
+  <div class="callout callout--build">
+    <div class="callout__label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      You&rsquo;ll finish this lesson by building
+    </div>
+    <p style="margin:0">A script that walks a folder, reads every .txt file, and writes a summary index.</p>
+  </div>
+
+  <div class="prose">
+<h2>Why this matters</h2>
+<p>Your ticket filter from 01-04 works. Now open a terminal, go into the <code>builds</code>
+folder, and run it from there:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd </span><span class="n">builds</span>
+<span class="n">python</span> <span class="n">01</span><span class="p">-</span><span class="n">04-filter</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>  File "C:\Claude\Claude Knowledge\builds\01-04-filter.py", line 10, in load_records
+    with open(path, encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'builds/01-04-tickets.json'
+</code></pre></div>
+
+<p>Same code, same files, and now it crashes. Nothing about the script changed.
+What changed is <em>where you were standing when you ran it</em>. This is the most
+common reason a script that &ldquo;works on my machine&rdquo; fails on a client&rsquo;s machine,
+in a scheduled task, or on a server. Those places almost never run your script
+from the folder you happened to be in.</p>
+<p>Almost every paid AI job starts with <em>&ldquo;we have a folder full of documents&rdquo;</em>.
+That means contracts, transcripts, support exports or notes. Before a model can
+read any of them, your code has to find them, open them with the right encoding,
+and write results somewhere predictable. By the end of this lesson you&rsquo;ll have
+built the first half of a document Q&amp;A system, the thing in your first
+capstone: a script that finds every text file in a folder tree and indexes it.
+It will work no matter where it&rsquo;s run from. (<code>cd ..</code> takes you back to the
+project folder.)</p>
+<h2>The mental model</h2>
+<p>A <strong>path</strong> is an address for a file. There are two kinds:</p>
+<ul>
+<li>An <strong>absolute path</strong> starts from the root of the drive:
+  <code>C:\Claude\Claude Knowledge\builds\01-04-tickets.json</code>. It means the same thing
+  from anywhere.</li>
+<li>A <strong>relative path</strong> has no drive letter: <code>builds/01-04-tickets.json</code>. On its
+  own it&rsquo;s incomplete. Python glues it onto the <strong>current working directory</strong>
+  (cwd), which is the folder your terminal was in when you typed <code>python</code>.</li>
+</ul>
+<p><strong>The idea this lesson turns on:</strong> a relative path is relative to <em>where you ran
+the script from</em>, not to <em>where the script lives</em>. Those are usually the same
+folder, which is why the bug hides until the day they aren&rsquo;t.</p>
+<p>The fix is to anchor paths to the one location that never moves: the script&rsquo;s
+own file. Python always knows it as <code>__file__</code>.</p>
+<figure class="figure">
+<svg viewBox="0 0 780 340" role="img" aria-label="Three rows show how Python turns a path into a real file location. Row one: the terminal is in the project folder, Claude Knowledge. The relative path builds slash 01-04-tickets.json is glued onto that folder, giving Claude Knowledge, builds, 01-04-tickets.json, which exists. Row two: the terminal is inside the builds folder. The same relative path is glued onto builds, giving builds, builds, 01-04-tickets.json, which does not exist, so Python raises FileNotFoundError. Row three, highlighted: the path is built from Path of __file__ dot parent, the folder the script itself lives in, slash 01-04-tickets.json. It resolves to builds, 01-04-tickets.json from either terminal location, so it always works.">
+  <defs>
+    <marker id="p-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+    </marker>
+    <marker id="p-ar-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+    </marker>
+  </defs>
+
+  <g font-family="system-ui, sans-serif" font-size="12" fill="currentColor">
+    <text x="16" y="22" font-size="10.5" font-weight="600" opacity="0.75">WHERE YOU RAN IT FROM</text>
+    <text x="345" y="22" text-anchor="middle" font-size="10.5" font-weight="600" opacity="0.75">THE PATH IN YOUR CODE</text>
+    <text x="764" y="22" text-anchor="end" font-size="10.5" font-weight="600" opacity="0.75">WHERE PYTHON LOOKS</text>
+
+
+    <rect x="16" y="36" width="200" height="54" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="30" y="57" font-size="11" font-weight="600">cwd = project folder</text>
+    <text x="30" y="76" font-family="ui-monospace, monospace" font-size="10">…\Claude Knowledge</text>
+    <path d="M 216 63 L 470 63" stroke="currentColor" stroke-width="1.5" marker-end="url(#p-ar)"/>
+    <rect x="252" y="50" width="186" height="24" rx="5" fill="var(--surface)" stroke="currentColor" stroke-width="1" opacity="0.9"/>
+    <text x="345" y="66" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5">"builds/01-04-tickets.json"</text>
+    <rect x="474" y="36" width="290" height="54" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="488" y="57" font-family="ui-monospace, monospace" font-size="10">…\Claude Knowledge\builds\</text>
+    <text x="488" y="74" font-family="ui-monospace, monospace" font-size="10">01-04-tickets.json</text>
+    <text x="752" y="66" text-anchor="end" font-size="11" font-weight="600">✓ found</text>
+
+
+    <rect x="16" y="112" width="200" height="54" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="30" y="133" font-size="11" font-weight="600">cwd = inside builds</text>
+    <text x="30" y="152" font-family="ui-monospace, monospace" font-size="10">…\Claude Knowledge\builds</text>
+    <path d="M 216 139 L 470 139" stroke="currentColor" stroke-width="1.5" marker-end="url(#p-ar)"/>
+    <rect x="252" y="126" width="186" height="24" rx="5" fill="var(--surface)" stroke="currentColor" stroke-width="1" opacity="0.9"/>
+    <text x="345" y="142" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5">"builds/01-04-tickets.json"</text>
+    <rect x="474" y="112" width="290" height="54" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.6"/>
+    <text x="488" y="133" font-family="ui-monospace, monospace" font-size="10">…\builds\builds\</text>
+    <text x="488" y="150" font-family="ui-monospace, monospace" font-size="10">01-04-tickets.json</text>
+    <text x="752" y="133" text-anchor="end" font-size="11" font-weight="600">✗ no such folder</text>
+    <text x="752" y="150" text-anchor="end" font-size="9.5" opacity="0.7">FileNotFoundError</text>
+
+    <text x="345" y="186" text-anchor="middle" font-size="9.5" opacity="0.7">same string, different result: a relative path is glued onto the cwd</text>
+    <line x1="16" y1="204" x2="764" y2="204" stroke="currentColor" stroke-width="1" stroke-dasharray="4 4" opacity="0.4"/>
+
+
+    <text x="16" y="228" font-size="10.5" font-weight="600" fill="var(--accent)">THE FIX: ANCHOR TO THE SCRIPT ITSELF</text>
+    <rect x="16" y="240" width="200" height="66" rx="8" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+    <text x="30" y="262" font-size="11" font-weight="600">cwd = anywhere</text>
+    <text x="30" y="280" font-size="9.5" opacity="0.7">project folder, builds,</text>
+    <text x="30" y="294" font-size="9.5" opacity="0.7">a server, a scheduled task</text>
+    <path d="M 216 273 L 470 273" stroke="var(--accent)" stroke-width="2" marker-end="url(#p-ar-a)"/>
+    <rect x="228" y="250" width="234" height="46" rx="5" fill="var(--accent-tint)" stroke="var(--accent)" stroke-width="1.4"/>
+    <text x="345" y="269" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" fill="var(--accent)">Path(__file__).parent</text>
+    <text x="345" y="286" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10.5" fill="var(--accent)">/ "01-04-tickets.json"</text>
+    <rect x="474" y="240" width="290" height="66" rx="8" fill="none" stroke="var(--accent)" stroke-width="1.8"/>
+    <text x="488" y="262" font-family="ui-monospace, monospace" font-size="10">…\Claude Knowledge\builds\</text>
+    <text x="488" y="279" font-family="ui-monospace, monospace" font-size="10">01-04-tickets.json</text>
+    <text x="752" y="298" text-anchor="end" font-size="11" font-weight="600" fill="var(--accent)">✓ always</text>
+    <text x="345" y="328" text-anchor="middle" font-size="9.5" opacity="0.7">__file__ is where the script lives, and that never depends on where you stand</text>
+  </g>
+</svg>
+<figcaption>A relative path is finished off by whatever folder the terminal is in,
+so the same string can point at two different places. Building the path from
+<code>Path(__file__).parent</code>, the script's own folder, gives one answer
+from anywhere.</figcaption>
+</figure>
+
+<p>Python&rsquo;s tool for all of this is <strong><code>pathlib</code></strong>, part of the standard library. It
+gives you a <code>Path</code> object instead of a plain string. A <code>Path</code> knows how to join
+itself with other parts, check whether the file exists, list a folder, and read
+or write the file. It also uses the right slash for whichever operating system
+it&rsquo;s on.</p>
+<h2>In practice</h2>
+<p>Open a scratch file, <code>builds/01-05-play.py</code>. Type each block, run it, then
+replace it with the next. Run everything from the project folder unless a step
+says otherwise.</p>
+<h3>Where am I, and where is my script?</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"cwd:   "</span><span class="p">,</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"file:  "</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"folder:"</span><span class="p">,</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>cwd:    C:\Claude\Claude Knowledge
+file:   C:\Claude\Claude Knowledge\builds\01-05-play.py
+folder: C:\Claude\Claude Knowledge\builds
+</code></pre></div>
+
+<p>Now <code>cd builds</code>, run <code>python 01-05-play.py</code>, and compare. The <code>cwd</code> line
+changes. The other two don&rsquo;t. That difference is the whole bug from the top of
+the page.</p>
+<ul>
+<li><code>Path.cwd()</code> is the folder you ran from. It belongs to the terminal, not to
+  the script.</li>
+<li><code>Path(__file__)</code> is this script&rsquo;s own location.</li>
+<li><code>.resolve()</code> turns it into a complete absolute path. <code>.parent</code> goes up one
+  level, from the file to the folder it&rsquo;s in.</li>
+</ul>
+<p><code>cd ..</code> to go back to the project folder.</p>
+<h3>Building paths with <code>/</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">HERE</span> <span class="o">/</span> <span class="s2">"notes"</span> <span class="o">/</span> <span class="s2">"a.txt"</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">suffix</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>C:\Claude\Claude Knowledge\builds\notes\a.txt
+a.txt
+a
+.txt
+C:\Claude\Claude Knowledge\builds\notes
+</code></pre></div>
+
+<p>The <code>/</code> between a <code>Path</code> and a string joins them. Here it isn&rsquo;t division. You
+type forward slashes on every operating system, and <code>pathlib</code> prints whatever
+the system uses. On Windows that&rsquo;s backslashes. <code>.name</code>, <code>.stem</code>, <code>.suffix</code> and
+<code>.parent</code> pull a path apart, so you never need to slice strings to get at a
+file&rsquo;s name or extension.</p>
+<p>Writing a constant like <code>HERE</code> in capitals near the top of a script is a common
+convention. It means &ldquo;set once, never changed&rdquo;.</p>
+<h3>Why you don&rsquo;t type Windows paths as plain strings</h3>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="s2">"C:</span><span class="se">\n</span><span class="s2">ew</span><span class="se">\t</span><span class="s2">est.txt"</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>C:
+ew  est.txt
+</code></pre></div>
+
+<p>No error, just a wrong path. Inside a normal string a backslash starts an
+<strong>escape sequence</strong>: <code>\n</code> is a new line and <code>\t</code> is a tab, which is exactly the
+whitespace you cleaned in 01-01. Windows paths are full of backslashes, so they
+walk straight into this. You have three ways out. Forward slashes work fine on
+Windows. A raw string, <code>r"C:\new\test.txt"</code>, turns escapes off. Best of all is
+building the path with <code>Path</code> and <code>/</code>, so you never type a separator at all.</p>
+<h3>Reading and writing text</h3>
+<p><code>Path</code> has shortcuts for the whole open, read and close routine:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">note</span> <span class="o">=</span> <span class="n">HERE</span> <span class="o">/</span> <span class="s2">"01-05-note.txt"</span>
+
+<span class="n">note</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s2">"Zoë called about the invoice.</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">note</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>Zoë called about the invoice.
+
+ZoÃ« called about the invoice.
+</code></pre></div>
+
+<p>The third line is the trap from 01-04, and this time you&rsquo;ve seen it. Without
+<code>encoding=</code>, Python on Windows reads with an older default called <code>cp1252</code>, not
+UTF-8. You get no error, just quietly broken text. Python 3.15 will make UTF-8
+the default everywhere (PEP 686, in the resources). Until every machine you
+touch runs that version, <strong>always pass <code>encoding="utf-8"</code></strong>. Treat it as part of
+the method name.</p>
+<p><code>write_text</code> <strong>replaces</strong> the file, just like <code>open(path, "w")</code>. Use
+<code>read_text</code>/<code>write_text</code> for small files you handle all at once, and keep
+<code>with open(...)</code> for when you need more control. They do the same job.</p>
+<h3>Asking before you act</h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="nb">print</span><span class="p">((</span><span class="n">HERE</span> <span class="o">/</span> <span class="s2">"01-04-tickets.json"</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">((</span><span class="n">HERE</span> <span class="o">/</span> <span class="s2">"nope.json"</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">HERE</span><span class="o">.</span><span class="n">is_dir</span><span class="p">())</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="n">HERE</span> <span class="o">/</span> <span class="s2">"01-05-output"</span>
+<span class="n">out</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+<span class="n">out</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code>True
+False
+True
+Traceback (most recent call last):
+  ...
+FileExistsError: [WinError 183] Cannot create a file when that file already exists: 'C:\\Claude\\Claude Knowledge\\builds\\01-05-output'
+</code></pre></div>
+
+<p>The first <code>mkdir()</code> worked and the second one crashed, because the folder was
+already there. Replace both with:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">out</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>exist_ok=True</code> means &ldquo;fine if it&rsquo;s already there&rdquo;. <code>parents=True</code> means &ldquo;also
+create any missing folders on the way&rdquo;. Together they make the line safe to run
+any number of times. Scripts that are safe to re-run are scripts you can trust
+in a schedule.</p>
+<h3>Finding files: <code>iterdir</code>, <code>glob</code>, <code>rglob</code></h3>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">HERE</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"---"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">HERE</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"*.py"</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>iterdir()</code> lists everything directly inside a folder, files and subfolders
+alike. <code>glob("*.py")</code> keeps only the names that match a <strong>pattern</strong>. <code>*</code> means
+&ldquo;any characters&rdquo;, so <code>*.py</code> is &ldquo;anything ending in .py&rdquo;. Neither one looks
+inside subfolders.</p>
+<p>To search the whole tree, use <code>rglob</code> (recursive glob):</p>
+<div class="codehilite"><pre><span></span><code><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">HERE</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">"*.txt"</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">HERE</span><span class="p">))</span>
+</code></pre></div>
+
+<p><code>p.relative_to(HERE)</code> trims the long front of the path, so you see
+<code>notes\a.txt</code> instead of the full <code>C:\...</code> address. That&rsquo;s better for printing
+and for storing in a file someone else will read.</p>
+<p>Two things about this that bite people:</p>
+<ul>
+<li><strong>Always wrap it in <code>sorted()</code>.</strong> <code>glob</code> and <code>rglob</code> don&rsquo;t promise any order.
+  Without sorting, the same folder can give a different order on another
+  machine, and your output won&rsquo;t match from run to run.</li>
+<li><strong>On Windows, matching ignores capitals.</strong> On your machine <code>*.txt</code> also
+  matches <code>NOTES.TXT</code>. On a Mac or a Linux server it doesn&rsquo;t. Code that finds
+  five files for you might find four on the client&rsquo;s server. If the difference
+  matters, pass <code>case_sensitive=True</code> and make it the same everywhere.</li>
+</ul>
+<h2>Build it</h2>
+<p>A client has a folder of notes and documents, some in subfolders. Before
+anything AI touches them, they want an <strong>index</strong>: one file listing every text
+document, with its size and first line, so a person or a later script knows
+what&rsquo;s there.</p>
+<p><strong>1. Branch first:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="k">switch</span> <span class="n">-c</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05</span>
+</code></pre></div>
+
+<p><strong>2. Make the sample folder.</strong> Create <code>builds/01-05-make-docs.py</code> with this
+content. It&rsquo;s setup, so copy-pasting is fine. Read it before you run it,
+though, because every line uses something from this lesson:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Creates a small folder of sample documents for lesson 01-05. Safe to run twice.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">DOCS</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"01-05-docs"</span>
+
+<span class="n">files</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"meeting-notes.txt"</span><span class="p">:</span> <span class="s2">"Weekly sync at Café Luna</span><span class="se">\n</span><span class="s2">Ship the ticket filter by Friday.</span><span class="se">\n</span><span class="s2">Budget approved for the team offsite.</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"clients/acme.txt"</span><span class="p">:</span> <span class="s2">"Acme Corp</span><span class="se">\n</span><span class="s2">Wants a weekly report of urgent tickets.</span><span class="se">\n</span><span class="s2">Budget is 500 dollars a month.</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"clients/zeta.txt"</span><span class="p">:</span> <span class="s2">"Zeta Ltd</span><span class="se">\n</span><span class="s2">Interested in a document Q&amp;A bot.</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+    <span class="s2">"empty.txt"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="s2">"README.md"</span><span class="p">:</span> <span class="s2">"# Not a .txt file</span><span class="se">\n</span><span class="s2">The index should skip this one.</span><span class="se">\n</span><span class="s2">"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">files</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">DOCS</span> <span class="o">/</span> <span class="n">name</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">path</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"wrote"</span><span class="p">,</span> <span class="n">path</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">DOCS</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Run it with <code>python builds/01-05-make-docs.py</code>. Open <code>builds/01-05-docs</code> in VS
+Code&rsquo;s file explorer and check there&rsquo;s a <code>clients</code> subfolder, an empty file and
+a <code>.md</code> file mixed in. Real folders are this messy.</p>
+<p><strong>3. Write <code>builds/01-05-index.py</code>.</strong> Start from this skeleton:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Walks a folder of documents, summarises every .txt file, and writes a JSON index.</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+<span class="n">HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">DOCS_DIR</span> <span class="o">=</span> <span class="n">HERE</span> <span class="o">/</span> <span class="s2">"01-05-docs"</span>
+<span class="n">INDEX_PATH</span> <span class="o">=</span> <span class="n">HERE</span> <span class="o">/</span> <span class="s2">"01-05-index.json"</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">summarize</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Return a dict describing one text file."""</span>
+    <span class="o">...</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">save_index</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Write the index as readable JSON."""</span>
+    <span class="o">...</span>
+
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">DOCS_DIR</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No folder at </span><span class="si">{</span><span class="n">DOCS_DIR</span><span class="si">}</span><span class="s2">. Run 01-05-make-docs.py first."</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">entries</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="c1"># Find every .txt file in DOCS_DIR and its subfolders, in a stable order,</span>
+<span class="c1"># and append summarize(path) for each one.</span>
+<span class="o">...</span>
+
+<span class="n">save_index</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">INDEX_PATH</span><span class="p">)</span>
+<span class="n">total_words</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="s2">"words"</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries</span><span class="p">)</span>
+<span class="n">empty</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">entries</span> <span class="k">if</span> <span class="n">e</span><span class="p">[</span><span class="s2">"words"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Indexed </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span><span class="si">}</span><span class="s2"> files, </span><span class="si">{</span><span class="n">total_words</span><span class="si">}</span><span class="s2"> words, </span><span class="si">{</span><span class="n">empty</span><span class="si">}</span><span class="s2"> empty -&gt; </span><span class="si">{</span><span class="n">INDEX_PATH</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+
+<p><code>summarize</code> must return a dict with four keys:</p>
+<ul>
+<li><code>"file"</code> is the path relative to <code>DOCS_DIR</code>, as a string with forward
+  slashes. Look up what <code>.as_posix()</code> does to a path.</li>
+<li><code>"lines"</code> is the number of lines. <code>text.splitlines()</code> gives you a list of them.</li>
+<li><code>"words"</code> is the word count, using the <code>.split()</code> trick from 01-01.</li>
+<li><code>"first_line"</code> is the first line, or <code>""</code> if the file is empty. This is the
+  <code>IndexError</code> you met in 01-02, waiting for you on <code>empty.txt</code>.</li>
+</ul>
+<p>Two new things you&rsquo;ll see in the skeleton: <code>raise SystemExit(1)</code> stops the
+script on purpose with a clear message, instead of crashing later on a confusing
+one. The two <code>sum(...)</code> lines are a compact form of the loop-and-add pattern.
+You don&rsquo;t need to write that form yet, just read it.</p>
+<p>Hints, if you&rsquo;re stuck for more than ten minutes:</p>
+<ul>
+<li><code>summarize</code> is <code>read_text</code> with an encoding, then <code>splitlines</code>, <code>split</code> and
+  <code>len</code>, then a dict literal like the tickets in 01-04.</li>
+<li><code>save_index</code> is the <code>json.dump</code> pattern from 01-04.</li>
+<li>Run it and open the index. Look at the first line of <code>meeting-notes.txt</code>. Does
+  <em>Café</em> look right? If you see <code>Caf\u00e9</code>, that&rsquo;s <code>json.dump</code> escaping
+  anything that isn&rsquo;t plain English letters. It&rsquo;s valid JSON, but unreadable for
+  a person. Add <code>ensure_ascii=False</code> to the <code>json.dump</code> call. It&rsquo;s safe because
+  you opened the file with <code>encoding="utf-8"</code>.</li>
+</ul>
+<p><strong>4. Prove it works from anywhere.</strong> Run it from the project folder, then
+<code>cd builds</code> and run <code>python 01-05-index.py</code>, then <code>cd ..</code>. Both must print the
+same line.</p>
+<p><strong>5. Commit and merge:</strong></p>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">add</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05-make-docs</span><span class="p">.</span><span class="n">py</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05-index</span><span class="p">.</span><span class="n">py</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05-docs</span> <span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05-index</span><span class="p">.</span><span class="n">json</span>
+<span class="n">git</span> <span class="n">commit</span> <span class="n">-m</span> <span class="s2">"Add document indexer from lesson 01-05"</span>
+<span class="n">git</span> <span class="k">switch</span> <span class="n">main</span>
+<span class="n">git</span> <span class="n">merge</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05</span>
+<span class="n">git</span> <span class="n">branch</span> <span class="n">-d</span> <span class="n">lesson</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05</span>
+<span class="n">git</span> <span class="n">push</span>
+</code></pre></div>
+
+<p><strong>Done when:</strong></p>
+<ul>
+<li>[ ] <code>python builds/01-05-index.py</code> prints <code>Indexed 4 files, 40 words, 1 empty -&gt; ...</code> followed by the full path of the index.</li>
+<li>[ ] Running it from inside <code>builds</code> prints the same thing. No <code>FileNotFoundError</code>.</li>
+<li>[ ] <code>01-05-index.json</code> lists <code>clients/acme.txt</code>, <code>clients/zeta.txt</code>, <code>empty.txt</code> and <code>meeting-notes.txt</code>, in that order. <code>README.md</code> is not in it.</li>
+<li>[ ] <code>empty.txt</code> shows <code>"lines": 0</code>, <code>"words": 0</code> and <code>"first_line": ""</code>, and didn&rsquo;t crash anything.</li>
+<li>[ ] The first line of <code>meeting-notes.txt</code> reads <code>Weekly sync at Café Luna</code> in the JSON file, not <code>Caf\u00e9</code>.</li>
+<li>[ ] No string in <code>01-05-index.py</code> contains a backslash, and every path is built from <code>HERE</code>.</li>
+</ul>
+<p>Then log it, as one line:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">progress_log</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-lesson-id</span> <span class="n">01</span><span class="p">-</span><span class="n">05</span> <span class="p">-</span><span class="n">-status</span> <span class="n">complete</span> <span class="p">-</span><span class="n">-minutes</span> <span class="n">50</span> <span class="p">-</span><span class="n">-artifact</span> <span class="p">./</span><span class="n">builds</span><span class="p">/</span><span class="n">01</span><span class="p">-</span><span class="n">05-index</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-note</span> <span class="s2">"what clicked"</span>
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">python</span> <span class="n">tools</span><span class="p">/</span><span class="n">site_build</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-open</span>
+</code></pre></div>
+
+<p>Put in your real minutes, not the estimate.</p>
+<h2>Free practice</h2>
+<p>These are free and need no credit card. Do them after the build task, not
+instead of it.</p>
+<ul>
+<li><strong><a href="https://www.gutenberg.org/ebooks/1342">Project Gutenberg</a></strong> has thousands of
+  free public-domain books as plain text. Download three, using the <em>Plain Text
+  UTF-8</em> link on each book&rsquo;s page, into a new folder inside <code>01-05-docs</code>. Then
+  re-run your indexer on them. Real files are long, and you&rsquo;ll see whether your
+  word counts and first lines still make sense. Pride and Prejudice is about
+  125,000 words.</li>
+<li><strong><a href="https://automatetheboringstuff.com/3e/chapter10.html">Automate the Boring Stuff, chapter 10</a></strong>
+  covers this same ground with different examples, free online. Do the practice
+  questions at the end without looking back at the chapter.</li>
+<li><strong><a href="https://automatetheboringstuff.com/3e/chapter11.html">Automate the Boring Stuff, chapter 11</a></strong>,
+  the <em>Selective Copy</em> practice program: walk a folder tree and copy every file
+  with a given extension into a new folder. That&rsquo;s your indexer plus one new
+  function, <code>shutil.copy</code>. The chapter teaches the older <code>os.walk</code>. Try writing it
+  with <code>rglob</code> instead.</li>
+</ul>
+<p>Exercism has no file-handling exercises in its browser editor, which is why this
+lesson doesn&rsquo;t use it.</p>
+<h2>Going deeper</h2>
+<ul>
+<li><strong>Fix 01-04 for real.</strong> Change <code>INPUT_PATH</code> and <code>OUTPUT_PATH</code> in
+  <code>01-04-filter.py</code> to build from <code>HERE</code>, then run it from inside <code>builds</code>. The
+  crash from the top of this page should be gone. This is a two-line change, and
+  every script you write from now on should start this way.</li>
+<li><strong>Make the folder a parameter.</strong> Turn the main part of your script into a
+  function, <code>build_index(docs_dir)</code>, that returns the entries list. Call it on
+  <code>01-05-docs</code> and on <code>01-05-docs/clients</code> and compare.</li>
+<li><strong>Index more than <code>.txt</code>.</strong> Include <code>.md</code> files too. Loop over a list of
+  patterns, <code>["*.txt", "*.md"]</code>, and check the totals change by exactly the
+  README&rsquo;s numbers.</li>
+<li><strong>Skip the junk.</strong> Real folders contain <code>.git</code>, <code>__pycache__</code> and <code>.venv</code>. Run
+  <code>rglob("*.py")</code> on your whole project folder and count how many results come
+  from <code>.venv</code>. Then filter them out by checking <code>".venv" in p.parts</code>.</li>
+<li><strong>Survive a bad file.</strong> Save one file in a different encoding, for example
+  with <code>write_text(..., encoding="cp1252")</code> and a <code>ü</code> in it. Then watch your
+  indexer crash with <code>UnicodeDecodeError</code>. Decide what should happen: skip and
+  report it, or retry with another encoding. Lesson 01-06 is about exactly this
+  kind of decision.</li>
+<li><strong>Put the model on it.</strong> For each file, use your <code>ask</code> function from 01-03 to
+  write a one-sentence summary, and store it under a <code>"summary"</code> key. Dry-run it
+  with a fake summary first, the way you did in 01-02. That&rsquo;s an index a client
+  would actually pay for, and the first half of capstone 18-01.</li>
+</ul>
+<h2>Check yourself</h2>
+<details>
+<summary>Your script works when you run it from VS Code's terminal, but fails with <code>FileNotFoundError</code> when a scheduled task runs it every night. The file definitely exists. What's the most likely cause, and the fix?</summary>
+<p>The script uses a relative path, and the scheduled task runs it from a different
+working directory, often <code>C:\Windows\System32</code>. Python glued the relative path
+onto that folder and looked in the wrong place. Fix: build every path from
+<code>Path(__file__).resolve().parent</code>, so it no longer depends on where it&rsquo;s run from.</p>
+</details>
+<details>
+<summary>A teammate writes <code>open("C:\reports\new_data.csv")</code>. What goes wrong, and why is there no error message pointing at it?</summary>
+<p><code>\r</code> and <code>\n</code> inside a normal string are escape sequences, a carriage return and
+a new line. So the string isn&rsquo;t the path they typed. Python opens (or fails to
+find) a path containing invisible characters, and the error names a garbled
+path rather than explaining why. Fix: use forward slashes, a raw string
+<code>r"C:\reports\new_data.csv"</code>, or build it with <code>Path("C:/reports") / "new_data.csv"</code>.</p>
+</details>
+<details>
+<summary>Your indexer finds 5 files on your laptop and 4 on the client's Linux server, from an identical copy of the folder. What would you check first?</summary>
+<p>The case of a file extension. On Windows, <code>rglob("*.txt")</code> also matches
+<code>NOTES.TXT</code>. On Linux it doesn&rsquo;t. Pass <code>case_sensitive=False</code> (or <code>True</code>) to
+<code>rglob</code> so it behaves the same everywhere, or normalise names with
+<code>p.suffix.lower() == ".txt"</code>.</p>
+</details>
+<details>
+<summary>Why does every <code>read_text</code> and <code>write_text</code> in this lesson pass <code>encoding="utf-8"</code>, when leaving it off gives no error?</summary>
+<p>Because no error is the problem. On Windows, the default is <code>cp1252</code>, so
+non-English characters come back corrupted (<code>Zoë</code> becomes <code>ZoÃ«</code>) and nothing
+tells you. Corrupted text then goes into your index, your database or your
+prompt to a model. Passing the encoding explicitly makes the script behave the
+same on every machine.</p>
+</details>
+<details>
+<summary>Your script calls <code>out.mkdir()</code>. It works the first time and crashes the second. Why does that matter more for a client's job than for your homework?</summary>
+<p>Client jobs run repeatedly: every night, after every upload, after a crash and a
+restart. A script that only works on its first run fails on day two. Using
+<code>mkdir(parents=True, exist_ok=True)</code> makes the step safe to re-run. Being safe
+to repeat is a property you&rsquo;ll want in every step of every pipeline you build.</p>
+</details>
+  </div>
+
+  <div class="callout" style="margin-top:36px">
+    <div class="callout__label">Go to the source</div>
+    <ul class="reslist">
+      <li><a href="https://docs.python.org/3/library/pathlib.html"><span class="t">pathlib — the official reference (Path, glob, rglob, read_text, mkdir)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://docs.python.org/3/tutorial/inputoutput.html"><span class="t">Python tutorial 7.2 — Reading and Writing Files (why encoding=&#39;utf-8&#39;, why with)</span><span class="d">docs.python.org</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter10.html"><span class="t">Automate the Boring Stuff, chapter 10 — Reading and Writing Files (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+      <li><a href="https://automatetheboringstuff.com/3e/chapter11.html"><span class="t">Automate the Boring Stuff, chapter 11 — Organizing Files (free online)</span><span class="d">automatetheboringstuff.com</span></a></li>
+      <li><a href="https://peps.python.org/pep-0686/"><span class="t">PEP 686 — Make UTF-8 mode default (why Windows reads files wrong today)</span><span class="d">peps.python.org</span></a></li>
+    </ul>
+  </div>
+
+  <div class="finish">
+    <h2>Finished?</h2>
+    <p>A lesson counts as done when the build task runs. Log it from the repo root &mdash; this updates your streak, the roadmap, and the portfolio.</p>
+    <div class="cmd">python tools/progress_log.py --lesson-id 01-05 --status complete \
+    --minutes 50 --artifact &lt;path-or-url&gt; --note "what clicked, what didn't"
+python tools/site_build.py --open</div>
+  </div>
+
+  <nav class="pager">
+    <span><a href="01-04-dictionaries-and-json.html">&larr; 01-04 Dictionaries and JSON</a></span>
+    <span><a href="01-06-errors-tracebacks-and-debugging.html">01-06 Errors, tracebacks, and debugging &rarr;</a></span>
+  </nav>
+
+</article>
+
+  </main>
+
+  <footer class="sitefoot">
+    <span>9 of 100 lessons &middot; 10.4 hours logged</span>
+    <span>Rebuilt 04 Oct 2026, 15:32</span>
+  </footer>
+
+</div>
+</body>
+</html>
