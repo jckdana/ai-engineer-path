@@ -1,0 +1,26 @@
+[
+  {
+    "file": "clients/acme.txt",
+    "words": 15,
+    "lines": 3,
+    "first_line": "Acme Corp"
+  },
+  {
+    "file": "clients/zeta.txt",
+    "words": 8,
+    "lines": 2,
+    "first_line": "Zeta Ltd"
+  },
+  {
+    "file": "empty.txt",
+    "words": 0,
+    "lines": 0,
+    "first_line": ""
+  },
+  {
+    "file": "meeting-notes.txt",
+    "words": 17,
+    "lines": 3,
+    "first_line": "Weekly sync at Café Luna"
+  }
+]
